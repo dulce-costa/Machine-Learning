@@ -15,4 +15,7 @@ print()
 
 f.limpeza(d.df)
 print(f.traduzir(d.df))
-
+f.especie_ilha(d.df)
+f.bico_comp_alt(d.df)
+f.sexo_peso(d.df)
+f.matriz(d.df)
