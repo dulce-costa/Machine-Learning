@@ -1,0 +1,11 @@
+ruído ANTES: média 0.69 desvio 1.79 | ruído DEPOIS: média -0.01 desvio 1.99
+rotação: brilho extra ANTES 4.61 | DEPOIS 10.56 tempo 5.7
+t=100 seed=18 6s | ep1 (0.7226, 0.489, 0.5) ep5 (0.6936, 0.489, 0.78) ep30 (0.6931, 0.489, 0.82) (perda,acc_val,fração saída toda zero)
+t=100 seed=19 6s | ep1 (0.7896, 0.456, 0.99) ep5 (0.6946, 0.459, 1.0) ep30 (0.6934, 0.46, 1.0) (perda,acc_val,fração saída toda zero)
+t=100 seed=20 6s | ep1 (0.7747, 0.489, 0.45) ep5 (0.6952, 0.515, 0.46) ep30 (0.6934, 0.498, 0.6) (perda,acc_val,fração saída toda zero)
+t=128 seed=18 8s | ep1 (0.7345, 0.489, 1.0) ep5 (0.6944, 0.489, 1.0) ep30 (0.6934, 0.489, 1.0) (perda,acc_val,fração saída toda zero)
+t=128 seed=19 8s | ep1 (0.8255, 0.46, 0.99) ep5 (0.6968, 0.46, 1.0) ep30 (0.6935, 0.46, 1.0) (perda,acc_val,fração saída toda zero)
+t=128 seed=20 8s | ep1 (0.8987, 0.468, 1.0) ep5 (0.6961, 0.468, 1.0) ep30 (0.6934, 0.468, 1.0) (perda,acc_val,fração saída toda zero)
+t=224 seed=18 21s | ep1 (1.0088, 0.477, 0.19) ep5 (0.707, 0.502, 0.43) ep30 (0.6952, 0.519, 0.64) (perda,acc_val,fração saída toda zero)
+t=224 seed=19 22s | ep1 (0.8932, 0.49, 0.63) ep5 (0.7038, 0.46, 0.85) ep30 (0.6931, 0.455, 0.97) (perda,acc_val,fração saída toda zero)
+t=224 seed=20 22s | ep1 (1.0322, 0.532, 0.0) ep5 (0.71, 0.526, 0.0) ep30 (0.6964, 0.526, 0.0) (perda,acc_val,fração saída toda zero)

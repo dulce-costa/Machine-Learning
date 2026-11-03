@@ -1,0 +1,28 @@
+100px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros + init padrão | seed 18 | val final 0.675 melhor 0.675 | perda treino 0.558 | 221s
+100px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros + init padrão | seed 19 | val final 0.670 melhor 0.781 | perda treino 0.454 | 142s
+100px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros | seed 18 | val final 0.674 melhor 0.675 | perda treino 0.523 | 138s
+100px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros | seed 19 | val final 0.754 melhor 0.762 | perda treino 0.488 | 188s
+128px 100ep | início | seed 18 | val final 0.489 melhor 0.489 | perda treino 0.693 | 83s
+128px 100ep | início | seed 19 | val final 0.460 melhor 0.460 | perda treino 0.693 | 83s
+128px 100ep | pixels/255 | seed 18 | val final 0.489 melhor 0.489 | perda treino 0.693 | 83s
+128px 100ep | pixels/255 | seed 19 | val final 0.460 melhor 0.540 | perda treino 0.693 | 83s
+128px 100ep | sem ReLU final + lr 1e-2 | seed 18 | val final 0.512 melhor 0.517 | perda treino 0.693 | 84s
+128px 100ep | sem ReLU final + lr 1e-2 | seed 19 | val final 0.462 melhor 0.543 | perda treino 0.606 | 83s
+128px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros + init padrão | seed 18 | val final 0.616 melhor 0.665 | perda treino 0.586 | 475s
+128px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros + init padrão | seed 19 | val final 0.675 melhor 0.743 | perda treino 0.517 | 473s
+128px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros | seed 18 | val final 0.489 melhor 0.489 | perda treino nan | 474s
+128px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros | seed 19 | val final 0.552 melhor 0.570 | perda treino 0.686 | 473s
+128px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + init padrão | seed 18 | val final 0.511 melhor 0.511 | perda treino 0.693 | 123s
+128px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + init padrão | seed 19 | val final 0.540 melhor 0.540 | perda treino 0.693 | 96s
+128px 100ep | sem ReLU final + pixels/255 + lr 1e-2 | seed 18 | val final 0.586 melhor 0.633 | perda treino 0.587 | 84s
+128px 100ep | sem ReLU final + pixels/255 + lr 1e-2 | seed 19 | val final 0.515 melhor 0.687 | perda treino 0.581 | 83s
+128px 100ep | sem ReLU final + pixels/255 | seed 18 | val final 0.489 melhor 0.489 | perda treino 0.692 | 84s
+128px 100ep | sem ReLU final + pixels/255 | seed 19 | val final 0.540 melhor 0.540 | perda treino 0.694 | 83s
+128px 100ep | sem ReLU final | seed 18 | val final 0.526 melhor 0.544 | perda treino 0.673 | 83s
+128px 100ep | sem ReLU final | seed 19 | val final 0.496 melhor 0.525 | perda treino 0.688 | 83s
+128px 500ep | início | seed 18 | val final 0.489 melhor 0.489 | perda treino 0.693 | 468s
+128px 500ep | início | seed 19 | val final 0.460 melhor 0.460 | perda treino 0.693 | 468s
+224px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros + init padrão | seed 18 | val final 0.638 melhor 0.652 | perda treino 0.481 | 663s
+224px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros + init padrão | seed 19 | val final 0.672 melhor 0.712 | perda treino 0.573 | 358s
+224px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros | seed 18 | val final 0.489 melhor 0.489 | perda treino nan | 704s
+224px 100ep | sem ReLU final + pixels/255 + lr 1e-2 + 32 filtros | seed 19 | val final 0.460 melhor 0.460 | perda treino nan | 661s

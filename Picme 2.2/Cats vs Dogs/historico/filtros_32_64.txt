@@ -1,0 +1,4 @@
+RESULTADO filtros 32 | seed 18 | val final 0.900 | melhor 0.900 (época 93) | perda treino 0.103 | params 171618 | 565s
+RESULTADO filtros 32 | seed 19 | val final 0.899 | melhor 0.910 (época 98) | perda treino 0.098 | params 171618 | 565s
+RESULTADO filtros 64 | seed 18 | val final 0.903 | melhor 0.910 (época 99) | perda treino 0.030 | params 514146 | 984s
+RESULTADO filtros 64 | seed 19 | val final 0.903 | melhor 0.912 (época 92) | perda treino 0.033 | params 514146 | 984s
