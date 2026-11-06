@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Caderno — Estudo dirigido I (MD22)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --paper:#f4efe3; --card:#fffdf8; --ink:#22252a; --ink-soft:#5c626c; --ink-faint:#8a9099;
+    --rule:#e0d9c8; --margin-line:#e3a9a9; --accent:#b3462f; --accent-2:#2f6b8f; --green:#4a7a4a;
+    --hi-yellow:#fdf4c0; --hi-blue:#e4eff7; --hi-green:#e2f0df; --quote-bg:#f7f3e8;
+    --shadow:rgba(70,55,25,.12); --tape:rgba(224,210,170,.8);
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#171a1d; --card:#20242a; --ink:#e7e4dc; --ink-soft:#a6abb3; --ink-faint:#787e87;
+      --rule:#333a42; --margin-line:#7d4b4b; --accent:#e98a6e; --accent-2:#84bade; --green:#93c393;
+      --hi-yellow:#3e3921; --hi-blue:#1f2e39; --hi-green:#233024; --quote-bg:#262b31;
+      --shadow:rgba(0,0,0,.5); --tape:rgba(66,62,50,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#171a1d; --card:#20242a; --ink:#e7e4dc; --ink-soft:#a6abb3; --ink-faint:#787e87;
+    --rule:#333a42; --margin-line:#7d4b4b; --accent:#e98a6e; --accent-2:#84bade; --green:#93c393;
+    --hi-yellow:#3e3921; --hi-blue:#1f2e39; --hi-green:#233024; --quote-bg:#262b31;
+    --shadow:rgba(0,0,0,.5); --tape:rgba(66,62,50,.7);
+  }
+  *,*::before,*::after{box-sizing:inherit}
+  html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px); -webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size:17px; line-height:1.78;
+  }
+  .wrap{max-width:800px;margin:0 auto;padding:26px 16px 120px}
+
+  .cover{
+    position:relative;background:var(--card);border-radius:4px;
+    padding:40px 30px 34px 34px;margin-bottom:30px;
+    box-shadow:0 10px 30px var(--shadow);overflow:hidden;
+  }
+  .cover::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+    background:repeating-linear-gradient(180deg,var(--accent) 0 16px,transparent 16px 30px);opacity:.45;
+  }
+  .tape{
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%) rotate(-1.5deg);
+    width:140px;height:30px;background:var(--tape);
+    border-left:1px dashed rgba(0,0,0,.08);border-right:1px dashed rgba(0,0,0,.08);
+  }
+  h1{font-family:"Caveat",cursive;font-weight:700;font-size:clamp(2.2rem,7.5vw,3.1rem);
+     line-height:1.05;margin:.12em 0 .1em}
+  .sub{font-family:"Caveat",cursive;font-size:1.4rem;color:var(--accent);margin:0 0 18px}
+  .meta{font-size:.8rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint)}
+  .howto{margin-top:22px;padding:16px 18px;border-left:3px solid var(--accent-2);
+    background:var(--hi-blue);border-radius:0 6px 6px 0;font-size:.95rem;line-height:1.7}
+  .howto p{margin:.5em 0}
+
+  .bar{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+    display:flex;flex-wrap:wrap;gap:9px;align-items:center;
+    background:var(--paper);padding:12px 2px;margin-bottom:22px;
+    border-bottom:1.5px solid var(--rule);
+  }
+  .bar .lbl{font-family:"Caveat",cursive;font-size:1.3rem;color:var(--ink-soft);margin-right:2px}
+  button{
+    font-family:inherit;font-size:.87rem;font-weight:700;cursor:pointer;
+    padding:7px 15px;border-radius:999px;border:1.5px solid var(--rule);
+    background:var(--card);color:var(--ink);transition:.15s;
+  }
+  button:hover{border-color:var(--accent);color:var(--accent)}
+
+  .toc{margin:0 0 42px}
+  .toc h2{font-family:"Caveat",cursive;font-size:1.8rem;margin:0 0 12px;color:var(--accent)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips a{
+    display:inline-block;padding:5px 13px;border-radius:999px;background:var(--card);
+    border:1.5px solid var(--rule);color:var(--ink);text-decoration:none;
+    font-size:.87rem;font-weight:700;box-shadow:0 1px 3px var(--shadow);
+  }
+  .chips a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .part{display:flex;align-items:center;gap:14px;margin:60px 0 28px}
+  .part span{font-family:"Caveat",cursive;font-size:2.1rem;color:var(--accent);white-space:nowrap}
+  .part::after{content:"";flex:1;height:2px;background:var(--accent);opacity:.28}
+
+  .sheet{
+    position:relative;background:var(--card);border-radius:4px;
+    margin:0 0 40px;padding:26px 28px 28px 34px;
+    box-shadow:0 5px 20px var(--shadow);
+  }
+  .sheet::before{
+    content:"";position:absolute;top:0;bottom:0;left:16px;width:1.5px;
+    background:var(--margin-line);opacity:.5;
+  }
+  .tab{
+    display:inline-block;font-size:.71rem;font-weight:800;letter-spacing:.13em;
+    text-transform:uppercase;color:#fff;background:var(--accent);
+    padding:4px 11px;border-radius:3px;
+  }
+  .kind{
+    display:inline-block;margin-left:8px;font-size:.68rem;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+    border:1.5px solid var(--rule);padding:3px 9px;border-radius:3px;
+  }
+  .sheet h3{font-family:"Caveat",cursive;font-weight:700;font-size:1.8rem;margin:12px 0 18px;line-height:1.2}
+
+  .enun{
+    background:var(--quote-bg);border:1.5px solid var(--rule);border-radius:7px;
+    padding:18px 20px;margin:0 0 22px;font-size:.98rem;line-height:1.75;
+  }
+  .enun::before{
+    content:"enunciado";font-family:"Caveat",cursive;font-size:1.25rem;color:var(--ink-faint);
+    display:block;line-height:1;margin-bottom:10px;
+  }
+  .enun p{margin:.5em 0}
+  .enun ol{margin:.7em 0 .2em;padding-left:1.5em}
+  .enun ol li{margin:.55em 0;padding-left:.2em}
+  .enun ol li::marker{color:var(--accent);font-weight:700}
+
+  .toggle{margin:0}
+  .toggle button{width:100%;text-align:left;border-style:dashed;padding:10px 16px}
+  .toggle button::before{content:"▸ ";color:var(--accent);font-weight:700}
+  .toggle button[aria-expanded="true"]::before{content:"▾ "}
+
+  .ans{display:none;padding-top:10px}
+  .ans.open{display:block}
+
+  .ans p{margin:1em 0}
+  .item{margin:26px 0 0;padding-left:34px;position:relative}
+  .item > .lab{
+    position:absolute;left:0;top:-2px;
+    font-family:"Caveat",cursive;font-size:1.5rem;font-weight:700;color:var(--accent-2);
+  }
+  .item > p:first-of-type{margin-top:0}
+
+  .key{
+    background:var(--hi-yellow);border-left:3px solid #d8b93c;
+    padding:14px 18px;border-radius:0 6px 6px 0;margin:20px 0;font-size:.97rem;line-height:1.72;
+  }
+  .key::before{
+    content:"ideia-chave";font-family:"Caveat",cursive;font-size:1.2rem;color:#96770f;
+    display:block;line-height:1;margin-bottom:7px;
+  }
+  .warn{
+    background:var(--hi-green);border-left:3px solid var(--green);
+    padding:14px 18px;border-radius:0 6px 6px 0;margin:20px 0;font-size:.95rem;line-height:1.72;
+  }
+  .warn::before{
+    content:"cuidado — pegadinha";font-family:"Caveat",cursive;font-size:1.2rem;color:var(--green);
+    display:block;line-height:1;margin-bottom:7px;
+  }
+  .key p,.warn p{margin:.55em 0}
+  .key p:first-of-type,.warn p:first-of-type{margin-top:0}
+  .key p:last-child,.warn p:last-child{margin-bottom:0}
+  mark{background:var(--hi-yellow);color:var(--ink);padding:1px 4px;border-radius:2px}
+  .hand{font-family:"Caveat",cursive;font-size:1.25rem;color:var(--accent);line-height:1.35}
+  em{font-style:italic;color:var(--ink-soft)}
+
+  .tbox{overflow-x:auto;margin:20px 0;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;min-width:430px;font-size:.92rem}
+  th,td{border-bottom:1px solid var(--rule);padding:11px 12px;text-align:left;vertical-align:top;line-height:1.6}
+  th{font-weight:800;color:var(--accent-2);font-size:.75rem;text-transform:uppercase;letter-spacing:.07em}
+
+  mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:6px 0}
+  mjx-container{color:var(--ink)}
+
+  .foot{text-align:center;font-family:"Caveat",cursive;font-size:1.4rem;color:var(--ink-faint);margin-top:56px}
+  .up{
+    display:inline-block;margin-top:24px;font-size:.78rem;color:var(--ink-faint);
+    text-decoration:none;border-bottom:1px dotted var(--ink-faint);
+  }
+  @media (max-width:560px){
+    body{font-size:16px;line-height:1.75}
+    .wrap{padding:18px 11px 90px}
+    .cover{padding:30px 20px 26px 24px}
+    .sheet{padding:22px 17px 24px 26px;margin-bottom:32px}
+    .sheet::before{left:11px}
+    .item{padding-left:28px}
+    .enun{padding:15px 16px}
+  }
+
+  .badge{display:inline-block;margin-left:8px;font-size:.66rem;font-weight:800;letter-spacing:.08em;
+    text-transform:uppercase;padding:3px 8px;border-radius:3px;vertical-align:1px}
+  .av1b{background:var(--hi-yellow);color:#8a6b0a;border:1.5px solid #d8b93c}
+  .newb{background:var(--hi-blue);color:var(--accent-2);border:1.5px solid var(--accent-2)}
+  .chips a.av1{border-color:#d8b93c}
+  #onlyAv1[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  body.only-av1 .sheet:not(.av1){display:none}
+  body.only-av1 .chips a:not(.av1){display:none}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .av1b{color:#e6cf7a}}
+  :root[data-theme="dark"] .av1b{color:#e6cf7a}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <div class="tape"></div>
+  <div class="meta">Aprendizado de Máquina I · MD22 · IMPA Tech · 2026.2</div>
+  <h1>Estudo dirigido I</h1>
+  <p class="sub">caderno de revisão — 34 exercícios</p>
+  <div class="howto">
+    <p><strong>Como usar:</strong> as respostas começam escondidas. Leia o enunciado, resolva no papel, e só então clique em <em>ver resposta</em>.</p>
+    <p>Cada resposta tem uma caixa <em>ideia-chave</em> (amarela): se você pegou a ideia-chave, acertou a questão — mesmo que tenha escrito com outras palavras. As caixas verdes marcam os erros que parecem certos.</p>
+    <p><strong>★ AV1</strong> marca os exercícios que batem diretamente com as diretrizes do professor para a prova; o botão <em>só ★ AV1</em> esconde o resto. <em>novo</em> marca as folhas acrescentadas nesta versão.</p>
+  </div>
+</div>
+
+<div class="bar">
+  <span class="lbl">respostas:</span>
+  <button id="showAll" type="button">mostrar todas</button>
+  <button id="hideAll" type="button">esconder todas</button>
+  <button id="onlyAv1" type="button" aria-pressed="false">só ★ AV1</button>
+</div>
+
+<nav class="toc">
+  <h2>índice</h2>
+  <div class="chips">
+    <a href="#e11">1.1</a><a href="#e21">2.1</a><a href="#e22">2.2</a><a href="#e25" class="av1">2.5 ★</a><a href="#e26">2.6</a><a href="#e27">2.7</a><a href="#e210" class="av1">2.10 ★</a><a href="#e215" class="av1">2.15 ★</a><a href="#e216" class="av1">2.16 ★</a><a href="#e217" class="av1">2.17 ★</a><a href="#e218" class="av1">2.18 ★</a><a href="#e219">2.19</a><a href="#e221" class="av1">2.21 ★</a><a href="#e223" class="av1">2.23 ★</a><a href="#e224" class="av1">2.24 ★</a><a href="#e227">2.27</a><a href="#e228" class="av1">2.28 ★</a><a href="#e32">3.2</a><a href="#e35" class="av1">3.5 ★</a><a href="#e36">3.6</a><a href="#e37">3.7</a><a href="#e38" class="av1">3.8 ★</a><a href="#e310">3.10</a><a href="#e311" class="av1">3.11 ★</a><a href="#e312" class="av1">3.12 ★</a><a href="#e313" class="av1">3.13 ★</a><a href="#e319" class="av1">3.19 ★</a><a href="#e321" class="av1">3.21 ★</a><a href="#e322" class="av1">3.22 ★</a><a href="#e325" class="av1">3.25 ★</a><a href="#e330">3.30</a><a href="#e331" class="av1">3.31 ★</a><a href="#e334" class="av1">3.34 ★</a><a href="#e335">3.35</a>
+  </div>
+</nav>
+
+<div class="part"><span>1 · O que significa aprender?</span></div>
+
+<section class="sheet" id="e11">
+  <div><span class="tab">Exercício 1.1</span><span class="kind">Conceitual</span></div>
+  <h3>Três problemas</h3>
+  <div class="enun">
+    <p>Para cada cenário, responda: é regressão ou classificação? O interesse é previsão ou inferência? Quais são $N$ e $p$? O que são os <em>dados</em>, o que seria um <em>método</em> e qual <em>medida de performance</em> você usaria?</p>
+    <ol type="a">
+      <li>O IGAM quer entender <em>quais</em> parâmetros medidos em campo (pH, turbidez, condutividade, OD, temperatura) explicam a concentração de arsênio nas suas cerca de 660 estações.</li>
+      <li>Um banco quer decidir se novos clientes vão ou não pagar um empréstimo, a partir de 10 mil empréstimos passados descritos por 8 variáveis.</li>
+      <li>Um fundo quer prever a variação percentual semanal do Ibovespa a partir das variações semanais de três índices estrangeiros, usando 5 anos de dados.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>São <strong>duas perguntas independentes</strong>, e é fácil confundi-las.</p>
+      <p><strong>Regressão ou classificação</strong> olha só para o <em>tipo de $Y$</em>: número contínuo ou rótulo.</p>
+      <p><strong>Previsão ou inferência</strong> olha para <em>o que você vai fazer com o modelo</em>: quer acertar o número, ou quer entender o papel de cada variável?</p>
+      <p>As quatro combinações existem. Uma não determina a outra.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>IGAM / arsênio.</strong> A resposta $Y$ é a concentração de arsênio, um número contínuo → <mark>regressão</mark>.</p>
+      <p>O verbo do enunciado é "entender <em>quais</em> parâmetros explicam". Ninguém pediu para prever arsênio em estação nova; pediram para saber quem importa → <mark>inferência</mark>.</p>
+      <p><strong>$N \approx 660$</strong> estações, <strong>$p = 5$</strong> preditores.</p>
+      <p><em>Dados:</em> a tabela $660\times 5$ com as medições de campo, mais o vetor de 660 concentrações.</p>
+      <p><em>Método:</em> regressão linear múltipla. Precisa ser interpretável — kNN aqui seria quase inútil, porque ele não produz nada que responda "quais parâmetros importam".</p>
+      <p><em>Medida:</em> como o objetivo é inferência, o que importa são erro-padrão, intervalo de confiança e valor-$p$ de cada coeficiente. O $R^2$ diz se o modelo tem alguma aderência. O MSE de teste vale como checagem de sanidade, não como objetivo.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Banco / empréstimo.</strong> $Y\in\{\text{paga},\text{não paga}\}$ é um rótulo → <mark>classificação</mark>.</p>
+      <p>"Decidir se novos clientes vão pagar" é decisão sobre gente que ainda nem apareceu → <mark>previsão</mark>. Ninguém precisa saber <em>por que</em> o cliente não paga; precisa acertar quem não paga.</p>
+      <p><strong>$N = 10\,000$</strong>, <strong>$p = 8$</strong>. <em>Método:</em> regressão logística, kNN, árvore.</p>
+      <p><em>Medida:</em> taxa de erro 0-1 é a resposta preguiçosa. A boa é uma <strong>perda assimétrica</strong>: emprestar para quem não paga custa o principal inteiro; negar crédito a um bom pagador custa só o lucro que você deixou de fazer. São ordens de grandeza diferentes.</p>
+      <div class="warn">As classes também são desbalanceadas (poucos inadimplentes). Um classificador que diz "todo mundo paga" já acerta ~95%, e é inútil. Veja o 2.27(b).</div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>Fundo / Ibovespa.</strong> Variação percentual é contínua → <mark>regressão</mark>. E o objetivo é acertar o número da semana que vem → <mark>previsão</mark>.</p>
+      <p><strong>$N \approx 5\times 52 = 260$</strong> semanas, <strong>$p=3$</strong> índices. <em>Medida:</em> MSE ou RMSE de teste.</p>
+      <div class="warn">
+        <p>Aqui tem um detalhe que os outros dois não têm: os dados são <strong>temporais</strong>. A partição treino/teste não pode ser aleatória.</p>
+        <p>Se você sortear semanas ao acaso, vai treinar com 2025 e testar com 2023 — ou seja, usar o futuro para prever o passado. É vazamento de dados (2.20). O certo é treinar no passado e testar no futuro.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>2 · AM supervisionado</span></div>
+
+<section class="sheet" id="e21">
+  <div><span class="tab">Exercício 2.1</span><span class="kind">Conceitual</span></div>
+  <h3>O modelo $Y = f(X) + \varepsilon$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>No problema do arsênio, o que a função $f$ representa? Ela existe mesmo que ninguém a conheça?</li>
+      <li>Mostre que exigir $\mathbb{E}[\varepsilon]=0$ é uma <em>convenção</em>, não uma hipótese: se $\mathbb{E}[\varepsilon] = c \neq 0$, redefina $f$ e $\varepsilon$ para que valha.</li>
+      <li>Há duas fontes de $\varepsilon$: variáveis relevantes que não foram medidas e o erro de medição do laboratório. Qual delas diminui coletando <em>mais amostras</em>? E coletando <em>mais variáveis</em>? Qual delas nenhum método consegue reduzir?</li>
+      <li>Suponha que $\mathrm{Var}(\varepsilon)$ dependa de $x$ (rios limpos têm medições mais precisas). O que muda na previsão de $f$? E na avaliação do erro de uma estimativa $\hat f$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>$f$ não é "a fórmula verdadeira da natureza". É a <strong>média condicional</strong>:</p>
+      $$f(x) = \mathbb{E}[Y \mid X = x],$$
+      <p>ou seja, a concentração média de arsênio entre <em>todas</em> as estações que tenham exatamente aquele perfil físico-químico. E $\varepsilon = Y - f(X)$ é, por construção, tudo o que sobra.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>$f$ é a <strong>parte sistemática</strong> da relação: dado um perfil de pH, turbidez etc., qual é o arsênio esperado.</p>
+      <p><strong>Sim, ela existe mesmo sem ninguém conhecê-la.</strong> Ela é definida pela distribuição conjunta de $(X,Y)$, que é um fato sobre o mundo — as estações existem, as concentrações existem, a média condicional existe (só precisa de $\mathbb E|Y|<\infty$).</p>
+      <p>O que não existe é nosso <em>acesso</em> a ela. Por isso o trabalho todo é construir uma estimativa $\hat f$.</p>
+      <p>A distinção entre $f$ (existe, é fixa, é desconhecida) e $\hat f$ (é construída por nós, varia com a amostra, é aleatória) é o eixo de quase tudo que vem depois — em especial do 2.23 e do 2.24.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Suponha $\mathbb E[\varepsilon]=c\neq 0$. Defina</p>
+      $$\tilde f(x) = f(x)+c, \qquad \tilde\varepsilon = \varepsilon - c.$$
+      <p>Então</p>
+      $$\tilde f(X)+\tilde\varepsilon = f(X)+c+\varepsilon-c = Y, \qquad \mathbb E[\tilde\varepsilon] = c - c = 0.$$
+      <p>A distribuição de $Y$ dado $X$ é <strong>exatamente a mesma</strong> nos dois casos. Nenhuma previsão muda, nenhum dado observável distingue um do outro.</p>
+      <div class="key">
+        <p>Isso é o que torna a exigência uma <strong>convenção</strong>: ela não restringe o mundo, só escolhe onde guardar a constante. Não é falsificável — você nunca vai coletar dados que a contradigam.</p>
+        <p>E ela serve para algo concreto: <strong>tornar $f$ identificável</strong>. Sem ela, $(f,\varepsilon)$ e $(f+c,\varepsilon-c)$ seriam "dois modelos diferentes" descrevendo a mesma realidade, e a pergunta "quanto vale $f(x)$?" não teria resposta única.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>As duas fontes se comportam de forma bem diferente. O jeito de pensar: <em>se eu repetisse a medição na mesma estação, esse desvio se repetiria?</em></p>
+      <div class="tbox"><table>
+        <tr><th>fonte de $\varepsilon$</th><th>mais amostras</th><th>mais variáveis</th></tr>
+        <tr><td>variáveis relevantes não medidas</td><td><strong>não reduz</strong></td><td><strong>reduz</strong></td></tr>
+        <tr><td>erro de medição do laboratório</td><td><strong>reduz</strong></td><td>não reduz</td></tr>
+      </table></div>
+      <p><strong>Mais amostras</strong> (no sentido de medir a mesma estação várias vezes e promediar) reduz o <em>erro de laboratório</em>: ele é independente entre medições e a média cai como $1/n$.</p>
+      <p>Mas não faz nada pelas variáveis omitidas: se aquela estação tem uma característica não medida que a desloca para cima, medir dez vezes reproduz <em>o mesmo</em> deslocamento dez vezes. Promediar não ajuda.</p>
+      <p><strong>Mais variáveis</strong> reduz a parcela de variáveis omitidas, e de um jeito bem literal: ao medir uma variável que antes estava escondida em $\varepsilon$, ela <mark>migra de $\varepsilon$ para dentro de $f$</mark>. A fronteira entre sinal e ruído se move. Mas isso não melhora o aparelho.</p>
+      <p><strong>Nenhum método reduz</strong> o erro de medição, dado o instrumento. Só trocando de equipamento.</p>
+      <div class="warn">E, de modo mais amplo: <strong>nenhum método de aprendizado reduz qualquer parte de $\varepsilon$</strong>. Mais dados e métodos melhores reduzem a variância de $\hat f$; nunca $\mathrm{Var}(\varepsilon)$. É por isso que ele se chama erro <em>irredutível</em> (2.15d).</div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Isso se chama <strong>heterocedasticidade</strong> (variância que muda com $x$).</p>
+      <p><strong>Na previsão de $f$:</strong> o alvo não muda. $f(x)=\mathbb E[Y\mid X=x]$ continua sendo a melhor previsão possível. O que muda é <em>como estimá-lo bem</em>.</p>
+      <p>O ERM com perda quadrática uniforme trata todas as observações como igualmente confiáveis — mas as estações de rio limpo carregam mais informação, porque o ruído delas é menor. Desperdiçar isso é ineficiente. O estimador certo passa a ser <strong>mínimos quadrados ponderados</strong>, com peso $1/\mathrm{Var}(\varepsilon\mid x)$.</p>
+      <p><strong>Na avaliação do erro:</strong> um MSE global vira uma média enganosa, porque mistura regiões de ruído muito diferente.</p>
+      <p>Um erro grande nas estações de rio sujo pode ser <mark>ruído irredutível local</mark>, não viés do modelo — e você não consegue distinguir as duas coisas olhando só o número agregado. O certo é olhar o erro <strong>por faixa de $x$</strong>, ou normalizar por $\mathrm{Var}(\varepsilon\mid x)$.</p>
+      <p>Além disso, o próprio erro irredutível deixa de ser um número e vira uma média: $\mathbb E[\mathrm{Var}(Y\mid X)]$, como no 2.12(a).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e22">
+  <div><span class="tab">Exercício 2.2</span><span class="kind">Conceitual</span></div>
+  <h3>Interpolar não é aprender</h3>
+  <div class="enun">
+    <p>O polinômio interpolador de grau $N-1$ passa por todos os $N$ pontos: seu risco empírico é zero.</p>
+    <ol type="a">
+      <li>Por que isso não faz dele uma boa estimativa de $f$? O que ele "aprende" além de $f$?</li>
+      <li>Usando o fenômeno de Runge, explique por que aumentar $N$ pode <em>piorar</em> o interpolador, quando um bom método deveria melhorar com mais dados.</li>
+      <li>Que hipótese sobre $f$ e sobre $\varepsilon$ tornaria interpolar razoável?</li>
+      <li>Reamostrar apenas o ruído $\varepsilon$ (mantendo os $x_i$) muda muito o interpolador. Que nome esse fenômeno vai receber mais adiante?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>Risco empírico zero significa que ele reproduziu <strong>$y_i = f(x_i)+\varepsilon_i$</strong> — os dois termos, exatamente.</p>
+      <p>Ou seja: ele decorou o sinal <em>e o ruído junto</em>, sem distinguir um do outro. E o ruído, por definição, é a parte que não se repete.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>Ele aprendeu $f$ <em>mais</em> o ruído daquela amostra específica. Como o ruído não se repete na próxima amostra, boa parte do que ele "sabe" é lixo memorizado que só vale para aqueles $N$ pontos.</p>
+      <p>E tem o problema geométrico: entre os pontos, um polinômio de grau $N-1$ oscila violentamente para conseguir passar por todos eles. É exatamente <em>entre</em> os pontos que você vai usá-lo — nos $x_i$ de treino você já sabe a resposta, ela está na tabela.</p>
+      <p>Em uma frase: <strong>ele aprendeu a amostra, não o fenômeno.</strong></p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>O fenômeno de Runge: com $f(x)=1/(1+25x^2)$ e nós igualmente espaçados em $[-1,1]$, o erro máximo do interpolador de grau $N-1$ <mark>diverge</mark> quando $N\to\infty$, com oscilações cada vez mais violentas perto das bordas.</p>
+      <p>Isso é chocante à primeira vista, porque mais dados deveriam ajudar. A explicação:</p>
+      <div class="key">
+        <p>Um método decente é <strong>consistente</strong>: quando $N$ cresce, o erro de teste tende ao erro irredutível.</p>
+        <p>O interpolador não é consistente porque aumentar $N$ aumenta o <strong>grau do polinômio na mesma velocidade</strong>. A flexibilidade cresce junto com os dados, então a variância nunca tem chance de cair.</p>
+        <p>Na linguagem do 2.16: ele é um método que <em>nunca sai da ponta direita da curva em U</em>. Todo método que fixa a flexibilidade e deixa $N$ crescer caminha para a esquerda; esse não caminha.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Interpolar é razoável quando <mark>$\varepsilon\equiv 0$</mark>, isto é, os dados são exatos: a tabela de uma função conhecida, a saída determinística de uma simulação, valores tabelados sem erro de medida.</p>
+      <p>Se não há ruído, não existe o perigo de decorar ruído — passar por todos os pontos é simplesmente correto.</p>
+      <p>Precisa também que <strong>$f$ seja suave o bastante</strong> para ser bem aproximada por polinômios daquele grau.</p>
+      <p>E mesmo assim vale escolher bem os nós: com nós de <strong>Chebyshev</strong> (adensados nas bordas), o problema de Runge desaparece. Espaçamento uniforme é parte do problema, não só o grau.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Isso é <mark>variância</mark> — e, do ponto de vista do diagnóstico, <strong>sobreajuste</strong>.</p>
+      <p>A definição operacional de variância é literalmente essa: quanto $\hat f$ muda quando você reamostra o ruído mantendo o desenho fixo.</p>
+      <p>O experimento que o enunciado descreve é o <em>mesmo</em> experimento imaginário por trás de $\mathrm{Var}(\hat f(x))$ no 2.24, e é exatamente o que o 2.26 estima numericamente com 200 repetições.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e25">
+  <div><span class="tab">Exercício 2.5</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span></div>
+  <h3>O que o risco empírico mede</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Em palavras, o que $\frac1N\sum_{i=1}^N \ell(y_i,\hat y_i)$ mede? Por que é uma <em>média</em>? Que resultado de probabilidade justifica usá-la?</li>
+      <li>O ERM tem dois ingredientes, a perda $\ell$ e a classe $\mathcal G$. Qual deles codifica <em>o que nos importa</em> e qual codifica <em>o que acreditamos sobre $f$</em>?</li>
+      <li>O que o ERM devolve se $\mathcal G$ é o conjunto de todas as funções? E se $\mathcal G$ é o conjunto das funções constantes?</li>
+      <li>Conclua: o risco empírico mede a qualidade do <em>ajuste</em>. Que quantidade mediria <em>aprendizado</em>?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>O risco empírico mede <strong>ajuste</strong>: o quanto o modelo reproduz os dados que ele já viu.</p>
+      <p>Aprendizado é outra coisa: desempenho em dados que ele <em>não</em> viu. Confundir os dois é a raiz de quase todo erro conceitual do curso.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>Ele mede a <strong>perda média cometida nos dados que você tem na mão</strong>.</p>
+      <p>É uma média porque é o estimador <em>plug-in</em> do que você realmente queria calcular, que é o risco populacional</p>
+      $$R(g) = \mathbb E\big[\ell(Y, g(X))\big].$$
+      <p>Essa esperança é uma integral contra a distribuição de $(X,Y)$ — e você não conhece essa distribuição. O que você tem é uma amostra dela. Então troca a integral pela média amostral.</p>
+      <p>O resultado que justifica é a <mark>lei dos grandes números</mark>: com amostras iid, a média amostral converge para a esperança quando $N\to\infty$. O TCL complementa dizendo que a taxa é $1/\sqrt N$.</p>
+      <div class="warn">Detalhe fino: a LGN justifica a média empírica como estimador do risco <strong>de uma função fixa</strong>. Quando você <em>escolhe</em> $\hat f$ minimizando essa mesma média, a garantia se enfraquece — e é precisamente aí que nasce o otimismo do erro de treino (3.15b).</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>$\ell$ codifica o que nos importa.</strong> Quais erros doem, e quanto. Errar para mais é pior que errar para menos? Um erro grande é pior que dois médios? Isso é uma afirmação sobre <em>o problema</em>, sobre consequências no mundo — e não tem nada a ver com o método.</p>
+      <p><strong>$\mathcal G$ codifica o que acreditamos sobre $f$.</strong> Que ela é aproximadamente linear, ou suave, ou periódica. É uma afirmação sobre a <em>hipótese</em>, sobre que forma a realidade tem.</p>
+      <p>Uma é sobre o mundo das consequências, a outra sobre o mundo das causas. Trocar uma não deveria afetar a outra.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>$\mathcal G$ = todas as funções:</strong> o ERM devolve <em>qualquer</em> função que passe pelos $N$ pontos, com risco empírico exatamente $0$, e com valor completamente arbitrário fora deles.</p>
+      <p>O problema fica <mark>mal posto</mark>: há infinitas soluções e nenhum critério para preferir uma. Repare que isso é o mesmo fenômeno do 2.2 e do 3.10(e), vestindo roupas diferentes.</p>
+      <p><strong>$\mathcal G$ = constantes:</strong> devolve $\bar y$ com $\ell_2$, e uma mediana dos $y_i$ com $\ell_1$ (isso é o 2.11).</p>
+      <p>É a melhor previsão possível que <em>ignora $x$ por completo</em>. Serve como piso de comparação: se o seu modelo não bate a constante, ele não extraiu informação nenhuma dos preditores.</p>
+      <div class="key">Os dois casos extremos mostram para que serve $\mathcal G$: ela é o que impede o ERM de degenerar. Grande demais, o problema não tem resposta única; pequena demais, a resposta ignora os dados.</div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>O que mediria <strong>aprendizado</strong> é o risco populacional avaliado na função que você construiu:</p>
+      $$R(\hat f) = \mathbb E\big[\ell(Y,\hat f(X))\big] \quad\text{em um par novo }(X,Y).$$
+      <p>Na prática você não consegue calcular essa esperança — de novo, distribuição desconhecida. Então estima com <strong>erro de teste</strong> ou com <strong>validação cruzada</strong> (2.19).</p>
+      <p>O ponto essencial: o que torna essa estimativa honesta não é a fórmula, que é a mesma média de antes. É o fato de que <mark>os dados usados para avaliar não participaram da escolha de $\hat f$</mark>.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e26">
+  <div><span class="tab">Exercício 2.6</span><span class="kind">Conceitual</span></div>
+  <h3>Previsão ou inferência?</h3>
+  <div class="enun">
+    <p>Para o arsênio (em mg/L), o modelo $\hat f_A(x) = 15{,}2\cdot\text{pH} - 2{,}1\cdot\text{turbidez} - 5$ tem erro de teste <em>maior</em> que um kNN com $k=7$, $\hat f_B$.</p>
+    <ol type="a">
+      <li>Qual dos dois você entrega ao laboratório que quer parar de medir arsênio? Por quê?</li>
+      <li>Qual você entrega ao órgão ambiental que pergunta "reduzir a turbidez ajuda?"</li>
+      <li>Interprete o coeficiente $15{,}2$, com unidades. O sinal de $-2{,}1$ significa que turbidez <em>causa</em> menos arsênio?</li>
+      <li>Por que não há nada análogo a interpretar em $\hat f_B$?</li>
+      <li>Descreva um cenário em que o modelo com <em>maior</em> erro de teste é a escolha certa.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>A questão inteira é um contraexemplo a "o melhor modelo é o de menor erro de teste".</p>
+      <p>O erro de teste responde <em>uma</em> pergunta: quão bem ele prevê. Se a pergunta do cliente for outra, o erro de teste não é o critério.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>Ao laboratório: <mark>$\hat f_B$</mark> (o kNN).</p>
+      <p>Ele quer parar de medir arsênio, ou seja, quer que a previsão <em>substitua</em> a medição. A única coisa que importa é o número sair próximo do verdadeiro. Interpretabilidade não tem valor nenhum aqui — ninguém vai ler o modelo, vão usar a saída.</p>
+      <p>Menor erro de teste vence, ponto final.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Ao órgão ambiental: <mark>$\hat f_A$</mark> (o linear).</p>
+      <p>"Reduzir a turbidez ajuda?" é uma pergunta sobre o <strong>efeito de uma variável</strong>. Ela não pede um número previsto; pede uma direção e um tamanho.</p>
+      <p>Só o modelo linear tem um objeto que responde isso: um coeficiente, com sinal, magnitude, unidade e intervalo de confiança. O kNN simplesmente não tem onde procurar a resposta.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>Interpretação do $15{,}2$:</strong> comparando duas estações que têm a mesma turbidez (e os mesmos valores das demais variáveis do modelo), aquela com pH uma unidade maior tem, <em>em média</em>, $15{,}2$ mg/L a mais de arsênio.</p>
+      <p>Unidade: <strong>mg/L por unidade de pH</strong>. O $-2{,}1$ está em <strong>mg/L por NTU</strong>.</p>
+      <p>Repare nas duas ressalvas embutidas — "mantendo as outras fixas" e "em média". Ambas são parte da interpretação, não enfeite.</p>
+      <div class="warn">
+        <p><strong>Não</strong>, o sinal negativo não significa que turbidez causa menos arsênio. O coeficiente mede <em>associação condicional aos preditores que estão no modelo</em>, e só isso.</p>
+        <p>Pode haver <strong>confundimento</strong> por variável omitida (algo que ao mesmo tempo suja a água e dilui o arsênio), <strong>causalidade reversa</strong>, ou puro artefato de <strong>colinearidade</strong>.</p>
+        <p>O 3.17(b) mostra o caso mais desconfortável: o coeficiente da turbidez pode ter um sinal na regressão simples e o <em>sinal oposto</em> na múltipla. Os dois são cálculos corretos, respondendo perguntas diferentes.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Em $\hat f_B$, a previsão é "a média dos 7 vizinhos mais próximos". Não existe nenhum número no modelo que resuma o papel da turbidez — <mark>o modelo <em>é</em> o conjunto de treino inteiro</mark>.</p>
+      <p>Pior: o efeito de mudar a turbidez <em>depende de onde você está</em>. Em uma região densa do espaço, mexer um pouco na turbidez pode trocar todos os 7 vizinhos e mudar tudo; em outra região, pode não trocar nenhum e não mudar nada. Não há um "efeito da turbidez" único para reportar.</p>
+      <p>Existem ferramentas para espiar dentro (dependência parcial, importância de variáveis), mas elas são <em>leituras</em> do modelo, não parâmetros dele — e não vêm com erro-padrão nem teste de hipótese.</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p><strong>(i) Inferência</strong>, como no item (b): a pergunta é sobre efeito, não sobre número.</p>
+      <p><strong>(ii) Contexto regulatório ou jurídico:</strong> a decisão precisa ser justificada, auditada, contestada. "O algoritmo disse" não é justificativa aceitável para multar alguém.</p>
+      <p><strong>(iii) Extrapolação:</strong> o kNN é <em>estruturalmente</em> incapaz de prever fora da nuvem de dados. Ele devolve a média dos vizinhos mais próximos mesmo que esses vizinhos estejam longíssimo — e sem avisar. O linear pelo menos extrapola de forma previsível.</p>
+      <p><strong>(iv) Custo operacional:</strong> o kNN exige guardar e consultar as 660 estações a cada previsão. O linear exige 4 números.</p>
+      <p><strong>(v) Quando você precisa de incerteza:</strong> intervalo de confiança para o efeito, intervalo de previsão para a nova observação (3.20f).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e27">
+  <div><span class="tab">Exercício 2.7</span><span class="kind">Conceitual</span></div>
+  <h3>Paramétrico versus não-paramétrico</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Liste vantagens e desvantagens de um método paramétrico frente a um não-paramétrico. Em que situação (tamanho de $N$, conhecimento sobre $f$) você prefere cada um?</li>
+      <li>"O kNN não tem parâmetros." Corrija a frase. Qual a diferença entre parâmetro e hiperparâmetro?</li>
+      <li>Por que $k$ não pode ser escolhido minimizando o risco empírico nos dados de treino? Que $k$ sairia?</li>
+      <li>Em que sentido a "quantidade de informação" que o kNN guarda cresce com $N$, enquanto a da regressão linear não?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>Paramétrico troca o problema difícil "estimar uma função" pelo problema fácil "estimar $p+1$ números".</p>
+      <p>A troca é ótima <em>se a forma suposta estiver certa</em>. Todo o resto decorre disso.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <div class="tbox"><table>
+        <tr><th></th><th>paramétrico</th><th>não-paramétrico</th></tr>
+        <tr>
+          <td>vantagens</td>
+          <td>funciona com $N$ pequeno; variância baixa; interpretável; barato de guardar e avaliar; extrapola; tem toda a maquinaria de inferência</td>
+          <td>flexível; <em>consistente</em> para $f$ bem geral (aprende a verdade se $N\to\infty$); não exige saber nada sobre a forma de $f$</td>
+        </tr>
+        <tr>
+          <td>desvantagens</td>
+          <td>se a forma está errada, o <strong>viés não some nem com $N\to\infty$</strong> — o método converge para a melhor reta, não para $f$</td>
+          <td>exige muito dado; variância alta; sofre horrivelmente com $p$ grande (2.30); opaco; caro de guardar e avaliar</td>
+        </tr>
+      </table></div>
+      <p>A linha mais importante é a das desvantagens, porque elas são de <em>naturezas</em> diferentes. A do paramétrico é um <strong>viés que não morre</strong>; a do não-paramétrico é uma <strong>variância que só morre com muito dado</strong>. Uma você não conserta coletando mais; a outra sim.</p>
+      <p><strong>Quando escolher cada um.</strong> Paramétrico com $N$ pequeno, $p$ grande em relação a $N$, teoria sobre a forma de $f$, ou quando quer inferência. Não-paramétrico com $N$ enorme, $p$ pequeno, e nenhuma ideia da forma de $f$.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Correção:</strong> <em>"o kNN não tem parâmetros <strong>de dimensão fixa</strong> — ele não supõe uma forma funcional com um número fixo de coeficientes. Mas ele guarda o conjunto de treino inteiro, então o que ele carrega dos dados cresce com $N$."</em></p>
+      <p>Dizer "não tem parâmetros" sugere que ele não aprende nada dos dados, o que é obviamente falso: sem dados ele não prevê nada.</p>
+      <div class="key">
+        <p><strong>Parâmetro:</strong> ajustado pelo procedimento a partir dos dados de treino. Os $\beta_j$ na regressão; os próprios pares $(x_i,y_i)$ guardados no kNN.</p>
+        <p><strong>Hiperparâmetro:</strong> escolhido <em>de fora</em>, antes de ajustar. Ele define <em>qual é</em> a classe $\mathcal G$, e por isso controla a flexibilidade. O $k$ do kNN, o grau $d$ do polinômio, o $\lambda$ do ridge.</p>
+        <p>É por isso que hiperparâmetro não pode ser escolhido pelo mesmo critério que o parâmetro — item (c).</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Sairia sempre <mark>$k=1$</mark>, sem exceção.</p>
+      <p>Motivo: com $k=1$, o vizinho mais próximo de $x_i$ <em>dentro dos dados de treino</em> é o próprio $x_i$ (distância zero). Então $\hat f(x_i)=y_i$ para todo $i$, e o risco empírico é exatamente zero. Nenhum outro $k$ consegue empatar isso, então o critério sempre aponta $k=1$ — independentemente dos dados, do ruído, de tudo.</p>
+      <p>A razão profunda: o erro de treino é <strong>monótono na flexibilidade</strong> (2.16), e $k$ é justamente o controle de flexibilidade. Pedir ao erro de treino que escolha $k$ é pedir a ele que distinga ajuste de aprendizado — a única coisa que ele comprovadamente não sabe fazer.</p>
+      <p>Por isso $k$ vem da validação cruzada, que avalia em dados fora do ajuste.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p><strong>kNN:</strong> para fazer <em>qualquer</em> previsão, ele precisa dos $N$ pares $(x_i,y_i)$. A descrição completa do modelo tem tamanho $O(Np)$ e <mark>cresce com $N$</mark>.</p>
+      <p>E isso tem consequência real: mais dados significam vizinhanças mais finas, e vizinhanças mais finas significam que ele consegue representar detalhes de $f$ que antes eram invisíveis. A <em>capacidade</em> do modelo cresce.</p>
+      <p><strong>Regressão linear:</strong> ela comprime os dados em $p+1$ números, e depois disso você pode <em>jogar os dados fora</em> sem nenhuma perda para previsão. A descrição tem tamanho fixo.</p>
+      <p>Mais dados deixam esses $p+1$ números mais precisos (variância cai como $1/N$, pelo 3.7b), mas o <strong>conjunto de funções representáveis é idêntico</strong> com $N=50$ ou com $N=50$ milhões — é sempre o conjunto de todos os hiperplanos.</p>
+      <div class="key">Resumindo: no kNN, mais dados aumentam <em>o que o modelo pode ser</em>. Na regressão linear, mais dados só melhoram <em>a escolha dentro do que ele já podia ser</em>. É exatamente por isso que só o primeiro é consistente para $f$ geral.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e210">
+  <div><span class="tab">Exercício 2.10</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span></div>
+  <h3>Verossimilhança é risco empírico</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Se $\varepsilon\sim\mathcal N(0,\sigma^2)$, mostre que maximizar a verossimilhança condicional de $y_1,\dots,y_N$ dado $x_1,\dots,x_N$ é minimizar o risco empírico com perda quadrática.</li>
+      <li>Se $\varepsilon$ tem densidade de Laplace $\frac{1}{2b}e^{-|t|/b}$, que perda aparece?</li>
+      <li>Conclua: o que a escolha da perda revela sobre a nossa crença a respeito do ruído?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>O padrão geral que os dois itens instanciam:</p>
+      $$\ell(y,\hat y) = -\log p_\varepsilon(y-\hat y) + \text{const}.$$
+      <p>Toda perda é o log-negativo de alguma densidade de ruído. Escolher uma perda <strong>é</strong> escolher um modelo de ruído, quer você perceba ou não.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>Com $\varepsilon\sim\mathcal N(0,\sigma^2)$ e observações independentes, $y_i\mid x_i\sim\mathcal N(f(x_i),\sigma^2)$, então</p>
+      $$L(f) = \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\frac{(y_i-f(x_i))^2}{2\sigma^2}\right).$$
+      <p>Tomando log (a monotonicidade preserva o argmax):</p>
+      $$\log L(f) = \underbrace{-\frac N2\log(2\pi\sigma^2)}_{\text{não depende de }f} \;-\; \frac{1}{2\sigma^2}\sum_{i=1}^N\big(y_i-f(x_i)\big)^2.$$
+      <p>O primeiro termo é constante em $f$ e pode ser ignorado. O fator $\frac{1}{2\sigma^2}$ é uma constante <em>positiva</em>, então multiplicar por ele não muda onde está o mínimo. Logo</p>
+      $$\arg\max_f \log L(f) = \arg\min_f \frac1N\sum_i\big(y_i-f(x_i)\big)^2,$$
+      <p>que é exatamente o ERM com perda quadrática. ∎</p>
+      <div class="warn">Os dois procedimentos coincidem como <em>problemas de otimização</em>, mas partem de filosofias diferentes: ERM não assume distribuição nenhuma para o ruído, máxima verossimilhança assume. A coincidência é o conteúdo do exercício, não uma trivialidade.</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Com densidade de Laplace:</p>
+      $$\log L(f) = -N\log(2b) - \frac1b\sum_{i=1}^N\big|y_i-f(x_i)\big|.$$
+      <p>Pelo mesmo raciocínio, maximizar isso é minimizar $\sum_i|y_i-\hat y_i|$: aparece a <mark>perda $\ell_1$</mark> (absoluta).</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>A escolha da perda é uma <strong>afirmação sobre a distribuição do ruído</strong>, e ela tem consequências concretas.</p>
+      <p><strong>$\ell_2$ diz "acredito em ruído gaussiano".</strong> A gaussiana tem caudas leves: um resíduo de $5\sigma$ é essencialmente impossível sob ela. Então, se um ponto desses aparecer nos dados, o ajuste conclui que <em>a função deve passar perto dele</em> e se deforma para acomodá-lo. Daí a média (2.11) e a sensibilidade a outliers.</p>
+      <p><strong>$\ell_1$ diz "acredito em Laplace".</strong> Caudas pesadas: resíduos grandes são raros mas plenamente possíveis. Então um ponto distante é interpretado como "ruído grande aconteceu", e o ajuste o ignora. Daí a mediana e a robustez.</p>
+      <div class="key">
+        <p>A recíproca é a parte útil na prática: se você <em>sabe</em> que seus dados têm outliers legítimos, isso não é um detalhe de engenharia a ser resolvido com um filtro <em>ad hoc</em>.</p>
+        <p>É uma afirmação sobre $p_\varepsilon$ — e ela <strong>determina</strong> qual perda é a correta. A escolha da perda deixa de ser gosto e vira consequência do que você sabe sobre o fenômeno.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e215">
+  <div><span class="tab">Exercício 2.15</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span></div>
+  <h3>O que o MSE mede</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>No problema do arsênio, em que unidade está o MSE? Por que se costuma reportar a raiz quadrada (RMSE)?</li>
+      <li>$\mathrm{MSE}_{\text{treino}}$ e $\mathrm{MSE}_{\text{teste}}$ medem coisas diferentes. Nomeie cada uma e explique por que a primeira é sistematicamente otimista.</li>
+      <li>Um modelo tem $\mathrm{MSE}_{\text{teste}} = 10^{-4}$. É bom? Responda comparando com o limite legal de $0{,}01$ mg/L e com $\mathrm{Var}(\varepsilon)$.</li>
+      <li>Por que nenhum método consegue, em média, MSE de teste abaixo de $\mathrm{Var}(\varepsilon)$?</li>
+      <li>O que $\mathrm{MSE}_{\text{treino}}\to 0$ indica sobre o método? E sobre o quanto ele aprendeu?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>O MSE está em <strong>(unidade de $Y$)²</strong> = <strong>(mg/L)²</strong>. É um número sem significado físico direto: ninguém tem intuição para "miligramas por litro ao quadrado".</p>
+      <p>Tomando a raiz, o RMSE volta para <strong>mg/L</strong> — a mesma unidade de $Y$. Aí ele passa a ser comparável com coisas que você entende: o limite legal, a média $\bar y$, o desvio padrão de $Y$, o erro do aparelho.</p>
+      <p>O RMSE responde "o erro típico da minha previsão é de quantos mg/L?", que é a pergunta que alguém realmente faz.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>$\mathrm{MSE}_{\text{treino}}$ = ajuste.</strong> Quão bem $\hat f$ reproduz os dados que foram usados para construí-la.</p>
+      <p><strong>$\mathrm{MSE}_{\text{teste}}$ = generalização (aprendizado).</strong> Erro em dados que $\hat f$ nunca viu.</p>
+      <p><strong>Por que o treino é otimista:</strong> $\hat f$ foi escolhida <em>minimizando exatamente aquele conjunto de pontos</em>. No processo, ela absorveu parte do ruído $\varepsilon_i$ dos dados de treino para dentro de si — e esse mesmo ruído, agora incorporado ao modelo, aparece <em>descontado</em> do resíduo.</p>
+      <p>Em outras palavras: o treino avalia o modelo com um gabarito que o próprio modelo ajudou a escrever.</p>
+      <div class="key">
+        <p>O 3.15(b) quantifica isso de forma exata:</p>
+        $$\mathbb E[\mathrm{MSE}_{\text{treino}}] = \sigma^2\left(1-\frac{p+1}{N}\right) < \sigma^2.$$
+        <p>Ou seja, o erro de treino fica <strong>em média abaixo do erro irredutível</strong> — algo literalmente impossível para qualquer medida honesta de erro (item d). Essa impossibilidade é a prova de que ele não é uma medida honesta.</p>
+        <p>E note que o viés piora com $p$ grande e melhora com $N$ grande, o que faz todo sentido: mais parâmetros, mais ruído absorvido.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Primeiro traduza: $\mathrm{MSE}=10^{-4}$ (mg/L)² $\Rightarrow$ RMSE $=10^{-2}=0{,}01$ mg/L.</p>
+      <p><strong>Contra o limite legal:</strong> o erro típico da previsão é <mark>do tamanho do limite legal inteiro</mark>. Para decidir se uma estação está acima ou abaixo de $0{,}01$ mg/L, esse modelo é inútil — ele erra por uma quantidade comparável à própria decisão que você quer tomar.</p>
+      <p><strong>Contra $\mathrm{Var}(\varepsilon)$:</strong> aqui a leitura é outra, e é sobre o método, não sobre a utilidade.</p>
+      <p>Se $\mathrm{Var}(\varepsilon)\approx 10^{-4}$, o modelo já está no <em>chão teórico</em>: não há mais nada a ganhar melhorando o método, porque o erro é todo irredutível. O problema é o ruído, e a solução seria coletar mais variáveis ou medir melhor (2.1c), não trocar de algoritmo.</p>
+      <p>Se $\mathrm{Var}(\varepsilon)\approx 10^{-6}$, sobrou muito erro redutível e vale investir em um modelo melhor.</p>
+      <div class="key">"Bom" não é propriedade do número $10^{-4}$. Ele só existe <em>em relação a</em> duas referências: o que a decisão exige (limite legal) e o que é fisicamente possível ($\mathrm{Var}(\varepsilon)$).</div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Pelo 2.23,</p>
+      $$\mathrm{MSE}_{\text{teste}} = \underbrace{\mathbb E\big[(f-\hat f)^2\big]}_{\text{redutível}\;\ge\;0} + \mathrm{Var}(\varepsilon).$$
+      <p>O primeiro termo é um quadrado esperado, logo $\ge 0$. Então o total é sempre $\ge\mathrm{Var}(\varepsilon)$.</p>
+      <p>A intuição sem álgebra: mesmo que você acertasse $f$ <strong>exatamente</strong> — $\hat f=f$, conhecimento perfeito — ainda teria $Y=f(x)+\varepsilon$, e erraria por $\varepsilon$.</p>
+      <p>É a variabilidade de $Y$ que <strong>nenhuma informação contida em $X$</strong> consegue explicar. Nenhum método acessa o que não está nos preditores.</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p>$\mathrm{MSE}_{\text{treino}}\to 0$ diz que o método é <strong>flexível o suficiente para interpolar</strong> aqueles dados. Só isso — é informação sobre a <em>capacidade</em> do método.</p>
+      <p>Sobre aprendizado, diz <mark>literalmente nada</mark>. O interpolador do 2.2 tem erro de treino exatamente zero e pode ter erro de teste divergente. Os dois fatos convivem sem contradição.</p>
+      <p>Erro de treino baixo é condição necessária para nada. Um modelo pode ter erro de treino alto e ser bom (rígido mas correto), ou erro de treino zero e ser péssimo (interpolador).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e216">
+  <div><span class="tab">Exercício 2.16</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span></div>
+  <h3>As cinco curvas</h3>
+  <div class="enun">
+    <p>Esboce, em um mesmo gráfico com a flexibilidade de $\mathcal G$ no eixo horizontal, as curvas de viés², variância, erro de treino, erro de teste e erro irredutível. Explique a forma de cada curva e por que $\text{erro de teste} = \text{viés}^2 + \text{variância} + \text{irredutível}$. Marque onde ficam o interpolador do Exercício 2.2, a função constante e a regressão linear.</p>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <p>Eixo horizontal: flexibilidade de $\mathcal G$ — esquerda = rígido, direita = flexível.</p>
+    <div class="tbox"><table>
+      <tr><th>curva</th><th>forma</th><th>por quê</th></tr>
+      <tr><td>erro irredutível</td><td>reta horizontal em $\mathrm{Var}(\varepsilon)$</td><td>não depende de método nenhum; é propriedade do problema</td></tr>
+      <tr><td>viés²</td><td>decrescente, $\to 0$</td><td>classes maiores contêm aproximações melhores de $f$: o mínimo sobre $\mathcal G$ só pode cair quando $\mathcal G$ cresce</td></tr>
+      <tr><td>variância</td><td>crescente, começa $\approx 0$</td><td>mais flexível = mais sensível a $\varepsilon$; $\hat f$ muda mais de amostra para amostra</td></tr>
+      <tr><td>erro de treino</td><td>decrescente, $\to 0$</td><td>mesmo argumento de aninhamento do viés, mas medido nos próprios dados: nunca sobe</td></tr>
+      <tr><td><strong>erro de teste</strong></td><td><strong>forma de U</strong></td><td>é a soma das três curvas acima</td></tr>
+    </table></div>
+    <p><strong>De onde vem a identidade.</strong> Ela sai de encaixar o 2.23 dentro do 2.24. Primeiro o 2.23 separa o ruído da observação nova:</p>
+    $$\mathbb E\big[(Y-\hat f(x))^2\big] = \mathbb E\big[(f(x)-\hat f(x))^2\big] + \mathrm{Var}(\varepsilon).$$
+    <p>Depois o 2.24 quebra o primeiro pedaço em duas partes:</p>
+    $$= \underbrace{\big(f(x)-\mathbb E[\hat f(x)]\big)^2}_{\text{viés}^2} + \underbrace{\mathrm{Var}(\hat f(x))}_{\text{variância}} + \mathrm{Var}(\varepsilon).$$
+    <div class="key">
+      <p><strong>Por que o U aparece:</strong> porque uma parcela cai e a outra sobe, e a soma de uma decrescente com uma crescente tem mínimo no meio.</p>
+      <p><em>À esquerda do mínimo:</em> o viés domina. Você está <strong>subajustando</strong> — o modelo é rígido demais para capturar $f$. A solução é aumentar a flexibilidade.</p>
+      <p><em>À direita do mínimo:</em> a variância domina. Você está <strong>sobreajustando</strong> — o modelo está seguindo o ruído. A solução é diminuir a flexibilidade, regularizar, ou coletar mais dados.</p>
+      <p>O diagnóstico do 2.18 é exatamente ler em que lado do U você está.</p>
+    </div>
+    <div class="warn">Detalhe importante para o esboço: <strong>a curva de erro de teste nunca cruza a linha do irredutível</strong> — ela se aproxima por cima e nunca passa. A linha do irredutível é a assíntota inferior de todo o gráfico.</div>
+    <p><strong>Onde marcar os três métodos.</strong></p>
+    <p><strong>Função constante</strong> — extremo esquerdo. Viés² enorme (ela ignora $x$ inteiramente), variância $\approx\sigma^2/N\approx 0$, erro de treino alto (é basicamente a variância amostral de $y$).</p>
+    <p><strong>Regressão linear</strong> — um pouco à direita. Na maioria dos problemas com $f$ não-linear, ela ainda está do lado do viés: é rígida demais, mas muito menos que a constante.</p>
+    <p><strong>Interpolador do 2.2</strong> — extremo direito. Erro de treino exatamente $0$, variância explodindo, erro de teste lá em cima. Ele é o ponto que mostra que treino e teste não apenas diferem: eles <em>divergem</em>.</p>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e217">
+  <div><span class="tab">Exercício 2.17</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>Flexível ou rígido?</h3>
+  <div class="enun">
+    <p>Para cada situação, diga se espera que uma classe $\mathcal G$ flexível ou rígida tenha menor erro de teste, justificando com viés e variância.</p>
+    <ol type="a">
+      <li>$N$ enorme e $p$ pequeno.</li>
+      <li>$p$ enorme e $N$ pequeno.</li>
+      <li>$f$ altamente não-linear.</li>
+      <li>$\mathrm{Var}(\varepsilon)$ enorme.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>O molde da resposta é sempre o mesmo, e é exatamente o que o professor pediu ("apoie a intuição num conceito matematicamente definido"):</p>
+      $$\text{erro de teste} = \text{viés}^2 + \text{variância} + \mathrm{Var}(\varepsilon).$$
+      <p>Em cada cenário, pergunte: <strong>qual das duas parcelas redutíveis está grande?</strong> Se é o viés, flexível ajuda. Se é a variância, rígido ajuda.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Flexível.</strong></p>
+      <p>Com $N$ enorme, a variância de qualquer método cai (mais dados estabilizam $\hat f$), e com $p$ pequeno não há maldição da dimensionalidade atrapalhando. Então a variância extra do método flexível sai barata.</p>
+      <p>Já o viés do rígido <em>não</em> diminui com $N$ — ele é propriedade da classe. Resta só ele, e o flexível o elimina.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Rígido.</strong></p>
+      <p>Com muitos parâmetros e poucos dados, a variância do flexível explode: cada parâmetro é estimado com pouquíssima informação. No limite $p+1 \ge N$, ele interpola (3.10e) e a variância é enorme.</p>
+      <p>O rígido paga um pouco de viés, mas evita esse desastre de variância.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>Flexível.</strong></p>
+      <p>Se $f$ é muito curva, qualquer classe rígida (uma reta, por exemplo) fica longe de $f$ não importa quantos dados você tenha: o <mark>viés² é grande e não some</mark>. Só uma classe capaz de representar a curvatura reduz esse termo.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p><strong>Rígido.</strong></p>
+      <p>A variância de $\hat f$ é proporcional a $\sigma^2$ (veja $\mathrm{Var}(\hat\beta_1)=\sigma^2/S_{xx}$ no 3.7). Com muito ruído, o método flexível passa a <em>seguir o ruído</em>: a variância dele cresce muito mais que a do rígido.</p>
+      <div class="warn">Note que $\mathrm{Var}(\varepsilon)$ em si não muda com o método — ela é a mesma parcela para os dois. O que ela muda é o <strong>tamanho da variância</strong> de cada método, e é por aí que ela entra no argumento.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e218">
+  <div><span class="tab">Exercício 2.18</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>Diagnóstico por viés e variância</h3>
+  <div class="enun">
+    <p>Dois métodos foram ajustados aos mesmos dados. Método A: $\mathrm{MSE}_{\text{treino}}=0{,}1$, $\mathrm{MSE}_{\text{teste}}=2{,}0$. Método B: $\mathrm{MSE}_{\text{treino}}=0{,}9$, $\mathrm{MSE}_{\text{teste}}=1{,}1$.</p>
+    <ol type="a">
+      <li>Qual sofre de sobreajuste e qual de subajuste? O que você pode dizer sobre $\mathrm{Var}(\varepsilon)$?</li>
+      <li>Para cada método, diga o que fazer (coletar mais dados, aumentar a flexibilidade, regularizar) e preveja o efeito nos dois erros.</li>
+      <li>Se $N$ dobrar, o que acontece com o viés, a variância, o erro irredutível e a flexibilidade ótima?</li>
+      <li>Se você acrescentar um preditor puramente aleatório, o que acontece com o viés e com a variância?</li>
+      <li>No kNN, quando $k$ cresce, o que acontece com viés e variância? Qual $k$ é o "interpolador"? Qual é a "função constante"?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>A ferramenta de diagnóstico é o <strong>vão entre treino e teste</strong>.</p>
+      <p>Vão grande, treino muito baixo: o modelo decorou os dados → <strong>sobreajuste</strong> (variância dominando).</p>
+      <p>Vão pequeno, os dois parecidos: o modelo não está decorando nada; se ainda assim o erro está alto, é <strong>subajuste</strong> (viés dominando).</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>A sobreajusta.</strong> Erro de treino quase zero e teste vinte vezes maior: ele ajustou o ruído do treino, que não se repete no teste.</p>
+      <p><strong>B</strong> tem vão pequeno ($0{,}9$ contra $1{,}1$): não está decorando. Se alguém sofre de subajuste aqui, é ele — mas com cautela: se $\mathrm{Var}(\varepsilon)$ for perto de $1$, B já está praticamente no chão e não há subajuste nenhum a corrigir.</p>
+      <p><strong>Sobre $\mathrm{Var}(\varepsilon)$:</strong> o erro de teste esperado nunca fica abaixo do irredutível (2.15d). Então</p>
+      $$\mathrm{Var}(\varepsilon) \lesssim 1{,}1,$$
+      <p>o menor dos erros de teste. O erro de treino <em>não</em> serve de cota — ele pode ficar abaixo de $\mathrm{Var}(\varepsilon)$, e o $0{,}1$ de A mostra isso (3.15b).</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Método A (variância demais):</strong> regularizar, reduzir a flexibilidade ou coletar mais dados.</p>
+      <p>Efeito previsto: o erro de treino <em>sobe</em> (ele deixa de decorar) e o erro de teste <em>cai</em> (menos variância). O vão fecha.</p>
+      <p><strong>Método B (possível viés):</strong> aumentar a flexibilidade.</p>
+      <p>Efeito previsto: o treino cai; o teste cai <em>se</em> havia viés de fato — se B já estava no chão, o teste fica igual ou piora. Coletar mais dados ajuda pouco em B, porque dado reduz variância, e variância não é o problema dele.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>Viés:</strong> não muda — é propriedade da classe $\mathcal G$, não da amostra.</p>
+      <p><strong>Variância:</strong> diminui.</p>
+      <p><strong>Erro irredutível:</strong> não muda — é propriedade do problema.</p>
+      <p><strong>Flexibilidade ótima:</strong> <mark>aumenta</mark>. Com a variância mais barata, vale a pena comprar menos viés; o mínimo da curva em U anda para a direita.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p><strong>Viés:</strong> não diminui — o preditor não carrega informação sobre $f$, então a classe não fica mais perto da verdade em nenhum sentido útil.</p>
+      <p><strong>Variância:</strong> <mark>aumenta</mark> — é um parâmetro a mais sendo estimado com ruído. Na regressão linear, o excesso de erro de teste é $2\sigma^2(p+1)/N$ (3.15d), e $p$ cresceu.</p>
+      <div class="warn">E ainda assim o erro de <em>treino</em> cai (3.13e). Esse é o exemplo mais limpo de que queda do erro de treino não significa que o viés diminuiu: foi ruído absorvido.</div>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p>Quando $k$ cresce, cada previsão é a média de mais vizinhos, que ficam mais longe:</p>
+      <p><strong>variância cai</strong> (média de mais pontos, o ruído se cancela) e <strong>viés sobe</strong> (vizinhos distantes têm $f$ diferente de $f(x_0)$).</p>
+      <p>$k = 1$ é o <strong>interpolador</strong>: repete o $y_i$ do vizinho mais próximo, erro de treino zero.</p>
+      <p>$k = N$ é a <strong>função constante</strong>: todo ponto usa todos os dados, previsão $\bar y$ em qualquer lugar.</p>
+      <p><em>Então $k$ grande = rígido; flexibilidade no kNN anda como $1/k$.</em></p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e219">
+  <div><span class="tab">Exercício 2.19</span><span class="kind">Conceitual</span></div>
+  <h3>Validação cruzada</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Descreva como o $k$-fold é implementado e quantos ajustes ele exige.</li>
+      <li>Vantagens e desvantagens do $k$-fold em relação a uma única partição treino/teste.</li>
+      <li>Vantagens e desvantagens do $k$-fold em relação ao LOOCV. Por que o LOOCV pode ter <em>maior</em> variância, apesar de usar quase todos os dados em cada ajuste?</li>
+      <li>O erro de validação cruzada estima o erro de qual modelo: o ajustado com $N$ pontos ou com $N(1-1/k)$? Isso enviesa a estimativa para cima ou para baixo?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Embaralhe os $N$ dados e parta em $k$ blocos (<em>folds</em>) de tamanho $\approx N/k$.</p>
+      <p>Para cada $j=1,\dots,k$: treine nos $k-1$ folds restantes, avalie no fold $j$, guarde o erro $E_j$. O erro de CV é $\frac1k\sum_j E_j$ (ou a média ponderada, se os folds forem desiguais).</p>
+      <p>Custo: <mark>$k$ ajustes</mark>. E, no fim de tudo, o modelo que você entrega é reajustado com os $N$ pontos — a CV serviu só para <em>escolher</em> o hiperparâmetro, não para produzir o modelo final.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Vantagens sobre uma partição única:</strong></p>
+      <p><em>(i)</em> Cada observação é usada como teste exatamente uma vez — você aproveita <em>todos</em> os dados para avaliar, não só metade.</p>
+      <p><em>(ii)</em> Cada ajuste usa $N(1-1/k)$ pontos (90% com $k=10$) em vez de metade. Modelos treinados com mais dados são melhores, então a estimativa tem menos viés.</p>
+      <p><em>(iii)</em> A média de $k$ estimativas é muito menos sensível ao sorteio específico que saiu. Com uma partição única, azar na divisão pode mudar completamente a sua conclusão sobre qual modelo é melhor.</p>
+      <p><strong>Desvantagem óbvia:</strong> custa $k$ vezes mais em computação.</p>
+      <div class="warn">E uma sutil: os $k$ erros <strong>não são independentes</strong>, porque os conjuntos de treino se sobrepõem fortemente (dois folds quaisquer compartilham $k-2$ blocos). Então você <em>não pode</em> tratar $\frac1k\sum E_j$ como média de $k$ amostras iid nem estimar seu erro-padrão pela fórmula ingênua $s/\sqrt k$.</div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>O LOOCV é o caso $k=N$.</p>
+      <p><strong>$k$-fold é mais barato:</strong> $N/k$ vezes menos ajustes.</p>
+      <p><strong>$k$-fold tem mais viés:</strong> treina com $N(1-1/k)$ pontos, enquanto o LOOCV treina com $N-1\approx N$ — praticamente o modelo final. O LOOCV é quase não-viesado.</p>
+      <p><strong>Agora a parte contraintuitiva: por que o LOOCV tem maior variância.</strong></p>
+      <div class="key">
+        <p>Os $N$ modelos que o LOOCV ajusta são treinados em conjuntos que diferem em <strong>um único ponto</strong>. Eles são, para todos os efeitos, o <em>mesmo modelo</em> repetido $N$ vezes.</p>
+        <p>Então os $N$ erros são fortemente correlacionados entre si. E média de variáveis muito correlacionadas quase não reduz variância:</p>
+        $$\mathrm{Var}\Big(\tfrac1N\sum_i E_i\Big) = \tfrac1N\mathrm{Var}(E) + \tfrac{N-1}{N}\,\mathrm{Cov}(E_i,E_j).$$
+        <p>O primeiro termo morre com $N$; o segundo <strong>não morre</strong> se $\mathrm{Cov}$ for grande. Você faz $N$ ajustes e não ganha a redução de variância que $N$ ajustes independentes dariam.</p>
+        <p>No $k$-fold com $k=5$ ou $10$, os conjuntos de treino diferem bastante entre si, os modelos ficam mais distintos, a correlação cai, e a média estabiliza melhor.</p>
+      </div>
+      <p>Repare que isso é o <strong>trade-off viés-variância aplicado ao próprio estimador de erro</strong>: $k$ pequeno = mais viés, menos variância; $k$ grande = menos viés, mais variância. Daí a recomendação usual de $k=5$ ou $10$ como meio-termo.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>O CV estima o erro de um modelo ajustado com <mark>$N(1-1/k)$</mark> pontos — nunca com $N$, porque nenhum dos $k$ ajustes usou os $N$.</p>
+      <p>Como menos dados produzem modelos piores, o erro estimado é maior que o do modelo final. Ou seja, o CV é <strong>pessimista</strong>: enviesa a estimativa <mark>para cima</mark>.</p>
+      <p>Magnitude: quase nulo no LOOCV ($N-1\approx N$), pequeno com $k=10$ (90% dos dados), e pode ser sério com $k=2$ (metade).</p>
+      <div class="warn">Na prática isso costuma ser aceitável, porque para <em>escolher</em> entre modelos o que importa é a ordenação, não o valor absoluto — e um viés que afeta todos os candidatos de forma parecida não muda a ordem. Mas se você for <em>reportar</em> o erro como performance do produto final, lembre que ele é conservador.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e221">
+  <div><span class="tab">Exercício 2.21</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span></div>
+  <h3>O que a regularização faz</h3>
+  <div class="enun">
+    <p>Considere o lasso, $\hat\beta_\lambda\in\arg\min_\beta \sum_i(y_i-\beta_0-\beta_1x_i-\cdots-\beta_dx_i^d)^2 + \lambda\sum_{j=1}^d|\beta_j|$, com $\lambda$ crescendo a partir de zero.</p>
+    <ol type="a">
+      <li>Para cada quantidade, diga se ela aumenta sempre, diminui sempre, tem forma de U ou fica constante, e justifique: erro de treino, erro de teste, variância, viés², erro irredutível.</li>
+      <li>Por que $\beta_0$ não é penalizado?</li>
+      <li>Se a coluna $x$ for medida em outra unidade (por exemplo, gramas em vez de quilos), a solução muda? O que isso sugere fazer antes de regularizar?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>$\lambda$ é a <strong>flexibilidade ao contrário</strong>. Aumentar $\lambda$ é andar para a <em>esquerda</em> no gráfico do 2.16.</p>
+      <p>Com isso claro, o item (a) inteiro sai de graça: é só ler as cinco curvas do 2.16 da direita para a esquerda.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <div class="tbox"><table>
+        <tr><th>quantidade</th><th>comportamento</th><th>justificativa</th></tr>
+        <tr><td>erro de treino</td><td><strong>aumenta sempre</strong></td><td>$\lambda=0$ já era o mínimo irrestrito da RSS; qualquer restrição só pode piorar o ajuste nos dados de treino</td></tr>
+        <tr><td>erro de teste</td><td><strong>forma de U</strong></td><td>cai enquanto a queda de variância compensa o ganho de viés², depois sobe</td></tr>
+        <tr><td>variância</td><td><strong>diminui sempre</strong></td><td>o encolhimento reduz a sensibilidade ao ruído; em $\lambda\to\infty$, $\hat\beta=0$ e a variância é exatamente $0$</td></tr>
+        <tr><td>viés²</td><td><strong>aumenta sempre</strong></td><td>sai de $\approx 0$ (se o modelo está correto em $\lambda=0$) e vai até o viés do modelo nulo</td></tr>
+        <tr><td>erro irredutível</td><td><strong>constante</strong> $=\mathrm{Var}(\varepsilon)$</td><td>não depende do método, nunca, em hipótese nenhuma</td></tr>
+      </table></div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Porque $\beta_0$ não mede um <em>efeito</em>, mede o <strong>nível</strong> de $Y$ — é a previsão quando todos os preditores valem zero. Penalizar efeitos faz sentido; penalizar o nível não.</p>
+      <p><strong>(i) Quebraria a equivariância por translação.</strong> Se você somar $100$ a todos os $y_i$, a solução deveria simplesmente somar $100$ ao intercepto e deixar todo o resto igual. Com $\beta_0$ penalizado isso não acontece: a solução inteira muda, e passa a depender de onde alguém arbitrariamente colocou o zero da escala de $Y$.</p>
+      <p><strong>(ii) Introduziria um viés brutal sem ganho.</strong> Encolher $\beta_0$ para zero força as previsões para zero mesmo quando $\bar y$ é grande. Você paga um viés enorme e não compra variância útil nenhuma em troca.</p>
+      <p>Na prática, centra-se $y$ e os $x_j$; aí $\hat\beta_0=\bar y$ sai de graça e o problema nem aparece.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><mark>Sim, a solução muda</mark> — e essa é a parte incômoda.</p>
+      <p>Se $x_j$ passa a ser medido em gramas em vez de quilos, os valores ficam $1000\times$ maiores, e o coeficiente "equivalente" (o que produz as mesmas previsões) fica $1000\times$ menor.</p>
+      <p>Mas a penalidade $\lambda|\beta_j|$ pune esse coeficiente <strong>mil vezes menos</strong>. Na prática, aquela variável passa a ser quase não regularizada, enquanto as outras continuam sendo encolhidas normalmente. Uma escolha de unidade — que não é um fato sobre o mundo — virou uma decisão de modelagem.</p>
+      <div class="warn">
+        <p>Compare com mínimos quadrados, que é <strong>equivariante por escala</strong>: $x_j\mapsto cx_j$ leva $\hat\beta_j\mapsto\hat\beta_j/c$ e $\hat y$ <em>não muda em nada</em>. Trocar de unidade lá é inofensivo.</p>
+        <p>O lasso (e o ridge) perdem essa propriedade porque a penalidade compara coeficientes entre si, e coeficientes em unidades diferentes não são comparáveis.</p>
+      </div>
+      <p><strong>Conclusão prática:</strong> <mark>padronize os preditores</mark> (média 0, desvio 1) antes de regularizar. Aí "$\beta_j$ grande" passa a significar "efeito grande por desvio padrão", que é uma comparação legítima.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e223">
+  <div><span class="tab">Exercício 2.23</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span></div>
+  <h3>Erro redutível e irredutível</h3>
+  <div class="enun">
+    <p>Fixe $x$ e seja $Y(x)=f(x)+\varepsilon$. Mostre que</p>
+    $$\mathbb E\Big[\big(Y(x)-\hat f(x)\big)^2\Big] = \mathbb E\Big[\big(f(x)-\hat f(x)\big)^2\Big] + \mathrm{Var}(\varepsilon),$$
+    <p>indicando exatamente onde se usa $\mathbb E[\varepsilon]=0$ e onde se usa a independência entre $\varepsilon$ e $\hat f(x)$. Por que $\hat f(x)$ é uma variável aleatória?</p>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <p>Escreva $Y(x)-\hat f(x) = \big(f(x)-\hat f(x)\big)+\varepsilon$ e abra o quadrado:</p>
+    $$\mathbb E\big[(Y-\hat f)^2\big] = \underbrace{\mathbb E\big[(f-\hat f)^2\big]}_{\text{redutível}} \;+\; 2\,\mathbb E\big[(f-\hat f)\,\varepsilon\big] \;+\; \mathbb E[\varepsilon^2].$$
+    <p>Agora, os dois pontos que o enunciado pede para identificar:</p>
+    <div class="key">
+      <p><strong>Onde se usa a independência:</strong> no termo cruzado do meio.</p>
+      <p>O $\varepsilon$ ali é o ruído da observação <em>nova</em>, e $\hat f(x)$ é função do conjunto de <em>treino</em>. Como o treino e a observação nova são independentes, a esperança do produto fatora:</p>
+      $$\mathbb E\big[(f-\hat f)\,\varepsilon\big] = \mathbb E\big[f-\hat f\big]\cdot\mathbb E[\varepsilon].$$
+      <p><strong>Onde se usa $\mathbb E[\varepsilon]=0$:</strong> duas vezes.</p>
+      <p><em>Primeiro:</em> para matar esse produto. Repare que a fatoração sozinha não bastaria — ela só anula o termo porque o segundo fator é zero.</p>
+      <p><em>Segundo:</em> em $\mathbb E[\varepsilon^2] = \mathrm{Var}(\varepsilon)+(\mathbb E\varepsilon)^2 = \mathrm{Var}(\varepsilon)$.</p>
+    </div>
+    <p>Sobrando os dois termos:</p>
+    $$\mathbb E\big[(Y(x)-\hat f(x))^2\big] = \mathbb E\big[(f(x)-\hat f(x))^2\big] + \mathrm{Var}(\varepsilon). \qquad\blacksquare$$
+    <p><strong>Por que $\hat f(x)$ é aleatória.</strong></p>
+    <p>Porque $\hat f$ foi construída a partir do conjunto de treino $\mathcal D=\{(x_i,y_i)\}$, e os $y_i$ contêm ruído.</p>
+    <p>Se você coletasse outra amostra de $N$ estações — ou até mantivesse os mesmos $x_i$ e reamostrasse só os $\varepsilon_i$, como no 2.22 — obteria outra $\hat f$, e portanto outro valor $\hat f(x)$ <em>no mesmo ponto $x$</em>.</p>
+    <p>O experimento imaginário por trás de toda esperança neste exercício é: <mark>repetir a coleta infinitas vezes, reajustar, e olhar a distribuição de $\hat f(x)$</mark>. É a mesma distribuição do 2.24, e a mesma que o 2.26 estima com 200 repetições.</p>
+    <div class="warn">Note que $f(x)$ <strong>não</strong> é aleatória: ela é um número fixo e desconhecido, propriedade do mundo (2.1a). Confundir $f$ com $\hat f$ faz a decomposição inteira deixar de fazer sentido.</div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e224">
+  <div><span class="tab">Exercício 2.24</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span></div>
+  <h3>Viés e variância</h3>
+  <div class="enun">
+    <p>Mostre que</p>
+    $$\mathbb E\Big[\big(f(x)-\hat f(x)\big)^2\Big] = \Big(f(x)-\mathbb E[\hat f(x)]\Big)^2 + \mathrm{Var}\big(\hat f(x)\big).$$
+    <p>Em relação a que distribuição são tomadas essas esperanças?</p>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <p>Chame $m=\mathbb E[\hat f(x)]$. Repare que $m$ é um <strong>número</strong>, não uma variável aleatória — o $x$ está fixo e a esperança já foi tomada.</p>
+    <p>Some e subtraia $m$ dentro do quadrado:</p>
+    $$\mathbb E\big[(f-\hat f)^2\big] = \mathbb E\Big[\big((f-m)+(m-\hat f)\big)^2\Big]$$
+    $$= \underbrace{(f-m)^2}_{\text{constante}} \;+\; 2(f-m)\underbrace{\mathbb E[m-\hat f]}_{=\,m-m\,=\,0} \;+\; \underbrace{\mathbb E\big[(\hat f-m)^2\big]}_{=\;\mathrm{Var}(\hat f)}$$
+    $$= \big(f(x)-\mathbb E[\hat f(x)]\big)^2 + \mathrm{Var}\big(\hat f(x)\big). \qquad\blacksquare$$
+    <div class="key">
+      <p>Estruturalmente, isso é só a identidade $\mathbb E[Z^2]=(\mathbb E Z)^2+\mathrm{Var}(Z)$ aplicada a $Z = f(x)-\hat f(x)$.</p>
+      <p>O único fato usado é que $f(x)$ é constante, então $\mathbb E[Z] = f(x)-m$ é exatamente o viés.</p>
+    </div>
+    <p><strong>Em relação a que distribuição?</strong></p>
+    <p>À distribuição do <mark>conjunto de treino</mark>, com $x$ fixo.</p>
+    <p>Isso merece atenção, porque é fácil errar. Não é sobre a distribuição de $X$ (o ponto $x$ está fixo o tempo todo). Não é sobre o $\varepsilon$ da observação nova (isso foi o 2.23, e ele já saiu da conta). É <em>só</em> sobre qual amostra de treino você teve a sorte ou o azar de coletar.</p>
+    <p>O experimento: <strong>sorteie um conjunto de treino, ajuste $\hat f$, avalie em $x$; repita infinitas vezes.</strong> Isso gera uma nuvem de valores $\hat f(x)$.</p>
+    <p>O <strong>viés</strong> é o quanto o <em>centro</em> dessa nuvem erra $f(x)$. A <strong>variância</strong> é a <em>largura</em> da nuvem.</p>
+    <p>Um método pode ter centro certo e nuvem larga (não-viesado, variância alta — o interpolador), ou centro errado e nuvem estreita (viesado, variância baixa — a função constante). O erro total penaliza os dois.</p>
+    <p>É literalmente isso que o 2.26 estima empiricamente: 200 conjuntos de treino, 200 valores de $\hat f(x_0)$, e daí a média e a dispersão.</p>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e227">
+  <div><span class="tab">Exercício 2.27</span><span class="kind">Conceitual</span></div>
+  <h3>O que a perda 0-1 mede</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Por que $y-\hat y$ não faz sentido quando $y\in\{\text{contaminada},\text{não-contaminada}\}$? O que a perda $\mathbf 1\{y\neq\hat y\}$ mede em seu lugar?</li>
+      <li>Apenas $3\%$ das estações são contaminadas. Qual a taxa de erro do classificador constante "não-contaminada"? Ele é bom?</li>
+      <li>Escreva uma perda assimétrica do capítulo (errar uma estação contaminada custa $2$, errar uma limpa custa $1$) como uma matriz $2\times 2$ e calcule o risco empírico do classificador constante sob ela.</li>
+      <li>Que perda tornaria um classificador com taxa de erro $20\%$ preferível ao constante? O que isso diz sobre "taxa de erro" como medida de performance?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Porque $y$ é um <strong>rótulo</strong>, não um número: não há subtração, não há ordem, não há escala.</p>
+      <p>Mesmo se você codificar as classes como $0$ e $1$, a diferença $y-\hat y$ teria magnitudes que não significam nada — "errou por $0{,}7$" não é afirmação sobre o mundo, é artefato da codificação que você escolheu. E com três classes, a codificação $\{0,1,2\}$ diria que confundir a classe 0 com a 2 é "duas vezes pior" que confundir com a 1, o que é arbitrário.</p>
+      <p>A perda $\mathbf 1\{y\neq\hat y\}$ mede apenas <mark>errou ou não errou</mark>: vale $1$ se a classe prevista difere da verdadeira, $0$ caso contrário. A média dela sobre os dados é a <strong>taxa de erro</strong>.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>O classificador constante "não-contaminada" acerta todas as limpas e erra todas as contaminadas. Como $3\%$ são contaminadas, a taxa de erro é <mark>$3\%$</mark>.</p>
+      <p>Ele parece excelente ($97\%$ de acerto!) e é <strong>completamente inútil</strong>: nunca detecta a única coisa que interessa detectar. Um órgão ambiental que o use nunca vai fechar uma estação, porque ele nunca aponta nenhuma.</p>
+      <div class="warn">
+        <p>Esse é o exemplo canônico de por que taxa de erro é uma medida ruim com <strong>classes desbalanceadas</strong>.</p>
+        <p>O problema não é o número $97\%$ estar errado — ele está certo. O problema é que o <em>baseline trivial</em> já é $97\%$, então dizer "meu modelo acerta 97%" não carrega informação nenhuma. Um modelo com $96\%$ de acerto que detecta metade das contaminadas é infinitamente melhor.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Com linhas = verdade e colunas = previsão, na ordem (contaminada, limpa):</p>
+      $$L = \begin{pmatrix} 0 & 2 \\ 1 & 0\end{pmatrix}$$
+      <p>Lendo a matriz: a entrada $(1,2)$ vale $2$ — a verdade era contaminada e você previu limpa (falso negativo, custa 2). A entrada $(2,1)$ vale $1$ — era limpa e você previu contaminada (falso alarme, custa 1). A diagonal é zero: acertos não custam.</p>
+      <p>Risco empírico do constante "limpa": ele paga $2$ em todas as contaminadas ($3\%$) e $0$ nas limpas:</p>
+      $$R = 0{,}03\times 2 + 0{,}97\times 0 = \mathbf{0{,}06}.$$
+      <p>O número dobrou em relação à taxa de erro ($0{,}03$), porque agora cada erro dele custa 2 — e todos os erros dele são do tipo caro.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Considere um classificador $C$ com taxa de erro $20\%$, mas onde <em>todos</em> os erros são falsos positivos: ele detecta todas as contaminadas e marca por engano cerca de $20\%$ das limpas.</p>
+      <p>Sob uma perda que cobra $c$ por falso negativo e $1$ por falso positivo:</p>
+      $$R(\text{constante}) = 0{,}03\,c, \qquad R(C) = 0{,}20\times 1 = 0{,}20.$$
+      <p>$C$ passa a ser preferível quando $0{,}03\,c > 0{,}20$, isto é, quando</p>
+      $$c > 6{,}7.$$
+      <p>Ou seja: basta que deixar passar uma estação contaminada custe mais de <strong>sete vezes</strong> o custo de um alarme falso. Em saúde pública isso é modestíssimo — a razão real é ordens de grandeza maior.</p>
+      <div class="key">
+        <p><strong>O que isso diz:</strong> "taxa de erro" é uma <em>escolha</em>, não um fato neutro. Ela é a perda $0$-$1$ simétrica disfarçada de medida natural.</p>
+        <p>Ela só é adequada quando os dois tipos de erro custam aproximadamente igual <em>e</em> as classes são razoavelmente balanceadas. Fora disso, o "melhor classificador" literalmente muda quando a medida muda.</p>
+        <p>É a mesma lição do Exercício 1.2: a medida de performance codifica <strong>o problema</strong>, não o método. Escolher a medida é parte da modelagem, não um detalhe de avaliação.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e228">
+  <div><span class="tab">Exercício 2.28</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span></div>
+  <h3>O classificador de Bayes como barreira</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Defina o classificador de Bayes.</li>
+      <li>Mostre que ele minimiza o risco de classificação equivocada $R(\widehat Y) = \mathbb P(Y\neq\widehat Y)$.</li>
+      <li>Por que ele não pode ser usado na prática? O que um método de aprendizado tenta fazer em relação a ele?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      $$\widehat Y_{\text{Bayes}}(x) = \arg\max_j\; P(Y=j\mid X=x).$$
+      <p>Em palavras: para cada $x$, aposte na classe mais provável <em>dado aquele $x$</em>.</p>
+      <p>No caso binário: prevê $1$ se $P(Y=1\mid X=x)>1/2$, e $0$ caso contrário. A <strong>fronteira de Bayes</strong> é o conjunto dos $x$ onde $P(Y=1\mid X=x)=1/2$ — o lugar geométrico onde ele está genuinamente em dúvida.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Seja $g$ um classificador qualquer. Condicione em $X$ (lei da esperança total):</p>
+      $$P(Y\neq g(X)) = \mathbb E_X\big[\,P(Y\neq g(X)\mid X)\,\big] = \mathbb E_X\big[\,1-P(Y=g(X)\mid X)\,\big].$$
+      <div class="key">
+        <p>Aqui está o passo decisivo: o integrando depende de $g$ <strong>apenas através do valor $g(x)$ naquele $x$ específico</strong>.</p>
+        <p>Isso significa que as escolhas em pontos diferentes <em>não competem entre si</em> — você não precisa sacrificar um $x$ para melhorar outro. Então dá para minimizar <strong>ponto a ponto</strong>.</p>
+      </div>
+      <p>Para cada $x$ fixo, minimizar $1-P(Y=g(x)\mid X=x)$ é maximizar $P(Y=g(x)\mid X=x)$, o que se consegue escolhendo</p>
+      $$g(x) = \arg\max_j P(Y=j\mid X=x) = \widehat Y_{\text{Bayes}}(x).$$
+      <p>Como minimizamos o integrando <em>simultaneamente em todo $x$</em>, minimizamos também a integral. Logo $R(g)\ge R(\widehat Y_{\text{Bayes}})$ para todo $g$. $\blacksquare$</p>
+      <p><em>A estrutura da prova é idêntica à do 2.12: minimizar risco = minimizar a perda esperada condicional em cada $x$ separadamente. Lá o minimizador é a média condicional; aqui, a moda condicional. Vale guardar o padrão, porque ele reaparece.</em></p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Não é utilizável porque exige conhecer $P(Y=j\mid X=x)$ para <em>todo</em> $x$ — que é precisamente a coisa desconhecida. Se soubéssemos isso, não haveria problema de aprendizado para resolver.</p>
+      <p>É o mesmo tipo de circularidade do 2.12: o minimizador teórico é conhecido em forma, e completamente inacessível em valor.</p>
+      <p><strong>O que os métodos fazem em relação a ele:</strong> todo método de aprendizado é uma tentativa de <mark>estimar essas probabilidades condicionais</mark> e depois aplicar o argmax.</p>
+      <p>O kNN as estima pela proporção de cada classe entre os $K$ vizinhos mais próximos (por isso ele "aproxima Bayes"). A regressão logística as modela parametricamente. Cada método é uma aposta diferente sobre como $P(Y=j\mid X=x)$ varia com $x$.</p>
+      <div class="key">
+        <p>A <strong>taxa de erro de Bayes</strong>, $\mathbb E_X[1-\max_j P(Y=j\mid X)]$, é o análogo do erro irredutível para classificação: um piso que nenhum classificador atravessa, por melhor que seja.</p>
+        <p>É a resposta à pergunta "quão bom dá para ser?", e é exatamente contra ela que o 2.33 compara o kNN.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>3 · Regressão linear</span></div>
+
+<section class="sheet" id="e32">
+  <div><span class="tab">Exercício 3.2</span><span class="kind">Conceitual</span></div>
+  <h3>Linear ou cúbico?</h3>
+  <div class="enun">
+    <p>Suponha que a relação verdadeira seja $Y=\beta_0+\beta_1X+\varepsilon$ e que ajustemos, aos mesmos dados, uma reta e um polinômio cúbico.</p>
+    <ol type="a">
+      <li>Qual dos dois tem menor RSS de treino, ou não é possível dizer? Justifique.</li>
+      <li>E RSS de teste?</li>
+      <li>Repita (a) e (b) supondo que a relação verdadeira é não-linear, mas não sabemos o quanto.</li>
+    </ol>
+    <p>Relacione as respostas com o Exercício 2.17.</p>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>O cúbico, sempre</strong> — e o ponto crucial é que isso <mark>não depende de qual é a verdade</mark>.</p>
+      <p>A reta é o caso particular do cúbico com $\beta_2=\beta_3=0$. Logo o cúbico minimiza a RSS sobre um conjunto <strong>maior</strong> de funções, e o mínimo sobre um conjunto maior não pode ser pior:</p>
+      $$\mathrm{RSS}_{\text{cúbico}} \le \mathrm{RSS}_{\text{reta}}.$$
+      <p>Com ruído contínuo, a desigualdade é estrita com probabilidade $1$. É geometria pura de aninhamento (3.13) — o argumento nem olha para $f$.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Espera-se que <strong>a reta ganhe</strong>. Mas a razão aqui é mais específica do que "trade-off viés-variância", e vale entender por quê.</p>
+      <div class="key">
+        <p>Neste cenário, <strong>os dois modelos são não-viesados</strong>: o cúbico contém a verdade (basta $\beta_2=\beta_3=0$), então ele também acerta $f$ em média.</p>
+        <p>Ou seja, não há troca nenhuma acontecendo — não há viés a ser reduzido. <mark>Só há variância a mais.</mark></p>
+      </div>
+      <p>O cúbico estima dois parâmetros supérfluos, e cada parâmetro estimado custa variância. Pelo 3.15(d), o excesso esperado de erro de teste sobre o de treino é</p>
+      $$\frac{2\sigma^2(p+1)}{N}:$$
+      <p>a reta paga $p=1$, o cúbico paga $p=3$. Em uma amostra particular o cúbico pode dar sorte, mas <em>em média</em> a reta vence, e vence por uma quantidade calculável.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>Item (a) não muda:</strong> o cúbico continua tendo menor RSS de treino. O argumento é de aninhamento e não olha para a verdade — é o mesmo em qualquer cenário.</p>
+      <p><strong>Item (b) agora não dá para dizer.</strong> Depende do tamanho relativo de duas coisas.</p>
+      <p>Se $f$ tem curvatura apreciável que um cúbico consegue captar, o cúbico reduz viés mais do que aumenta variância e <em>ganha</em>. Se $f$ é quase linear, ou se $N$ é pequeno, ou se $\mathrm{Var}(\varepsilon)$ é grande, a reta ainda ganha.</p>
+      <p>A comparação concreta é entre $\text{viés}^2_{\text{reta}} - \text{viés}^2_{\text{cúbico}}$ (o que você ganha) e $2\sigma^2\cdot 2/N$ (o que você paga).</p>
+    </div>
+    <div class="key">
+      <p><strong>Relação com o 2.17:</strong> é o mesmo enunciado em outra roupa. Flexível ganha quando $f$ é muito não-linear e $N$ é grande; rígido ganha quando $N$ é pequeno, $p$ é grande ou $\mathrm{Var}(\varepsilon)$ é grande.</p>
+      <p>E a lição prática que atravessa os três itens: <strong>a RSS de treino nunca responde essa pergunta.</strong> Ela sempre aponta o modelo mais flexível, em qualquer cenário. Só validação cruzada ou erro de teste respondem.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e35">
+  <div><span class="tab">Exercício 3.5</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span></div>
+  <h3>Equações normais para $p=1$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Derive as equações normais para $\mathrm{RSS}(\beta_0,\beta_1)$ e resolva-as, obtendo $\hat\beta_1$ e $\hat\beta_0=\bar y-\hat\beta_1\bar x$.</li>
+      <li>Conclua que a reta ajustada passa por $(\bar x,\bar y)$ e que os resíduos satisfazem $\sum_i r_i=0$ e $\sum_i x_ir_i=0$.</li>
+      <li>No ajuste sem intercepto, mostre que $\hat y_i=\sum_{i'}a_{i'}y_{i'}$ e encontre os $a_{i'}$. Em que sentido "a previsão é uma combinação linear dos $y$"? Que $y_{i'}$ pesam mais?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>$\mathrm{RSS}(\beta_0,\beta_1)=\sum_i(y_i-\beta_0-\beta_1x_i)^2$. Derivando em cada parâmetro:</p>
+      $$\frac{\partial\mathrm{RSS}}{\partial\beta_0} = -2\sum_i(y_i-\beta_0-\beta_1x_i)=0 \;\Longrightarrow\; \beta_0 = \bar y-\beta_1\bar x,$$
+      $$\frac{\partial\mathrm{RSS}}{\partial\beta_1} = -2\sum_i x_i(y_i-\beta_0-\beta_1x_i)=0 \;\Longrightarrow\; \beta_0\sum_i x_i+\beta_1\sum_i x_i^2 = \sum_i x_iy_i.$$
+      <p>Substituindo a primeira na segunda:</p>
+      $$\beta_1\Big(\sum_i x_i^2 - N\bar x^2\Big) = \sum_i x_iy_i - N\bar x\bar y,$$
+      <p>e usando $\sum x_i^2-N\bar x^2=\sum(x_i-\bar x)^2$ e $\sum x_iy_i-N\bar x\bar y=\sum(x_i-\bar x)(y_i-\bar y)$:</p>
+      $$\hat\beta_1 = \frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sum_i(x_i-\bar x)^2} = \frac{\mathrm{Cov}(x,y)}{\mathrm{Var}(x)}, \qquad \hat\beta_0 = \bar y-\hat\beta_1\bar x.$$
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Com $r_i = y_i-\hat\beta_0-\hat\beta_1x_i$:</p>
+      <div class="key">
+        <p>As duas equações normais <strong>são</strong>, literalmente, $\sum_i r_i=0$ e $\sum_i x_ir_i=0$. Não é uma consequência a ser demonstrada — é a mesma coisa reescrita.</p>
+        <p>Vale parar nisso: a condição de primeira ordem da otimização <em>é</em> uma condição de ortogonalidade sobre os resíduos.</p>
+      </div>
+      <p>Dividindo a primeira por $N$: $\bar y-\hat\beta_0-\hat\beta_1\bar x = 0$, ou seja, o ponto $(\bar x,\bar y)$ satisfaz a equação da reta. Logo <mark>a reta ajustada passa pelo centro de massa dos dados</mark>.</p>
+      <p>Em linguagem vetorial, as duas identidades dizem $r\perp\mathbf 1$ e $r\perp x$: os resíduos são ortogonais às duas colunas da matriz design. Isso é exatamente $X^Tr=0$, a versão $p=1$ do 3.12(b).</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Sem intercepto, a única equação normal dá $\hat\beta=\sum_j x_jy_j/\sum_j x_j^2$, e portanto</p>
+      $$\hat y_i = \hat\beta x_i = \sum_{i'}\underbrace{\frac{x_i\,x_{i'}}{\sum_j x_j^2}}_{a_{i'}}\,y_{i'}.$$
+      <p><strong>Em que sentido é "combinação linear dos $y$":</strong> no sentido de que os pesos $a_{i'}$ <mark>não dependem dos $y$</mark> — eles dependem só dos $x$, que são tratados como fixos no modelo.</p>
+      <p>Uma vez desenhado o experimento (escolhidos os $x_i$), a previsão é uma função <em>linear fixa</em> do vetor de respostas. Isso é o que faz $\hat\beta$ herdar tão facilmente média e variância no 3.7 — e é exatamente o que a matriz chapéu $\hat y=Hy$ generaliza.</p>
+      <p><strong>Quais $y_{i'}$ pesam mais:</strong> aqueles com $|x_{i'}|$ grande, isto é, os pontos <strong>mais distantes da origem</strong> — pontos de alta alavancagem.</p>
+      <p>É a mesma intuição do 3.4(b) (arrastar um ponto na borda muda muito mais a reta que arrastar um ponto no centro) e do $h_{ii}$ do 3.12(f).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e36">
+  <div><span class="tab">Exercício 3.6</span><span class="kind">Demonstração</span></div>
+  <h3>O ponto crítico é mínimo</h3>
+  <div class="enun">
+    <p>Mostre que a Hessiana de $\mathrm{RSS}(\beta_0,\beta_1)$ é definida positiva se, e somente se, existem $i,j$ com $x_i\neq x_j$. O que acontece com $\hat\beta$ quando todos os $x_i$ são iguais? Interprete geometricamente.</p>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <p>Derivando de novo as expressões do 3.5:</p>
+    $$\nabla^2\mathrm{RSS} = 2\begin{pmatrix} N & \sum_i x_i \\[3pt] \sum_i x_i & \sum_i x_i^2\end{pmatrix} = 2X^TX, \qquad X = [\,\mathbf 1\;\;x\,].$$
+    <p><strong>Caminho direto (forma quadrática).</strong> Para $v=(v_0,v_1)^T$:</p>
+    $$v^T(2X^TX)v = 2\|Xv\|^2 = 2\sum_i(v_0+v_1x_i)^2 \;\ge\; 0,$$
+    <p>então ela é sempre semidefinida positiva. A questão é quando é <em>definida</em>.</p>
+    <div class="key">
+      <p>Ela é definida positiva exatamente quando esse somatório só zera com $v=0$.</p>
+      <p><strong>Se existem $x_i\neq x_j$:</strong> zerar exige $v_0+v_1x_i=0$ e $v_0+v_1x_j=0$. Subtraindo, $v_1(x_i-x_j)=0$, logo $v_1=0$, e daí $v_0=0$. Só o vetor nulo zera. ✓</p>
+      <p><strong>Se todos os $x_i=c$:</strong> tome $v=(-c,\,1)\neq 0$. Então $v_0+v_1x_i = -c+c = 0$ para todo $i$, e a forma quadrática zera num vetor não nulo. ✗</p>
+      <p>Logo: definida positiva $\iff$ existem $i,j$ com $x_i\neq x_j$. $\blacksquare$</p>
+    </div>
+    <p><em>Via determinante, mesma coisa:</em> $\det = 4\big(N\sum x_i^2-(\sum x_i)^2\big) = 4N\sum_i(x_i-\bar x)^2 > 0$ se e só se nem todos os $x_i$ são iguais.</p>
+    <p><strong>Se todos os $x_i$ são iguais a $c$:</strong></p>
+    <p>As colunas $\mathbf 1$ e $x=c\mathbf 1$ são colineares, $X^TX$ é singular, e o sistema tem <mark>infinitas soluções</mark>: qualquer $(\beta_0,\beta_1)$ com $\beta_0+\beta_1c=\bar y$ atinge exatamente a mesma RSS mínima.</p>
+    <p><strong>Geometricamente:</strong></p>
+    <p>Todos os pontos estão empilhados sobre a reta vertical $x=c$. Qualquer reta que passe pelo ponto $(c,\bar y)$ produz <em>exatamente as mesmas previsões</em> em todos os dados — os dados não conseguem distinguir entre elas.</p>
+    <p>A inclinação fica completamente indeterminada, e o motivo é simples: <strong>não existe variação em $x$ contra a qual medir uma inclinação</strong>. Inclinação é "quanto $y$ muda quando $x$ muda", e aqui $x$ nunca muda.</p>
+    <div class="warn">É preciso de pelo menos <em>dois valores distintos</em> de $x$ para determinar uma direção. Este é o caso $p=1$ do 3.10, e é também o extremo do 3.7(c): $\mathrm{Var}(\hat\beta_1)=\sigma^2/\sum(x_i-\bar x)^2\to\infty$ à medida que os $x_i$ se concentram. A singularidade não é um acidente numérico — é o limite de uma variância que explode.</div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e37">
+  <div><span class="tab">Exercício 3.7</span><span class="kind">Demonstração</span></div>
+  <h3>Média e variância de $\hat\beta_1$</h3>
+  <div class="enun">
+    <p>Suponha $Y_i=\beta_0+\beta_1x_i+\varepsilon_i$ com os $x_i$ fixos e os $\varepsilon_i$ independentes, de média zero e variância $\sigma^2$.</p>
+    <ol type="a">
+      <li>Mostre que $\hat\beta_1=\sum_i w_iy_i$ com $w_i=(x_i-\bar x)/\sum_j(x_j-\bar x)^2$. Onde se usa $\sum_i w_i=0$?</li>
+      <li>Mostre que $\mathbb E[\hat\beta_1]=\beta_1$ e $\mathrm{Var}(\hat\beta_1)=\sigma^2/\sum_i(x_i-\bar x)^2$.</li>
+      <li>Interprete: o que acontece com a variância quando $N$ cresce? E quando os $x_i$ ficam mais espalhados? Relacione com o Exercício 3.4.</li>
+      <li>Mostre que $\mathbb E[\hat\beta_0]=\beta_0$ e $\mathrm{Var}(\hat\beta_0)=\sigma^2\big(\frac1N+\frac{\bar x^2}{\sum_i(x_i-\bar x)^2}\big)$. Por que centrar os $x_i$ torna $\hat\beta_0$ mais preciso?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <p>Notação: $S_{xx}=\sum_j(x_j-\bar x)^2$.</p>
+    <div class="item"><span class="lab">a.</span>
+      <p>Partindo do 3.5(a):</p>
+      $$\hat\beta_1 = \frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{S_{xx}} = \frac{\sum_i(x_i-\bar x)y_i \;-\; \bar y\sum_i(x_i-\bar x)}{S_{xx}} = \sum_i w_iy_i,$$
+      <p>com $w_i=\dfrac{x_i-\bar x}{S_{xx}}$, porque $\sum_i(x_i-\bar x)=0$ — que é o mesmo que $\sum_i w_i=0$.</p>
+      <div class="key">
+        <p><strong>É exatamente aí que a identidade é usada:</strong> ela permite descartar o termo com $\bar y$.</p>
+        <p>Por que isso importa tanto: sem descartá-lo, $\hat\beta_1$ envolveria $\bar y$, que é função dos $y$, e o estimador não ficaria escrito como combinação linear dos $y_i$ com <strong>pesos constantes</strong>.</p>
+        <p>E é precisamente essa forma — pesos fixos, que dependem só dos $x$ — que faz todo o resto do exercício sair em três linhas. Sem ela, calcular $\mathbb E[\hat\beta_1]$ e $\mathrm{Var}(\hat\beta_1)$ seria um problema difícil.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Como os $w_i$ são constantes (os $x_i$ são fixos), a esperança passa direto:</p>
+      $$\mathbb E[\hat\beta_1] = \sum_i w_i\,\mathbb E[y_i] = \sum_i w_i(\beta_0+\beta_1x_i) = \beta_0\underbrace{\sum_i w_i}_{=\,0} + \beta_1\underbrace{\sum_i w_ix_i}_{=\,1} = \beta_1.$$
+      <p>(Aqui $\sum_i w_ix_i = \frac{1}{S_{xx}}\sum_i(x_i-\bar x)x_i = \frac{1}{S_{xx}}\sum_i(x_i-\bar x)^2 = 1$, de novo usando $\sum(x_i-\bar x)=0$.)</p>
+      <p>Pela independência dos $y_i$, a variância da soma é a soma das variâncias:</p>
+      $$\mathrm{Var}(\hat\beta_1) = \sum_i w_i^2\,\mathrm{Var}(y_i) = \sigma^2\,\frac{\sum_i(x_i-\bar x)^2}{S_{xx}^2} = \frac{\sigma^2}{S_{xx}}. \qquad\blacksquare$$
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>A fórmula $\mathrm{Var}(\hat\beta_1)=\sigma^2/S_{xx}$ mostra <strong>dois</strong> jeitos de melhorar a precisão, e eles são bem diferentes.</p>
+      <p><strong>$N$ cresce:</strong> $S_{xx}\approx N\cdot s_x^2$ cresce linearmente, então a variância cai como $1/N$ e o erro-padrão cai como $1/\sqrt N$. Quadruplicar $N$ corta o erro-padrão pela metade. Caro, mas confiável.</p>
+      <p><strong>$x_i$ mais espalhados:</strong> $S_{xx}$ cresce <em>sem precisar de mais dados</em>. Escolher melhor onde medir vale tanto quanto medir mais.</p>
+      <p class="hand">intuição de alavanca: para determinar uma inclinação, você quer os pontos de apoio bem afastados</p>
+      <p>Dois pontos quase colados dão uma inclinação péssima — o mesmo ruído vertical se traduz em um erro angular enorme. Dois pontos distantes dão uma inclinação ótima com exatamente o mesmo ruído.</p>
+      <p><strong>Relação com o 3.4(a):</strong> é literalmente o que você vê no widget. Reamostrando com $N=10$, as retas ajustadas balançam muito em torno da verdadeira; com $N=120$, elas se colam nela. Isso é puro termo de <strong>variância</strong> — o viés é zero nos dois casos, porque o modelo está correto.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>$\hat\beta_0=\bar y-\hat\beta_1\bar x$, então a esperança é imediata:</p>
+      $$\mathbb E[\hat\beta_0] = \mathbb E[\bar y]-\bar x\,\mathbb E[\hat\beta_1] = (\beta_0+\beta_1\bar x)-\bar x\beta_1 = \beta_0.$$
+      <p>Para a variância, o truque é notar que $\bar y$ e $\hat\beta_1$ são <strong>não correlacionados</strong>:</p>
+      $$\mathrm{Cov}(\bar y,\hat\beta_1) = \mathrm{Cov}\Big(\tfrac1N\sum_i y_i,\;\sum_j w_jy_j\Big) = \frac{\sigma^2}{N}\sum_i w_i = 0.$$
+      <p>(De novo $\sum_i w_i=0$ fazendo o serviço.) Logo o termo cruzado some e</p>
+      $$\mathrm{Var}(\hat\beta_0) = \mathrm{Var}(\bar y) + \bar x^2\,\mathrm{Var}(\hat\beta_1) = \sigma^2\left(\frac1N + \frac{\bar x^2}{S_{xx}}\right). \qquad\blacksquare$$
+      <div class="key">
+        <p><strong>Por que centrar ajuda:</strong> com $\bar x=0$, o segundo termo desaparece e sobra o mínimo possível, $\sigma^2/N$.</p>
+        <p>A intuição: $\hat\beta_0$ é a <strong>previsão em $x=0$</strong>. Se $x=0$ está longe da nuvem de dados ($|\bar x|$ grande), prever ali é <em>extrapolar</em> — e um errinho na inclinação é amplificado pela distância. O termo $\bar x^2\mathrm{Var}(\hat\beta_1)$ é exatamente esse efeito de alavanca, em fórmula.</p>
+        <p>Centrando, o intercepto deixa de ser "a previsão num ponto arbitrário longe dos dados" e passa a ser <mark>a previsão no centro dos dados</mark> — o ponto onde a reta é mais bem determinada.</p>
+      </div>
+      <p><em>Compare com o 3.27(d): a variância de $\hat f(x_0)$ cresce com $(x_0-\bar x)^2$. O $\hat\beta_0$ é só o caso particular $x_0=0$ dessa fórmula.</em></p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e38">
+  <div><span class="tab">Exercício 3.8</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>Pitágoras e $R^2$</h3>
+  <div class="enun">
+    <p>Defina $\mathrm{TSS}=\sum_i(y_i-\bar y)^2$, $\mathrm{RSS}=\sum_i(y_i-\hat y_i)^2$ e $R^2 = 1-\mathrm{RSS}/\mathrm{TSS}$.</p>
+    <ol type="a">
+      <li>Usando as identidades do Exercício 3.5(b), mostre que $\mathrm{TSS}=\sum_i(\hat y_i-\bar y)^2+\mathrm{RSS}$. Interprete como o teorema de Pitágoras em $\mathbb R^N$: quais são os três vetores do triângulo?</li>
+      <li>Conclua que $0\le R^2\le 1$ e mostre que, para $p=1$, $R^2=\mathrm{Cor}(x,y)^2$. O que $R^2=0$ diz sobre a reta ajustada?</li>
+      <li>Padronize $x$ e $y$ (média 0, variância 1). Mostre que $\hat\beta_0=0$ e $\hat\beta_1=\mathrm{Cor}(x,y)$. A regressão de $x$ sobre $y$ é a inversa da regressão de $y$ sobre $x$? Explique por que isso justifica o nome <em>regressão</em> (à média).</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <p>Notação: $S_{xx}=\sum(x_i-\bar x)^2$, $S_{yy}=\sum(y_i-\bar y)^2 = \mathrm{TSS}$, $S_{xy}=\sum(x_i-\bar x)(y_i-\bar y)$.</p>
+    <div class="item"><span class="lab">a.</span>
+      <p>Some e subtraia $\hat y_i$:</p>
+      $$y_i-\bar y = (\hat y_i-\bar y) + r_i.$$
+      <p>Elevando ao quadrado e somando,</p>
+      $$\mathrm{TSS} = \sum_i(\hat y_i-\bar y)^2 + 2\sum_i(\hat y_i-\bar y)r_i + \mathrm{RSS}.$$
+      <p>O termo cruzado some. Como $\hat y_i = \hat\beta_0+\hat\beta_1x_i$:</p>
+      $$\sum_i(\hat y_i-\bar y)r_i = (\hat\beta_0-\bar y)\underbrace{\sum_i r_i}_{=\,0} + \hat\beta_1\underbrace{\sum_i x_ir_i}_{=\,0} = 0,$$
+      <p>usando exatamente as duas identidades do 3.5(b). Logo $\mathrm{TSS}=\sum_i(\hat y_i-\bar y)^2+\mathrm{RSS}$. $\blacksquare$</p>
+      <div class="key">
+        <p><strong>O triângulo retângulo em $\mathbb R^N$:</strong></p>
+        <p>• hipotenusa: $y-\bar y\mathbf 1$ (a variação total de $y$);<br>
+        • um cateto: $\hat y-\bar y\mathbf 1$ (a parte explicada — vive em $\mathrm{span}(\mathbf 1, x)$);<br>
+        • o outro cateto: $r$ (o resíduo — ortogonal a $\mathbf 1$ e a $x$).</p>
+        <p>O ângulo reto vem de $r\perp\mathbf 1$ e $r\perp x$. As equações normais <em>são</em> o ângulo reto.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Limites.</strong> Por (a), $\mathrm{TSS}$ é soma de dois termos $\ge 0$, então $0\le\mathrm{RSS}\le\mathrm{TSS}$, e daí $0\le R^2\le 1$.</p>
+      <p><strong>$R^2=\mathrm{Cor}^2$ quando $p=1$.</strong> Por (a), $R^2 = \sum_i(\hat y_i-\bar y)^2/\mathrm{TSS}$. Como a reta passa por $(\bar x,\bar y)$,</p>
+      $$\hat y_i-\bar y = \hat\beta_1(x_i-\bar x) \;\Longrightarrow\; \sum_i(\hat y_i-\bar y)^2 = \hat\beta_1^2S_{xx} = \frac{S_{xy}^2}{S_{xx}}.$$
+      <p>Então</p>
+      $$R^2 = \frac{S_{xy}^2}{S_{xx}S_{yy}} = \mathrm{Cor}(x,y)^2. \qquad\blacksquare$$
+      <p><strong>$R^2=0$</strong> significa $S_{xy}=0$, ou seja, $\hat\beta_1=0$: a reta ajustada é <mark>horizontal, na altura $\bar y$</mark>. $x$ não explica nada <em>linearmente</em> — o que não quer dizer que $Y$ seja independente de $X$ (lembre do $Y=X^2$ simétrico, 3.35b).</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Padronizados, $\bar x=\bar y=0$ e $S_{xx}=S_{yy}$. Então</p>
+      $$\hat\beta_0 = \bar y-\hat\beta_1\bar x = 0, \qquad \hat\beta_1 = \frac{S_{xy}}{S_{xx}} = \frac{S_{xy}}{\sqrt{S_{xx}S_{yy}}} = \mathrm{Cor}(x,y).$$
+      <p>Pela simetria da fórmula, regredindo $x$ sobre $y$ também sai inclinação $\rho=\mathrm{Cor}(x,y)$.</p>
+      <p><strong>Não são inversas.</strong> A reta de $y$ sobre $x$ é $\hat y=\rho x$. A de $x$ sobre $y$ é $\hat x=\rho y$, isto é, $y = x/\rho$ no plano. Seriam a mesma reta só se $\rho = 1/\rho$, ou seja, $|\rho|=1$ — correlação perfeita.</p>
+      <div class="key">
+        <p><strong>Por que "regressão":</strong> em unidades de desvio padrão, a previsão é $\hat y=\rho x$ com $|\rho|<1$.</p>
+        <p>Um $x$ a 2 desvios da média gera uma previsão de $y$ a só $2\rho$ desvios: a previsão fica <mark>sempre mais perto da média do que o preditor estava</mark>. Filhos de pais muito altos são, em média, altos — mas menos que os pais. É o fenômeno que Galton chamou de <em>regressão à média</em>, e deu nome ao método inteiro.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e310">
+  <div><span class="tab">Exercício 3.10</span><span class="kind">Conceitual</span></div>
+  <h3>Identificabilidade</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Mostre que $X^TX$ é invertível se, e somente se, as colunas de $X$ são linearmente independentes.</li>
+      <li>Traduza a condição em termos dos preditores.</li>
+      <li>Dê um exemplo com $p=2$ em que uma coluna é múltipla da outra. Quantas soluções o problema de mínimos quadrados tem? O ajuste $\hat y=X\hat\beta$ é único?</li>
+      <li>Explique por que (c) é um problema para inferência, mas não necessariamente para previsão.</li>
+      <li>Se $N&lt;p+1$, o que acontece com $X^TX$ e com a RSS mínima? Relacione com o interpolador do Exercício 2.2.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>($\Leftarrow$)</strong> Suponha colunas LI. Se $X^TXv=0$, multiplique por $v^T$ à esquerda:</p>
+      $$v^TX^TXv = \|Xv\|^2 = 0 \;\Longrightarrow\; Xv=0 \;\Longrightarrow\; v=0$$
+      <p>(a última implicação é a definição de independência linear). Então $X^TX$, que é quadrada $(p{+}1)\times(p{+}1)$, tem núcleo trivial, logo é invertível.</p>
+      <p><strong>($\Rightarrow$)</strong> Se as colunas são LD, existe $v\neq 0$ com $Xv=0$. Então $X^TXv = X^T0 = 0$, e $X^TX$ tem núcleo não trivial, logo é singular. $\blacksquare$</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Em termos dos preditores: <strong>nenhum preditor (incluindo a coluna de uns) pode ser escrito como combinação linear exata dos demais</strong> — não há colinearidade perfeita.</p>
+      <p>Casos concretos que isso proíbe: incluir a mesma medida em duas unidades (°C e °F, µS/cm e mS/cm); incluir todas as dummies de uma variável categórica junto com o intercepto (a soma delas é $\mathbf 1$); incluir duas variáveis e a soma delas.</p>
+      <p>E exige $N\ge p+1$, senão é impossível — item (e).</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Tome $p=2$ com $x_2=2x_1$. Então $\mathrm{col}(X)=\mathrm{col}([\mathbf 1\;\;x_1])$ — a segunda coluna não acrescenta direção nenhuma.</p>
+      <p>O problema tem <mark>infinitas soluções</mark>: se $(\hat\beta_0,\hat\beta_1,\hat\beta_2)$ é solução, então $(\hat\beta_0,\hat\beta_1+2t,\hat\beta_2-t)$ também é, para qualquer $t$, porque</p>
+      $$(\beta_1+2t)x_1 + (\beta_2-t)(2x_1) = \beta_1x_1+2\beta_2x_1+2tx_1-2tx_1 = \beta_1x_1+\beta_2x_2.$$
+      <div class="key">
+        <p>Mas <strong>$\hat y=X\hat\beta$ é único.</strong></p>
+        <p>Razão: $\hat y$ é a projeção ortogonal de $y$ sobre $\mathrm{col}(X)$, e a projeção depende do <em>subespaço</em>, não da base escolhida para descrevê-lo. Trocar a base muda as coordenadas ($\hat\beta$), não o ponto ($\hat y$).</p>
+        <p>Esse é o conteúdo do 3.12(d), e é a distinção que o item (d) explora.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p><strong>Para inferência é fatal.</strong> Não existe "o efeito de $x_2$ controlando por $x_1$", porque $x_2$ nunca varia independentemente de $x_1$ nos dados. A pergunta não tem resposta — não é que seja difícil estimar, é que a quantidade não está definida.</p>
+      <p>Na prática, os erros-padrão explodem (ou o software silenciosamente descarta uma coluna, e você acaba interpretando o coeficiente de um modelo diferente do que pensa ter ajustado).</p>
+      <p><strong>Para previsão é indiferente.</strong> $\hat y$ é único e é a melhor aproximação linear possível. Em pontos novos que respeitem a mesma relação $x_2=2x_1$, a previsão está perfeitamente bem definida.</p>
+      <div class="warn">O cuidado: com colinearidade <em>aproximada</em> (o caso realista), a relação vale nos dados de treino mas pode quebrar nos dados novos. E aí a previsão também vira loteria, porque o modelo está apoiado numa coincidência amostral. Veja 3.17(d) e 3.29(c).</div>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p>Com $N&lt;p+1$, a matriz $X$ tem mais colunas que linhas, então $\mathrm{posto}(X)\le N&lt;p+1$ e as colunas são <em>necessariamente</em> LD. Logo $X^TX$ é <strong>singular</strong>, sempre.</p>
+      <p>E se $\mathrm{posto}(X)=N$ (o caso típico), então $\mathrm{col}(X)=\mathbb R^N$: o espaço gerado pelas colunas é o espaço inteiro. Como $y\in\mathbb R^N$, temos $y\in\mathrm{col}(X)$, a projeção de $y$ é o próprio $y$, e</p>
+      $$\hat y = y, \qquad \mathrm{RSS}_{\min}=0,$$
+      <p>com infinitos $\hat\beta$ atingindo esse mínimo.</p>
+      <div class="key">
+        <p>É o <strong>interpolador do 2.2</strong> de volta, vestido de álgebra linear: ajuste perfeito, resíduo nulo, e nenhuma garantia de aprendizado.</p>
+        <p>A lição geral: <mark>quando a flexibilidade da classe alcança $N$, o erro de treino sempre pode ser zerado</mark> — e a partir daí ele deixa de conter qualquer informação sobre o modelo.</p>
+        <p>É o mesmo fato que o 3.35(a) enuncia para polinômios ($\mathrm{RSS}(N-1)=0$), e o que faz $F$ e $R^2$ perderem sentido quando $p>N$ (3.26f).</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e311">
+  <div><span class="tab">Exercício 3.11</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span></div>
+  <h3>Cálculo matricial e equações normais</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Mostre que $\frac{\partial}{\partial x}(v^Tx)=v$ e que $\frac{\partial}{\partial x}(x^TAx)=2Ax$ para $A$ simétrica.</li>
+      <li>Deduza as equações normais $X^TX\beta=X^Ty$ e mostre que $2X^TX$ é semidefinida positiva.</li>
+      <li>Monte $X^TX$ e $X^Ty$ explicitamente para $p=1$ e recupere as equações do Exercício 3.5.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Primeira:</strong> $v^Tx=\sum_j v_jx_j$. Derivando em $x_k$, só o termo $j=k$ sobrevive e dá $v_k$. Empilhando, o gradiente é $v$.</p>
+      <p><strong>Segunda:</strong> $x^TAx=\sum_i\sum_j x_iA_{ij}x_j$. Derive em $x_k$ e note que o índice $k$ aparece em <em>dois papéis</em>:</p>
+      <p>• como primeiro fator ($i=k$): contribui $\sum_j A_{kj}x_j = (Ax)_k$;<br>
+      • como segundo fator ($j=k$): contribui $\sum_i x_iA_{ik} = (A^Tx)_k$.</p>
+      <p>Somando, o gradiente é $Ax+A^Tx$, que para $A$ simétrica vira $2Ax$. ∎</p>
+      <p><em>(Se $A$ não fosse simétrica, a fórmula seria $(A+A^T)x$. A simetria é o que permite escrever $2Ax$ — e no nosso caso $A=X^TX$ é sempre simétrica.)</em></p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Expanda:</p>
+      $$\mathrm{RSS}(\beta) = (y-X\beta)^T(y-X\beta) = y^Ty - 2\beta^TX^Ty + \beta^T(X^TX)\beta.$$
+      <p>(O termo cruzado dobra porque $y^TX\beta$ e $\beta^TX^Ty$ são escalares e iguais.)</p>
+      <p>Agora aplique (a) com $v=X^Ty$ e $A=X^TX$, que é simétrica:</p>
+      $$\nabla\mathrm{RSS} = -2X^Ty + 2X^TX\beta = 0 \;\Longrightarrow\; X^TX\beta = X^Ty.$$
+      <p><strong>Hessiana:</strong> $\nabla^2\mathrm{RSS}=2X^TX$, e para qualquer $v$,</p>
+      $$v^T(2X^TX)v = 2(Xv)^T(Xv) = 2\|Xv\|^2 \;\ge\; 0,$$
+      <p>logo é semidefinida positiva.</p>
+      <div class="key">
+        <p>A consequência conceitual é o que importa: <strong>a RSS é convexa</strong>. Logo todo ponto crítico é mínimo <strong>global</strong>.</p>
+        <p>Não existem vales locais para um algoritmo ficar preso, não existe dependência do ponto inicial, não existe "rodar várias vezes e pegar o melhor". Resolveu as equações normais, acabou.</p>
+        <p>Ela é <em>definida</em> positiva — e o mínimo é único — exatamente quando as colunas são LI (3.10). Sem isso, o mínimo existe mas não é único (3.10c).</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Para $p=1$, $X=[\,\mathbf 1\;\;x\,]$ é $N\times 2$, e:</p>
+      $$X^TX = \begin{pmatrix}\mathbf 1^T\mathbf 1 & \mathbf 1^Tx\\ x^T\mathbf 1 & x^Tx\end{pmatrix} = \begin{pmatrix}N & \sum_i x_i\\ \sum_i x_i & \sum_i x_i^2\end{pmatrix}, \qquad X^Ty = \begin{pmatrix}\sum_i y_i\\ \sum_i x_iy_i\end{pmatrix}.$$
+      <p>O sistema $X^TX\beta=X^Ty$ é, então,</p>
+      $$N\beta_0+\beta_1\sum_i x_i = \sum_i y_i, \qquad \beta_0\sum_i x_i+\beta_1\sum_i x_i^2 = \sum_i x_iy_i,$$
+      <p>que são <strong>palavra por palavra</strong> as duas equações do 3.5(a). A Hessiana $2X^TX$ também coincide com a do 3.6.</p>
+      <p>A moral: <mark>o caso geral não é um modelo novo</mark> — é a mesma conta, na mesma ordem, escrita numa notação que não depende de $p$. Tudo que você provou para $p=1$ tem tradução direta.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e312">
+  <div><span class="tab">Exercício 3.12</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>$\hat y$ é a projeção ortogonal</h3>
+  <div class="enun">
+    <p>Seja $X$ a matriz design, $N\times(p+1)$, com colunas linearmente independentes. Escreva $\hat\beta=(X^TX)^{-1}X^Ty$, $\hat y=X\hat\beta$, $r=y-\hat y$ e $H=X(X^TX)^{-1}X^T$, a matriz chapéu, de modo que $\hat y=Hy$.</p>
+    <ol type="a">
+      <li>Mostre que $H$ é simétrica e idempotente ($H^2=H$), que $HX=X$ e que $(I-H)X=0$.</li>
+      <li>Mostre que $r$ é ortogonal a cada coluna de $X$, e portanto a todo vetor de $\mathrm{col}(X)$. Reconheça as equações normais nessa afirmação. O que $r\perp\mathbf 1$ diz sobre a média dos resíduos?</li>
+      <li>Para qualquer $\beta$, mostre que $\|y-X\beta\|^2=\|y-\hat y\|^2+\|\hat y-X\beta\|^2$. Conclua, sem derivadas nem Hessiana, que $\hat\beta$ minimiza a RSS e que $\hat y$ é o ponto de $\mathrm{col}(X)$ mais próximo de $y$.</li>
+      <li>Suponha agora que as colunas de $X$ são linearmente dependentes. Mostre que $\hat y$ continua único, embora $\hat\beta$ não seja: a projeção depende do subespaço, não da base. Compare com o Exercício 3.10(c).</li>
+      <li>Mostre que $\mathrm{tr}(H)=p+1$. Como $\hat y_i=\sum_j h_{ij}y_j$, isso diz que, em média, cada observação pesa $(p+1)/N$ na sua própria previsão. Compare com o Exercício 3.5(c).</li>
+      <li>(Desafio) Mostre que $0\le h_{ii}\le 1$. O que significa $h_{ii}=1$ para a previsão $\hat y_i$ e para o resíduo $r_i$? Ligue com o ponto de borda do Exercício 3.4.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>A frase que resume o exercício: <strong>$H$ é o projetor ortogonal sobre $\mathrm{col}(X)$</strong>.</p>
+      <p>Tudo que se prova aqui — idempotência, ortogonalidade do resíduo, Pitágoras, traço — é uma propriedade de projetor ortogonal. Se você lembrar disso, os itens deixam de ser contas soltas.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Simétrica:</strong> $X^TX$ é simétrica, então sua inversa também é. Logo</p>
+      $$H^T = X\big((X^TX)^{-1}\big)^TX^T = X(X^TX)^{-1}X^T = H.$$
+      <p><strong>Idempotente:</strong> o $X^TX$ do meio cancela com uma das inversas:</p>
+      $$H^2 = X(X^TX)^{-1}\underbrace{X^TX(X^TX)^{-1}}_{=\,I}X^T = H.$$
+      <p><strong>$HX=X$:</strong> $X(X^TX)^{-1}X^TX = X$. E então $(I-H)X = X-X = 0$.</p>
+      <p><em>Leitura: projetar duas vezes é o mesmo que projetar uma ($H^2=H$), e quem já está no subespaço não se mexe ($HX=X$).</em></p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>$r = (I-H)y$. Usando a simetria de $I-H$ e o item (a):</p>
+      $$X^Tr = X^T(I-H)y = \big((I-H)X\big)^Ty = 0.$$
+      <p>Então $r$ é ortogonal a cada coluna. Para um vetor qualquer $v=Xa\in\mathrm{col}(X)$: $v^Tr = a^TX^Tr = 0$.</p>
+      <p><strong>As equações normais estão aí:</strong> $X^Tr=0 \iff X^T(y-X\hat\beta)=0 \iff X^TX\hat\beta=X^Ty$. <mark>"O resíduo é ortogonal às colunas" e "as equações normais valem" são a mesma frase.</mark></p>
+      <p><strong>$r\perp\mathbf 1$:</strong> $\sum_i r_i = 0$ — com intercepto no modelo, os resíduos têm média zero.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Escreva</p>
+      $$y-X\beta = \underbrace{(y-\hat y)}_{=\,r\;\perp\;\mathrm{col}(X)} + \underbrace{(\hat y-X\beta)}_{=\,X(\hat\beta-\beta)\;\in\;\mathrm{col}(X)}.$$
+      <p>Os dois pedaços são ortogonais pelo item (b), então vale Pitágoras:</p>
+      $$\|y-X\beta\|^2 = \|y-\hat y\|^2 + \|\hat y-X\beta\|^2 \;\ge\; \|y-\hat y\|^2.$$
+      <p>A igualdade vale sse $X\beta=\hat y$. Logo $\hat\beta$ minimiza a RSS, e $\hat y$ é o ponto de $\mathrm{col}(X)$ mais próximo de $y$. $\blacksquare$</p>
+      <div class="key">Essa é a dedução de mínimos quadrados <strong>sem cálculo nenhum</strong> — nem gradiente, nem Hessiana, nem convexidade. Só ortogonalidade. Se cair "deduza o estimador de MQ", ter esta prova na manga é ótimo.</div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Se as colunas são LD, $X^TX$ não inverte e a fórmula de $H$ não vale — mas o subespaço $S=\mathrm{col}(X)$ continua bem definido, e a projeção ortogonal sobre ele também.</p>
+      <p><strong>Unicidade de $\hat y$:</strong> suponha dois pontos $p_1,p_2\in S$, ambos com $y-p_k\perp S$. Então</p>
+      $$p_1-p_2 = (y-p_2)-(y-p_1)$$
+      <p>é ortogonal a $S$ (diferença de dois vetores ortogonais a $S$) e está em $S$ (diferença de dois pontos de $S$). Um vetor ortogonal a si mesmo é nulo: $p_1=p_2$.</p>
+      <p><strong>Não-unicidade de $\hat\beta$:</strong> qualquer $\beta$ com $X\beta=\hat y$ serve, e se $Xv=0$ com $v\neq0$, então $\beta+tv$ também serve para todo $t$.</p>
+      <p>É o 3.10(c) visto por dentro: <mark>o ponto ($\hat y$) é do subespaço; as coordenadas ($\hat\beta$) são da base</mark>.</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p>Pela ciclicidade do traço, $\mathrm{tr}(AB)=\mathrm{tr}(BA)$:</p>
+      $$\mathrm{tr}(H) = \mathrm{tr}\big(X(X^TX)^{-1}X^T\big) = \mathrm{tr}\big((X^TX)^{-1}X^TX\big) = \mathrm{tr}(I_{p+1}) = p+1.$$
+      <p>Como $\mathrm{tr}(H)=\sum_i h_{ii}$, a média dos $h_{ii}$ é $(p+1)/N$: cada ponto pesa, em média, $(p+1)/N$ na própria previsão.</p>
+      <p>No 3.5(c) (sem intercepto, $p+1=1$ parâmetro), o peso de $y_i$ em $\hat y_i$ era $x_i^2/\sum_j x_j^2$, e esses pesos somam exatamente $1$. Mesmo fato, em miniatura.</p>
+      <p><em>Leitura: $\mathrm{tr}(H)$ é o número de parâmetros — os "graus de liberdade" do ajuste. É por isso que ele reaparece no otimismo $2\sigma^2(p+1)/N$.</em></p>
+    </div>
+    <div class="item"><span class="lab">f.</span>
+      <p>Como $H=H^2$ e $H$ é simétrica, a entrada diagonal é</p>
+      $$h_{ii} = (H^2)_{ii} = \sum_j h_{ij}h_{ji} = \sum_j h_{ij}^2 = h_{ii}^2 + \sum_{j\neq i}h_{ij}^2.$$
+      <p>Daí $h_{ii}\ge 0$ (é soma de quadrados) e $h_{ii}\ge h_{ii}^2$, ou seja, $h_{ii}\le 1$. $\blacksquare$</p>
+      <p><strong>$h_{ii}=1$:</strong> então $\sum_{j\ne i}h_{ij}^2 = 0$, todos os outros pesos são zero, e $\hat y_i = y_i$ — o ponto <mark>puxa o ajuste inteiro até si</mark>, e seu resíduo é $r_i = 0$.</p>
+      <p>É o ponto de borda do 3.4 levado ao extremo: um ponto tão isolado em $x$ que os outros dados não têm nenhuma voz sobre o que acontece ali. Resíduo zero, aqui, não é sinal de bom ajuste — é sinal de que nada pôde contestá-lo.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e313">
+  <div><span class="tab">Exercício 3.13</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>A RSS nunca aumenta com mais preditores</h3>
+  <div class="enun">
+    <p>Seja $X_1$ uma matriz design $N\times q$ e $X_2=[X_1\;Z]$ a matriz obtida acrescentando $m$ novas colunas. Sejam $\mathrm{RSS}_1$ e $\mathrm{RSS}_2$ as somas de quadrados mínimas dos dois ajustes, $H_1$ e $H_2$ as matrizes chapéu e $r_1=y-H_1y$.</p>
+    <ol type="a">
+      <li>Mostre que $\mathrm{RSS}_2\le\mathrm{RSS}_1$ em uma linha, olhando apenas para os conjuntos sobre os quais cada RSS é minimizada.</li>
+      <li>Prove de novo, geometricamente: $\mathrm{col}(X_1)\subseteq\mathrm{col}(X_2)$, e o ponto mais próximo em um subespaço maior não pode estar mais longe. Use o Exercício 3.12(c).</li>
+      <li>Mostre que $H_2\hat y_1=\hat y_1$, conclua que $\hat y_2-\hat y_1=H_2r_1$ e daí que $\mathrm{RSS}_1-\mathrm{RSS}_2=\|H_2r_1\|^2$. Deduza que vale a igualdade se, e somente se, $Z^Tr_1=0$. Traduza: os novos preditores não explicam nada do que sobrou por explicar.</li>
+      <li>Conclua que $R^2$ nunca diminui ao acrescentar preditores. Por que, então, RSS e $R^2$ de treino não servem para escolher entre modelos aninhados? O que serve?</li>
+      <li>O resultado vale para a RSS de teste? Responda com o Exercício 3.2.</li>
+      <li>Acrescente uma coluna de números puramente aleatórios: a RSS de treino cai. Foi viés que diminuiu? Relacione com o Exercício 2.18(d).</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>Este é o teorema por trás de "erro de treino não escolhe modelo". O professor citou "como a RSS se comporta com a complexidade" — é daqui que sai a resposta rigorosa.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>Todo ajuste possível com $X_1$ também é possível com $X_2$ (basta zerar os coeficientes de $Z$: $X_2(\beta_1,0)=X_1\beta_1$). Então $\mathrm{RSS}_2$ é um mínimo sobre um conjunto <strong>maior</strong>, e</p>
+      $$\mathrm{RSS}_2 = \min_{\beta}\|y-X_2\beta\|^2 \;\le\; \min_{\beta_1}\|y-X_1\beta_1\|^2 = \mathrm{RSS}_1. \qquad\blacksquare$$
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Toda combinação das colunas de $X_1$ é combinação das colunas de $X_2$, então $\mathrm{col}(X_1)\subseteq\mathrm{col}(X_2)$.</p>
+      <p>Pelo 3.12(c), $\hat y_2$ é o ponto de $\mathrm{col}(X_2)$ mais próximo de $y$. Como $\hat y_1$ também pertence a $\mathrm{col}(X_2)$, ele é um candidato — e não pode estar mais perto que o melhor:</p>
+      $$\|y-\hat y_2\| \le \|y-\hat y_1\|. \qquad\blacksquare$$
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>$H_2\hat y_1=\hat y_1$:</strong> $\hat y_1\in\mathrm{col}(X_1)\subseteq\mathrm{col}(X_2)$, e $H_2$ deixa fixo quem já está em $\mathrm{col}(X_2)$.</p>
+      <p><strong>A diferença dos ajustes:</strong></p>
+      $$\hat y_2-\hat y_1 = H_2y - H_2\hat y_1 = H_2(y-\hat y_1) = H_2r_1.$$
+      <p><strong>A diferença das RSS:</strong> decomponha o resíduo antigo,</p>
+      $$r_1 = y-\hat y_1 = \underbrace{(y-\hat y_2)}_{=\,r_2\;\perp\;\mathrm{col}(X_2)} + \underbrace{(\hat y_2-\hat y_1)}_{=\,H_2r_1\;\in\;\mathrm{col}(X_2)}.$$
+      <p>Os dois pedaços são ortogonais, então por Pitágoras</p>
+      $$\mathrm{RSS}_1 = \|r_1\|^2 = \|r_2\|^2 + \|H_2r_1\|^2 \;\Longrightarrow\; \mathrm{RSS}_1-\mathrm{RSS}_2 = \|H_2r_1\|^2.$$
+      <p><strong>Igualdade:</strong> $\|H_2r_1\|=0$ sse $H_2r_1=0$ sse $r_1\perp\mathrm{col}(X_2)$ sse $X_2^Tr_1 = 0$. Mas $X_1^Tr_1=0$ já vale sempre (equações normais do primeiro ajuste). Então sobra</p>
+      $$\mathrm{RSS}_1=\mathrm{RSS}_2 \iff Z^Tr_1 = 0. \qquad\blacksquare$$
+      <p><strong>Tradução:</strong> $r_1$ é o que $X_1$ não conseguiu explicar. Se as novas colunas são ortogonais a isso, <mark>elas não têm nada a acrescentar sobre o que sobrou</mark> — e a RSS fica igual. Em qualquer outro caso ela cai.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>$R^2=1-\mathrm{RSS}/\mathrm{TSS}$, e $\mathrm{TSS}$ não depende do modelo. RSS não cresce ⟹ $R^2$ não diminui.</p>
+      <p><strong>Por que não serve para escolher:</strong> porque o critério aponta <em>sempre</em> o modelo maior, independentemente dos dados. Um critério que dá a mesma resposta em qualquer situação não está medindo nada sobre a situação.</p>
+      <p><strong>O que serve:</strong> estimativas do erro de <em>teste</em> — validação cruzada, conjunto de teste separado — ou critérios que penalizam o número de parâmetros ($R^2$ ajustado, teste F para modelos aninhados).</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p><strong>Não.</strong> O argumento inteiro usa que $\hat\beta$ foi escolhido <em>minimizando aquela mesma RSS</em>. Nos dados de teste isso não é verdade.</p>
+      <p>O 3.2(b) é o contraexemplo: com a verdade linear, o cúbico tem RSS de treino menor, mas a reta tem RSS de teste menor em média.</p>
+    </div>
+    <div class="item"><span class="lab">f.</span>
+      <p><strong>Não foi viés.</strong> A coluna aleatória não carrega informação nenhuma sobre $f$; a classe não ficou mais perto da verdade.</p>
+      <p>A queda vem de o ajuste ter usado esse grau de liberdade extra para <mark>absorver ruído</mark> dos $y_i$ de treino (quase certamente $Z^Tr_1\neq 0$ por acaso). Isso é variância, e ela <em>aumentou</em>: o otimismo $2\sigma^2(p+1)/N$ (3.15d) cresceu junto com $p$.</p>
+      <p>É exatamente o 2.18(d): o viés não cai, a variância sobe, e o erro de treino mente dizendo que melhorou.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e319">
+  <div><span class="tab">Exercício 3.19</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>O que o erro-padrão mede?</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>No modelo $Y=\beta_0+\beta_1X+\varepsilon$, quais objetos são fixos e quais são aleatórios: $\beta_1$, $\hat\beta_1$, $x_i$, $y_i$, $\varepsilon_i$? Em relação a qual experimento imaginário se fala em "distribuição de $\hat\beta_1$"?</li>
+      <li>Você já viu $\mathrm{SE}(\hat\beta_1)$ desenhado: é a largura de qual figura do Exercício 3.4? Que fórmula do Exercício 3.7 ele estima?</li>
+      <li>A fórmula de $\mathrm{SE}(\hat\beta_1)$ tem $\sigma^2=\mathrm{Var}(\varepsilon)$, que ninguém conhece. Pelo que se troca e por que a troca é honesta (Exercício 3.15(b))?</li>
+      <li>Para cada mudança, diga se $\mathrm{SE}(\hat\beta_1)$ aumenta, diminui ou não muda: dobrar $N$ mantendo a dispersão dos $x_i$; medir estações com pH mais variado; usar um laboratório com medições mais precisas; trocar a unidade do pH.</li>
+      <li>É possível reduzir $\mathrm{SE}(\hat\beta_1)$ coletando mais variáveis em vez de mais amostras? Em que sentido sim (o que acontece com $\sigma^2$?) e em que sentido não (Exercício 3.17(d))?</li>
+      <li>$\mathrm{SE}(\hat\beta_1)$ pequeno significa que o modelo prevê bem? Distinga "conhecer $\beta_1$ com precisão" de "prever $Y$ com precisão".</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p><strong>Definição:</strong> $\mathrm{SE}(\hat\beta_1)$ é o <strong>desvio padrão de $\hat\beta_1$</strong> — o quanto a estimativa varia de uma amostra para outra.</p>
+      $$\mathrm{SE}(\hat\beta_1) = \sqrt{\frac{\sigma^2}{S_{xx}}}, \qquad S_{xx} = \sum_i(x_i-\bar x)^2.$$
+      <p>Ele mede a <em>precisão da estimativa</em>, não a qualidade do modelo. Quase toda pegadinha do exercício sai de confundir as duas coisas.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Fixos:</strong> $\beta_1$ (o número verdadeiro, desconhecido) e os $x_i$ (tratados como dados do desenho).</p>
+      <p><strong>Aleatórios:</strong> $\varepsilon_i$, e por consequência $y_i$ e $\hat\beta_1$.</p>
+      <p><strong>O experimento imaginário:</strong> manter os mesmos $x_i$, <mark>sortear de novo os ruídos $\varepsilon_i$</mark> (medir de novo as mesmas estações), recalcular $\hat\beta_1$, e repetir infinitas vezes. A "distribuição de $\hat\beta_1$" é o histograma desses valores.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>É a <strong>largura do "rastro" de retas</strong> do 3.4 quando você reamostra: o leque de inclinações que aparecem. Ele estima $\sqrt{\mathrm{Var}(\hat\beta_1)} = \sigma/\sqrt{S_{xx}}$, a fórmula do 3.7(b).</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Troca-se $\sigma^2$ pela estimativa</p>
+      $$\hat\sigma^2 = \frac{\mathrm{RSS}}{N-p-1},$$
+      <p>que é <strong>não-viesada</strong>: $\mathbb E[\mathrm{RSS}]=\sigma^2(N-p-1)$ pelo 3.15(b).</p>
+      <div class="warn">Dividir por $N$ seria desonesto: daria o MSE de treino, que em média fica <em>abaixo</em> de $\sigma^2$ porque o ajuste absorveu parte do ruído. O denominador $N-p-1$ corrige exatamente isso — são os graus de liberdade que sobraram depois de estimar $p+1$ parâmetros.</div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Leia tudo na fórmula $\sigma/\sqrt{S_{xx}}$:</p>
+      <div class="tbox"><table>
+        <tr><th>mudança</th><th>efeito no SE</th><th>por quê</th></tr>
+        <tr><td>dobrar $N$, mesma dispersão</td><td><strong>diminui</strong> (÷ $\sqrt2$)</td><td>$S_{xx}$ dobra</td></tr>
+        <tr><td>pH mais variado</td><td><strong>diminui</strong></td><td>$S_{xx}$ cresce sem precisar de mais dados</td></tr>
+        <tr><td>laboratório mais preciso</td><td><strong>diminui</strong></td><td>$\sigma^2$ cai (menos erro de medição em $\varepsilon$)</td></tr>
+        <tr><td>trocar a unidade do pH</td><td><strong>muda de escala junto com $\hat\beta_1$</strong></td><td>$x\mapsto cx$ leva $\hat\beta_1$ e SE a dividirem por $c$; a razão $t$ não muda</td></tr>
+      </table></div>
+      <p>O último é o que pede cuidado: o SE muda de valor, mas não de <em>significado</em>. Nenhuma precisão foi ganha nem perdida.</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p><strong>Sim, em um sentido:</strong> se a nova variável é relevante, ela sai de dentro de $\varepsilon$ e passa para $f$ (2.1c). Então $\sigma^2$ diminui, e o SE de $\hat\beta_1$ diminui junto.</p>
+      <p><strong>Não, em outro:</strong> se a nova variável é correlacionada com $x$, a parte de $x$ "que é só dele" encolhe. Pelo 3.17(d), $\mathrm{Var}(\hat\beta_1)=\sigma^2/\|\tilde x\|^2$, com $\tilde x$ o resíduo de $x$ após descontar os outros preditores — e esse resíduo fica menor. O SE <em>aumenta</em>.</p>
+      <p>O saldo depende de qual efeito ganha: quanto de $\sigma^2$ a nova variável explica contra quanta colinearidade ela introduz.</p>
+    </div>
+    <div class="item"><span class="lab">f.</span>
+      <p><strong>Não.</strong> São duas precisões diferentes.</p>
+      <p><strong>Conhecer $\beta_1$ com precisão</strong> é ter SE pequeno — e o SE vai a zero quando $N\to\infty$, sempre.</p>
+      <p><strong>Prever $Y$ com precisão</strong> exige que $\sigma^2$ seja pequeno, e $\sigma^2$ <mark>não diminui com $N$</mark> — é o erro irredutível.</p>
+      <p>Com um milhão de estações, você pode saber a inclinação com seis casas decimais e ainda errar cada estação individual por muito, porque o arsênio varia bastante por motivos que o pH não captura ($R^2$ baixo).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e321">
+  <div><span class="tab">Exercício 3.21</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>Testando $\beta_j = 0$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Escreva $H_0$ e $H_1$ para a pergunta "a turbidez tem alguma relação com o arsênio?". Por que a hipótese testada é a de ausência de efeito, e não a de presença?</li>
+      <li>A estatística é $t=\hat\beta_j/\mathrm{SE}(\hat\beta_j)$. Em palavras: o que ela compara? Por que $\hat\beta_j=3$ pode ser forte evidência contra $H_0$ em um conjunto de dados e nenhuma evidência em outro?</li>
+      <li>Defina valor-$p$. Critique cada leitura: "é a probabilidade de $H_0$ ser verdadeira"; "é a probabilidade de o resultado ter ocorrido por acaso"; "$p=0{,}30$ prova que a turbidez não importa".</li>
+      <li>O coeficiente da condutividade foi $\hat\beta=0{,}0007$ com $p<0{,}001$. Ele é significativo? Ele é relevante? Que informação falta para responder a segunda pergunta?</li>
+      <li>Mostre que trocar a unidade de um preditor (por exemplo, mS/cm em vez de μS/cm) multiplica $\hat\beta_j$ e $\mathrm{SE}(\hat\beta_j)$ pela mesma constante. O que acontece com $t$ e com o valor-$p$? O que isso diz sobre julgar importância pelo tamanho do coeficiente?</li>
+      <li>Você testa $p=20$ preditores, todos sem relação alguma com $Y$, ao nível de $5\%$. Quantos "significativos" espera encontrar? Que conclusão sobre "o modelo explica alguma coisa" isso invalida, e que estatística resolve o problema?</li>
+      <li>O valor-$p$ do coeficiente linear de $X$ foi $0{,}8$, mas a relação verdadeira é $Y=X^2+\varepsilon$ com $X$ simétrico em torno de zero. O teste "errou"? O que exatamente ele testou? Relacione com o Exercício 3.35(b).</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p><strong>Estatística $t$:</strong> quantos erros-padrão a estimativa está longe de zero.</p>
+      <p><strong>Valor-$p$:</strong> supondo que $H_0$ é verdadeira, a probabilidade de observar um $|t|$ <em>pelo menos tão grande</em> quanto o que saiu:</p>
+      $$p = \mathbb P\big(|T|\ge|t_{\text{obs}}|\;\big|\;H_0\big).$$
+      <p>Ele é uma probabilidade <em>sobre os dados</em>, calculada <em>dentro</em> de $H_0$. Não é uma probabilidade sobre $H_0$. Quase todas as leituras erradas vêm de inverter isso.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      $$H_0:\;\beta_{\text{turb}}=0 \qquad\text{vs.}\qquad H_1:\;\beta_{\text{turb}}\neq 0.$$
+      <p>Testa-se a ausência porque <strong>$H_0$ precisa ser uma afirmação precisa</strong> para que a distribuição de $t$ seja conhecida. Sob "$\beta=0$", sabemos que $t$ segue uma $t_{N-p-1}$. Sob "há algum efeito", o efeito pode ser qualquer número, e não há uma distribuição única para calcular nada.</p>
+      <p>E tem a lógica do ônus da prova: você só afirma que há efeito quando os dados ficam <em>incompatíveis</em> com a hipótese de que não há.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>$t$ compara <mark>o tamanho da estimativa com o tamanho do seu próprio ruído</mark>. É uma razão sinal/ruído.</p>
+      <p>$\hat\beta_j=3$ com $\mathrm{SE}=0{,}5$ dá $t=6$: a estimativa está seis desvios longe do zero, algo quase impossível se $\beta_j=0$.</p>
+      <p>$\hat\beta_j=3$ com $\mathrm{SE}=10$ dá $t=0{,}3$: esse 3 é perfeitamente compatível com oscilação de amostra em torno de zero.</p>
+      <p>O SE muda de um conjunto de dados para outro por $N$, pela dispersão dos $x$, por $\sigma^2$ e pela colinearidade — então o mesmo $\hat\beta$ pode significar coisas completamente diferentes.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>"É a probabilidade de $H_0$ ser verdadeira."</strong> Errado. O valor-$p$ é calculado <em>supondo</em> $H_0$ verdadeira, então não pode ser a probabilidade dela. É $\mathbb P(\text{dados}\mid H_0)$, não $\mathbb P(H_0\mid\text{dados})$. (Na estatística frequentista $\beta_j$ é fixo: $H_0$ é verdadeira ou falsa, sem probabilidade.)</p>
+      <p><strong>"É a probabilidade de o resultado ter ocorrido por acaso."</strong> Mesmo erro, disfarçado. "Ter ocorrido por acaso" é "$H_0$ ser verdadeira". O correto é: <em>se</em> só o acaso estivesse agindo, a probabilidade de algo tão extremo seria $p$.</p>
+      <p><strong>"$p=0{,}30$ prova que a turbidez não importa."</strong> Errado. Ausência de evidência não é evidência de ausência. Com $N$ pequeno ou SE grande, um efeito real e relevante pode dar $p$ alto. O intervalo de confiança mostra isso: ele provavelmente inclui zero <em>e</em> valores relevantes.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p><strong>Significativo: sim</strong> ($p<0{,}001$). Os dados são incompatíveis com efeito zero.</p>
+      <p><strong>Relevante: não dá para saber.</strong> $0{,}0007$ parece minúsculo, mas o tamanho do coeficiente depende da unidade. Faltam:</p>
+      <p>• a <strong>variação típica do preditor</strong> — se a condutividade varia em milhares de μS/cm entre estações, $0{,}0007\times 3000\approx 2$ unidades de arsênio, o que pode importar;<br>
+      • o que é <strong>relevante em unidades de $Y$</strong> — comparar esse efeito com o limite legal, por exemplo.</p>
+      <p><mark>Significância estatística diz "não é zero"; relevância prática diz "é grande o bastante para importar".</mark> Com $N$ enorme, efeitos irrelevantes ficam significativos.</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p>Se $x_j\mapsto cx_j$, o ajuste é o mesmo com $\hat\beta_j\mapsto\hat\beta_j/c$ ($\hat y$ não muda). E como $\mathrm{SE}=\sigma/\|\tilde x_j\|$ e $\|\tilde x_j\|\mapsto|c|\,\|\tilde x_j\|$, também $\mathrm{SE}\mapsto\mathrm{SE}/|c|$.</p>
+      <p>De μS/cm para mS/cm: o número da medida fica mil vezes menor, então $c=1/1000$ — coeficiente e SE ficam <strong>mil vezes maiores</strong>.</p>
+      <p>A razão $t$ fica idêntica, e portanto o valor-$p$ também.</p>
+      <div class="warn">Conclusão: <strong>o tamanho do coeficiente não mede importância</strong>. Ele muda com uma decisão arbitrária de unidade. O $t$ (e o valor-$p$) são invariantes; para comparar efeitos entre preditores, padronize.</div>
+    </div>
+    <div class="item"><span class="lab">f.</span>
+      <p>Cada teste tem $5\%$ de chance de dar "significativo" sob $H_0$. Então espera-se</p>
+      $$20\times 0{,}05 = 1$$
+      <p>falso positivo. E a chance de aparecer pelo menos um (se independentes) é $1-0{,}95^{20}\approx 64\%$.</p>
+      <p>Isso invalida a conclusão <em>"algum coeficiente deu significativo, logo o modelo explica alguma coisa"</em>. Com muitos testes, algum sempre dá.</p>
+      <p>Quem resolve é a <strong>estatística $F$</strong> (3.26): ela testa $H_0:\beta_1=\dots=\beta_p=0$ <em>conjuntamente</em>, num único teste com nível $5\%$ de verdade.</p>
+    </div>
+    <div class="item"><span class="lab">g.</span>
+      <p><strong>O teste não errou.</strong> Ele testou se o coeficiente <em>linear</em> é zero — e ele é.</p>
+      <p>Com $X$ simétrico em torno de zero, $\mathrm{Cov}(X,X^2) = \mathbb E[X^3] - \mathbb E[X]\,\mathbb E[X^2] = 0$. A melhor reta para $Y=X^2$ é horizontal. A relação existe, é até determinística, mas <mark>não tem componente linear</mark>.</p>
+      <p>É o 3.35(b): com desenho simétrico, $x$ e $x^2$ são ortogonais, e o coeficiente de $x$ não "vê" nada do termo quadrático. Um valor-$p$ responde a pergunta que o modelo faz, não a pergunta que você queria ter feito.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e322">
+  <div><span class="tab">Exercício 3.22</span><span class="kind">Prático</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>Lendo uma tabela de regressão</h3>
+  <div class="enun">
+    <p>Regressão do arsênio (μg/L) sobre três preditores, $N=660$.</p>
+    <div class="tbox"><table>
+      <tr><th>coeficiente</th><th>$\hat\beta$</th><th>SE</th><th>$t$</th><th>valor-$p$</th></tr>
+      <tr><td>Intercepto</td><td>$-12{,}0$</td><td>$3{,}1$</td><td>?</td><td>$&lt;0{,}001$</td></tr>
+      <tr><td>pH</td><td>$15{,}2$</td><td>$2{,}5$</td><td>?</td><td>$&lt;0{,}001$</td></tr>
+      <tr><td>Turbidez (NTU)</td><td>$-2{,}1$</td><td>$1{,}6$</td><td>?</td><td>$0{,}19$</td></tr>
+      <tr><td>Condutividade (μS/cm)</td><td>$0{,}030$</td><td>$0{,}004$</td><td>?</td><td>$&lt;0{,}001$</td></tr>
+    </table></div>
+    <ol type="a">
+      <li>Complete a coluna $t$. Confira que os valores-$p$ são coerentes com a regra "$|t|&gt;2$ é significativo a $5\%$".</li>
+      <li>Construa o intervalo de $95\%$ para cada coeficiente. Quais contêm zero?</li>
+      <li>Escreva uma frase para o órgão ambiental sobre cada preditor, com unidades e com o cuidado devido a respeito de causalidade (Exercício 3.17(b)).</li>
+      <li>Preveja o arsênio de uma estação com pH $7$, turbidez $20$ NTU e condutividade $300$ μS/cm. Essa previsão tem erro-padrão? Ele é maior ou menor que o erro de uma nova medição nessa estação?</li>
+      <li>Reescreva a linha da condutividade em mS/cm. O que muda e o que não muda?</li>
+      <li>"A turbidez não é significativa, então retiramos do modelo." Que hipótese essa decisão assume sobre o que aconteceria com os outros coeficientes? Quando ela é falsa (Exercício 3.17(c))?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>$t=\hat\beta/\mathrm{SE}$:</p>
+      <div class="tbox"><table>
+        <tr><th>coeficiente</th><th>$t$</th><th>$|t|&gt;2$?</th><th>valor-$p$</th></tr>
+        <tr><td>Intercepto</td><td>$-12{,}0/3{,}1\approx-3{,}9$</td><td>sim</td><td>$&lt;0{,}001$ ✓</td></tr>
+        <tr><td>pH</td><td>$15{,}2/2{,}5\approx 6{,}1$</td><td>sim</td><td>$&lt;0{,}001$ ✓</td></tr>
+        <tr><td>Turbidez</td><td>$-2{,}1/1{,}6\approx-1{,}3$</td><td>não</td><td>$0{,}19$ ✓</td></tr>
+        <tr><td>Condutividade</td><td>$0{,}030/0{,}004=7{,}5$</td><td>sim</td><td>$&lt;0{,}001$ ✓</td></tr>
+      </table></div>
+      <p>Tudo coerente: os três com $|t|$ bem acima de 2 têm $p$ minúsculo; a turbidez, com $|t|\approx1{,}3$, tem $p=0{,}19$.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Intervalo $\hat\beta\pm1{,}96\,\mathrm{SE}$ (com $N=660$ a $t$ é praticamente normal):</p>
+      <div class="tbox"><table>
+        <tr><th>coeficiente</th><th>IC 95%</th><th>contém 0?</th></tr>
+        <tr><td>Intercepto</td><td>$[-18{,}1;\;-5{,}9]$</td><td>não</td></tr>
+        <tr><td>pH</td><td>$[10{,}3;\;20{,}1]$</td><td>não</td></tr>
+        <tr><td>Turbidez</td><td>$[-5{,}2;\;1{,}0]$</td><td><strong>sim</strong></td></tr>
+        <tr><td>Condutividade</td><td>$[0{,}022;\;0{,}038]$</td><td>não</td></tr>
+      </table></div>
+      <p>Só a turbidez contém zero — a mesma conclusão do teste, como tem que ser: o IC de 95% contém zero sse $p&gt;0{,}05$.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>pH:</strong> "Comparando estações com a mesma turbidez e condutividade, cada unidade a mais de pH está associada, em média, a cerca de 15 μg/L a mais de arsênio (entre 10 e 20). É uma associação observada, não necessariamente um efeito causal."</p>
+      <p><strong>Turbidez:</strong> "Os dados são compatíveis tanto com uma pequena redução (até 5 μg/L por NTU) quanto com um pequeno aumento (até 1 μg/L por NTU). Não dá para afirmar a direção — mas isso não mostra que a turbidez é irrelevante."</p>
+      <p><strong>Condutividade:</strong> "Mantidos pH e turbidez, cada 100 μS/cm a mais estão associados a cerca de 3 μg/L a mais de arsênio (entre 2,2 e 3,8)."</p>
+      <p><strong>Intercepto:</strong> é a previsão para pH $0$, turbidez $0$ e condutividade $0$ — extrapolação sem sentido físico. Não se interpreta; ele existe para posicionar o plano.</p>
+      <div class="warn">O cuidado com causalidade não é formalidade: pelo 3.17(b), o sinal de um coeficiente pode mudar quando se acrescenta ou retira outro preditor. O que o coeficiente mede é associação <em>condicional aos preditores que estão no modelo</em>.</div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      $$\hat f(x_0) = -12{,}0 + 15{,}2\cdot 7 - 2{,}1\cdot 20 + 0{,}030\cdot 300 = -12 + 106{,}4 - 42 + 9 = 61{,}4 \text{ μg/L}.$$
+      <p><strong>Tem erro-padrão, sim:</strong> $\hat f(x_0)=x_0^T\hat\beta$ é uma combinação linear de variáveis aleatórias, com</p>
+      $$\mathrm{Var}(\hat f(x_0)) = \sigma^2\,x_0^T(X^TX)^{-1}x_0.$$
+      <p>A tabela sozinha não basta para calculá-lo: os $\hat\beta_j$ são correlacionados entre si, e as covariâncias não aparecem na tabela.</p>
+      <p><strong>É menor</strong> que o erro de uma nova medição. Uma nova medição acrescenta o ruído irredutível:</p>
+      $$\mathrm{Var}(Y_0-\hat f(x_0)) = \sigma^2\big(1 + x_0^T(X^TX)^{-1}x_0\big).$$
+      <p>O primeiro encolhe com $N$; o segundo nunca fica abaixo de $\sigma^2$ (3.20f, 3.27).</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p>Em mS/cm os valores de condutividade ficam mil vezes menores, então coeficiente e SE ficam mil vezes maiores:</p>
+      $$\hat\beta = 30 \text{ μg/L por mS/cm}, \quad \mathrm{SE}=4, \quad t=7{,}5, \quad p&lt;0{,}001, \quad \text{IC } [22;\,38].$$
+      <p><strong>Muda:</strong> o número do coeficiente, do SE e do IC.</p>
+      <p><strong>Não muda:</strong> $t$, valor-$p$, as previsões, a RSS, o $R^2$ e todos os outros coeficientes. Nada substantivo mudou.</p>
+    </div>
+    <div class="item"><span class="lab">f.</span>
+      <p>A decisão assume que <strong>os outros coeficientes ficariam iguais</strong> sem a turbidez.</p>
+      <p>Pelo 3.17(c), isso só é verdade quando a turbidez é ortogonal aos demais preditores (depois de descontado o intercepto): $X_1^Tx_{\text{turb}}=0$.</p>
+      <p>Se a turbidez for correlacionada com pH ou condutividade — o caso realista em qualidade de água — retirá-la <mark>muda os outros coeficientes</mark>: parte do efeito dela passa a ser atribuída a eles (viés de variável omitida).</p>
+      <p>Além disso, "não significativo" não é "zero" (3.21c): você pode estar jogando fora um efeito real que só não foi detectado.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e325">
+  <div><span class="tab">Exercício 3.25</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>RSE e $R^2$</h3>
+  <div class="enun">
+    <p>Defina $\mathrm{RSE}=\sqrt{\mathrm{RSS}/(N-p-1)}$ e $R^2=1-\mathrm{RSS}/\mathrm{TSS}$.</p>
+    <ol type="a">
+      <li>Em que unidade está cada um? Para o arsênio, o que significa $\mathrm{RSE}=2{,}2$ μg/L em uma frase? Como julgar se é grande: comparando com o limite legal, com $\bar y$ ou com $\sigma$?</li>
+      <li>$\mathrm{RSE}$ e $\sqrt{\mathrm{MSE}_{\text{treino}}}$ diferem pelo denominador. Qual dos dois é um estimador não-viesado de $\sigma^2$ (Exercício 3.15)? Quando a diferença importa?</li>
+      <li>$R^2=0{,}30$ é bom ou ruim? Dê um contexto em que é excelente e outro em que é inaceitável. O que $R^2$ mede, afinal: a qualidade de $\hat f$ ou o tamanho de $\sigma^2$ relativo à variação de $f$?</li>
+      <li>Pelo Exercício 3.13, $R^2$ nunca diminui ao acrescentar preditores. Defina o $R^2$ ajustado, $1-\frac{\mathrm{RSS}/(N-p-1)}{\mathrm{TSS}/(N-1)}$, e explique o que ele penaliza. Ele pode ser negativo? Ele substitui a validação cruzada?</li>
+      <li>É possível ter $R^2$ baixo com todos os coeficientes significativos? E $R^2$ alto sem nenhum coeficiente significativo? Construa um cenário para cada (pense em $N$ e em colinearidade).</li>
+      <li>$R^2$ de treino igual a $0{,}95$ garante boa previsão em novas estações? O que pode dar errado, e que medida da Subseção 2.3 você olharia antes de acreditar?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p><strong>RSE</strong> mede o erro <em>absoluto</em>: o desvio típico entre $y$ e a reta, em unidades de $Y$. É a estimativa de $\sigma$.</p>
+      <p><strong>$R^2$</strong> mede o erro <em>relativo</em>: a fração da variância de $Y$ explicada pelo modelo, sem unidade.</p>
+      <p>Um responde "quão longe", o outro "quanto da variação".</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>RSE:</strong> na unidade de $Y$ (μg/L). <strong>$R^2$:</strong> adimensional.</p>
+      <p><strong>Em uma frase:</strong> "o arsênio medido costuma desviar da previsão do modelo em cerca de 2,2 μg/L, para mais ou para menos."</p>
+      <p><strong>Como julgar:</strong></p>
+      <p>• <em>Limite legal</em> (10 μg/L): é a comparação que decide utilidade. 2,2 é um quinto do limite — o modelo discrimina bem estações muito limpas de muito contaminadas, mas perto do limite ele erra de lado com frequência.<br>
+      • <em>$\bar y$</em>: dá o erro relativo. 2,2 com $\bar y=5$ é enorme; com $\bar y=200$ é pequeno.<br>
+      • <em>$\sigma$</em>: o RSE <strong>é</strong> a estimativa de $\sigma$, então não dá para chamá-lo de "grande em relação a $\sigma$". O que ele diz é outra coisa: se o modelo está correto, esse é o chão — nenhum método faria melhor com esses preditores.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>$\mathrm{RSE}^2 = \mathrm{RSS}/(N-p-1)$ é o <strong>não-viesado</strong> para $\sigma^2$ (3.15b). $\mathrm{MSE}_{\text{treino}}=\mathrm{RSS}/N$ é viesado para baixo, com $\mathbb E[\mathrm{MSE}_{\text{treino}}]=\sigma^2(1-\tfrac{p+1}{N})$.</p>
+      <p>A diferença é o fator $(N-p-1)/N$. Ela <mark>importa quando $p+1$ não é desprezível frente a $N$</mark>: com $N=660$ e $p=3$ é irrelevante (0,6%); com $N=30$ e $p=10$ o MSE de treino subestima $\sigma^2$ em mais de um terço.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>Depende inteiramente do contexto.</strong></p>
+      <p><em>Excelente:</em> prever retorno semanal da bolsa, comportamento humano, resposta neural em um único trial — fenômenos com muito ruído intrínseco. Explicar 30% da variância seria extraordinário.</p>
+      <p><em>Inaceitável:</em> calibrar um instrumento, ou uma lei física com medição precisa — aí se espera $R^2&gt;0{,}99$, e $0{,}30$ indica que algo está muito errado.</p>
+      <p><strong>O que ele mede:</strong> num modelo correto, aproximadamente</p>
+      $$R^2 \approx \frac{\mathrm{Var}(f(X))}{\mathrm{Var}(f(X))+\sigma^2}.$$
+      <div class="warn">Ou seja, $R^2$ mede mais <strong>o tamanho do ruído relativo ao sinal</strong> do que a qualidade de $\hat f$. Você pode ter $\hat f=f$ exatamente — o modelo perfeito — e $R^2$ baixo, porque $\sigma^2$ é grande. $R^2$ baixo não acusa o modelo; pode acusar o problema.</div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      $$R^2_{\text{aj}} = 1-\frac{\mathrm{RSS}/(N-p-1)}{\mathrm{TSS}/(N-1)}.$$
+      <p><strong>O que penaliza:</strong> troca somas de quadrados por <em>variâncias estimadas</em> (cada uma dividida pelos seus graus de liberdade). Acrescentar um preditor tira um grau de liberdade do numerador; se a RSS não cair o suficiente para compensar, o $R^2$ ajustado <strong>diminui</strong>. Ele penaliza preditores que não pagam o próprio custo.</p>
+      <p><strong>Pode ser negativo</strong>, sim: quando $\mathrm{RSS}/(N-p-1) &gt; \mathrm{TSS}/(N-1)$, o que acontece com preditores inúteis e $N$ pequeno. Significa que o modelo se sai pior que a média $\bar y$, depois de descontados os graus de liberdade.</p>
+      <p><strong>Não substitui a validação cruzada.</strong> Ele ainda é calculado no treino, com uma correção grosseira que vale para regressão linear sob as hipóteses do modelo. A CV estima o erro de teste diretamente e vale para qualquer método (kNN, ridge…).</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p><strong>$R^2$ baixo, tudo significativo:</strong> $N$ enorme e muito ruído. Com um milhão de estações, o SE vai a zero e qualquer efeito, mesmo mínimo, dá $p$ minúsculo — mas se $\sigma^2$ domina a variância de $Y$, o $R^2$ fica baixo. (É o 3.19f: precisão sobre $\beta$ não é precisão sobre $Y$.)</p>
+      <p><strong>$R^2$ alto, nada significativo:</strong> colinearidade forte. Dois preditores quase iguais, ambos relacionados a $Y$: juntos explicam muito (o $F$ é enorme), mas o modelo não consegue separar o crédito entre eles, e os SEs individuais explodem (3.17d). Cada $t$ isolado fica pequeno. Também acontece com $N$ pequeno e $p$ próximo de $N$.</p>
+    </div>
+    <div class="item"><span class="lab">f.</span>
+      <p><strong>Não.</strong> $R^2$ de treino é medida de <em>ajuste</em>, não de generalização (2.5).</p>
+      <p>O que pode dar errado: sobreajuste (muitos preditores para o $N$, 3.13 garante que o $R^2$ sobe de qualquer jeito); estações novas de uma região ou época diferente (extrapolação); dependência espacial ou temporal entre estações; vazamento de dados (2.20).</p>
+      <p>Antes de acreditar, olharia o <strong>erro de teste</strong> ou o <strong>erro de validação cruzada</strong> — de preferência com uma partição que respeite a estrutura dos dados (por região ou por tempo).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e330">
+  <div><span class="tab">Exercício 3.30</span><span class="kind">Conceitual</span></div>
+  <h3>Ridge e o trade-off</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Complete e justifique: "em relação a mínimos quadrados, ridge é <em>mais / menos</em> flexível e melhora a previsão quando <em>o aumento do viés / a redução da variância</em> é menor que …".</li>
+      <li>Com $\lambda$ crescendo a partir de zero, diga se cada quantidade aumenta sempre, diminui sempre, tem forma de U ou é constante: erro de treino, erro de teste, variância, viés², erro irredutível.</li>
+      <li>Tome $N=p$ e $X=I$ (sem intercepto). Mostre que a solução ridge é $\hat\beta_j=y_j/(1+\lambda)$. Interprete a palavra <em>encolhimento</em> e ligue ao item (b).</li>
+      <li>Por que se padroniza os preditores antes de aplicar ridge? O que aconteceria com um preditor medido em uma unidade mil vezes menor?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>"Em relação a mínimos quadrados, ridge é <mark>menos</mark> flexível e melhora a previsão quando <mark>o aumento do viés²</mark> é menor que <mark>a redução da variância</mark>."</p>
+      <p><strong>Por que "menos flexível":</strong> a formulação penalizada é equivalente a minimizar a RSS <em>sujeito a</em> $\|\beta\|^2\le s$, com $s$ decrescente em $\lambda$. Isso é literalmente uma classe $\mathcal G$ menor — você está proibindo vetores de coeficientes que antes eram permitidos.</p>
+      <p><strong>Por que a condição:</strong> como</p>
+      $$\text{erro de teste} = \text{viés}^2 + \text{variância} + \mathrm{Var}(\varepsilon),$$
+      <p>e o viés² sobe enquanto a variância desce, o saldo é favorável exatamente quando a queda de variância supera o aumento de viés².</p>
+      <p>Isso tende a acontecer quando $p$ é grande em relação a $N$, quando há colinearidade (a variância de MQ fica enorme — 3.17d), ou quando $\sigma^2$ é grande.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Idêntico ao 2.21(a), pela mesma razão (mais $\lambda$ = menos flexibilidade):</p>
+      <p>• erro de treino: <strong>aumenta sempre</strong><br>
+      • erro de teste: <strong>forma de U</strong><br>
+      • variância: <strong>diminui sempre</strong><br>
+      • viés²: <strong>aumenta sempre</strong><br>
+      • erro irredutível: <strong>constante</strong></p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Com $N=p$ e $X=I$, sem intercepto, o objetivo <strong>separa</strong> em $p$ problemas independentes de uma variável:</p>
+      $$L(\beta) = \sum_j \Big[(y_j-\beta_j)^2 + \lambda\beta_j^2\Big].$$
+      <p>Derivando em $\beta_j$: $-2(y_j-\beta_j)+2\lambda\beta_j=0$, ou seja $(1+\lambda)\beta_j=y_j$, logo</p>
+      $$\hat\beta_j = \frac{y_j}{1+\lambda}.$$
+      <p>E note que, como $X=I$, a solução de mínimos quadrados é simplesmente $\hat\beta_j^{\text{MQ}}=y_j$.</p>
+      <div class="key">
+        <p><strong>Encolhimento</strong> (<em>shrinkage</em>) é literalmente isto: a solução de mínimos quadrados é <mark>multiplicada por um fator $\frac{1}{1+\lambda}<1$</mark>, puxada em direção a zero sem nunca chegar lá.</p>
+        <p><em>(Diferente do lasso, que zera coeficientes de verdade — daí ele fazer seleção de variáveis e o ridge não.)</em></p>
+        <p>E aqui dá para ver as duas curvas monótonas do item (b) em fórmula fechada:</p>
+        $$\mathrm{Var}(\hat\beta_j) = \frac{\sigma^2}{(1+\lambda)^2}\;\downarrow, \qquad \text{viés} = \frac{\beta_j}{1+\lambda}-\beta_j = -\frac{\lambda\beta_j}{1+\lambda}\;\uparrow \text{ (em módulo)}.$$
+        <p>Em $\lambda=0$: viés zero, variância $\sigma^2$. Em $\lambda\to\infty$: viés $=-\beta_j$ (previsão constante zero), variância zero. Exatamente os dois extremos do 2.16.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Porque a penalidade $\lambda\sum_j\beta_j^2$ <strong>não é invariante por escala</strong>.</p>
+      <p>Se um preditor passa a ser medido numa unidade mil vezes menor, os valores ficam $1000\times$ maiores, o coeficiente equivalente fica $1000\times$ menor, e sua contribuição à penalidade cai por um fator de $10^6$.</p>
+      <p>Na prática, aquela variável fica <mark>quase isenta de penalidade</mark>, enquanto todas as outras continuam sendo encolhidas normalmente. Uma escolha arbitrária de unidade — que não diz nada sobre o mundo — virou uma decisão de modelagem com consequências reais.</p>
+      <div class="warn">
+        <p>Compare com mínimos quadrados, que é <strong>equivariante</strong>: $x_j\mapsto cx_j$ leva $\hat\beta_j\mapsto\hat\beta_j/c$ e $\hat y$ não muda em absolutamente nada.</p>
+        <p>Essa é a propriedade que o ridge perde, e padronizar (média $0$, desvio $1$) é o que a devolve: todos os preditores passam a entrar na penalidade em pé de igualdade, e "$\beta_j$ grande" passa a significar "efeito grande por desvio padrão".</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e331">
+  <div><span class="tab">Exercício 3.31</span><span class="kind">Demonstração</span><span class="badge av1b">★ AV1</span></div>
+  <h3>Solução fechada e colunas idênticas</h3>
+  <div class="enun">
+    <p>Considere ridge sem intercepto: $L(\beta)=(y-X\beta)^T(y-X\beta)+\lambda\beta^T\beta$.</p>
+    <ol type="a">
+      <li>Mostre que $\hat\beta_{\text{ridge}}=(X^TX+\lambda I)^{-1}X^Ty$ e que $X^TX+\lambda I$ é invertível para todo $\lambda>0$, mesmo quando $X^TX$ não é. Compare com o Exercício 3.10.</li>
+      <li>Suponha que duas colunas de $X$ são idênticas. Mínimos quadrados tem infinitas soluções; mostre que ridge tem uma única, e que nela os dois coeficientes são iguais.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Usando as regras do 3.11(a):</p>
+      $$\nabla L = -2X^Ty + 2X^TX\beta + 2\lambda\beta = 0 \;\Longrightarrow\; (X^TX+\lambda I)\beta = X^Ty,$$
+      $$\hat\beta_{\text{ridge}} = (X^TX+\lambda I)^{-1}X^Ty.$$
+      <p><strong>Invertibilidade.</strong> Para qualquer $v\neq 0$:</p>
+      $$v^T(X^TX+\lambda I)v = \|Xv\|^2 + \lambda\|v\|^2 \;\ge\; \lambda\|v\|^2 \;>\; 0.$$
+      <div class="key">
+        <p>Então $X^TX+\lambda I$ é <strong>definida positiva</strong> — e repare que a conta não usou <em>nenhuma</em> hipótese sobre $X$. O primeiro termo pode ser zero; o segundo sozinho já garante a positividade.</p>
+        <p>Em linguagem de autovalores: $X^TX$ é semidefinida positiva, com autovalores $d_j\ge 0$ (alguns possivelmente zero, que é a causa da singularidade). Somar $\lambda I$ desloca todos para $d_j+\lambda\ge\lambda>0$. O ridge literalmente <em>empurra o espectro para longe de zero</em>.</p>
+      </div>
+      <p><strong>Contraste com o 3.10:</strong> mínimos quadrados exige colunas linearmente independentes e, em particular, $N\ge p+1$.</p>
+      <p>Ridge não exige <strong>nada</strong>. Funciona com colunas duplicadas, com colinearidade perfeita, com $p>N$. Isso é uma diferença qualitativa, não um detalhe numérico: <mark>ridge define um estimador em situações onde MQ simplesmente não existe</mark>.</p>
+      <p>O preço é o viés (3.32c): ele deixa de ser não-viesado. E é por isso que não há contradição com Gauss–Markov (3.14d) — aquele teorema só fala de estimadores <em>não-viesados</em>, e o ridge saiu dessa categoria de propósito.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Suponha que as colunas $1$ e $2$ de $X$ sejam idênticas.</p>
+      <p><strong>Unicidade.</strong> A Hessiana de $L$ é $2(X^TX+\lambda I)$, que por (a) é definida positiva. Logo $L$ é <strong>estritamente convexa</strong>, e uma função estritamente convexa tem no máximo um minimizador — que existe e é o da fórmula fechada.</p>
+      <p><em>(Compare: mínimos quadrados, sem o $\lambda I$, é apenas convexa nessa situação — não estritamente. Daí as infinitas soluções do 3.10c.)</em></p>
+      <p><strong>Coeficientes iguais.</strong> Argumento de simetria, bem limpo:</p>
+      <p>Seja $\hat\beta$ a solução, e seja $\tilde\beta$ o mesmo vetor com as coordenadas $1$ e $2$ trocadas de lugar. Como as colunas $1$ e $2$ são idênticas, a combinação $\beta_1x_1+\beta_2x_2=(\beta_1+\beta_2)x_1$ não distingue as duas coordenadas, então</p>
+      $$X\tilde\beta = X\hat\beta \quad\text{(mesma RSS)}, \qquad \|\tilde\beta\| = \|\hat\beta\| \quad\text{(mesma penalidade)}.$$
+      <p>Logo $L(\tilde\beta)=L(\hat\beta)$, ou seja, $\tilde\beta$ também é minimizador. Pela unicidade, $\tilde\beta=\hat\beta$ — o que força $\hat\beta_1=\hat\beta_2$. $\blacksquare$</p>
+      <div class="key">
+        <p><strong>Intuição alternativa (e mais memorável):</strong> entre todas as decomposições com $\beta_1+\beta_2=c$ — que dão <em>exatamente a mesma</em> RSS, porque as colunas são iguais — a penalidade $\beta_1^2+\beta_2^2$ é minimizada em $\beta_1=\beta_2=c/2$.</p>
+        <p>A norma $\ell_2$ <mark>prefere dividir o crédito igualmente</mark> entre preditores redundantes, em vez de concentrar tudo em um.</p>
+        <p>É exatamente por isso que, com variáveis correlacionadas, ridge as encolhe <em>em grupo</em> enquanto o lasso escolhe uma e zera a outra. Os dois comportamentos vêm da geometria da penalidade, não de um detalhe do algoritmo.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet av1" id="e334">
+  <div><span class="tab">Exercício 3.34</span><span class="kind">Conceitual</span><span class="badge av1b">★ AV1</span><span class="badge newb">novo</span></div>
+  <h3>Interação e linearidade nos parâmetros</h3>
+  <div class="enun">
+    <p>Considere $\widehat{\text{As}} = \beta_0+\beta_1\,\text{pH}+\beta_2\,\text{turb}+\beta_3\,\text{pH}\cdot\text{turb}$.</p>
+    <ol type="a">
+      <li>O que $\beta_1$ mede quando $\beta_3=0$? Escreva o efeito de aumentar o pH em uma unidade como função da turbidez.</li>
+      <li>Para quais valores de turbidez o efeito do pH é positivo?</li>
+      <li>"$\hat\beta_3$ é pequeno, logo a interação não importa." Critique, pensando na escala das variáveis.</li>
+      <li>Para cada modelo, diga se é linear nos parâmetros e, quando for, escreva a matriz design: $\beta_0+\beta_1x+\beta_2x^2$; $\;\beta_0+\beta_1\log x$; $\;\beta_0e^{\beta_1x}$; $\;\beta_0+\beta_1x_1x_2$.</li>
+      <li>Regressão polinomial de grau $d$ é regressão linear. Então por que ela sobreajusta quando $d$ cresce? O que mede a "flexibilidade" aqui?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>"Linear" em regressão linear quer dizer <strong>linear nos parâmetros</strong>: $\hat y = X\beta$, com os $\beta_j$ entrando como coeficientes de colunas <em>fixas</em>.</p>
+      <p>As colunas podem ser qualquer função conhecida dos preditores — $x^2$, $\log x$, $x_1x_2$. Tudo que se provou para mínimos quadrados continua valendo; muda só o que você põe em $X$.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>Com $\beta_3=0$: $\beta_1$ é a variação média do arsênio por unidade de pH, <strong>mantida a turbidez fixa</strong> — e é a mesma em qualquer nível de turbidez.</p>
+      <p>Com interação, o efeito de subir o pH em uma unidade (turbidez fixa) é</p>
+      $$\Delta\widehat{\text{As}} = \beta_1 + \beta_3\,\text{turb}.$$
+      <p>O efeito do pH <mark>deixa de ser um número e vira uma função da turbidez</mark>. Graficamente: as retas de As × pH para cada nível de turbidez deixam de ser paralelas.</p>
+      <div class="warn">Consequência: na presença de interação, $\beta_1$ sozinho é o efeito do pH <em>quando a turbidez vale zero</em> — o que pode nem ser um valor realista. Por isso centrar os preditores ajuda na interpretação.</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Resolva $\beta_1+\beta_3\,\text{turb}&gt;0$:</p>
+      <p>• se $\beta_3&gt;0$: $\;\text{turb} &gt; -\beta_1/\beta_3$;<br>
+      • se $\beta_3&lt;0$: $\;\text{turb} &lt; -\beta_1/\beta_3$;<br>
+      • se $\beta_3=0$: positivo para toda turbidez sse $\beta_1&gt;0$.</p>
+      <p>Há um limiar de turbidez em que o efeito do pH <em>troca de sinal</em>.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>O tamanho de $\hat\beta_3$ depende das unidades do <strong>produto</strong> pH × turbidez. Turbidez pode variar em centenas de NTU; então um $\hat\beta_3=0{,}05$ vezes uma turbidez de $200$ dá $10$ — o que pode superar o próprio $\beta_1$.</p>
+      <p>O certo é comparar $\hat\beta_3\times(\text{faixa típica da turbidez})$ com $\hat\beta_1$, ou olhar o $t$ de $\hat\beta_3$ (que é invariante por escala, 3.21e). Mesma lição do 3.21: <mark>tamanho de coeficiente não é importância</mark>.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <div class="tbox"><table>
+        <tr><th>modelo</th><th>linear nos parâmetros?</th><th>matriz design (linha $i$)</th></tr>
+        <tr><td>$\beta_0+\beta_1x+\beta_2x^2$</td><td><strong>sim</strong></td><td>$[\,1,\;x_i,\;x_i^2\,]$</td></tr>
+        <tr><td>$\beta_0+\beta_1\log x$</td><td><strong>sim</strong></td><td>$[\,1,\;\log x_i\,]$</td></tr>
+        <tr><td>$\beta_0e^{\beta_1x}$</td><td><strong>não</strong></td><td>—</td></tr>
+        <tr><td>$\beta_0+\beta_1x_1x_2$</td><td><strong>sim</strong></td><td>$[\,1,\;x_{i1}x_{i2}\,]$</td></tr>
+      </table></div>
+      <p>No terceiro, $\beta_1$ está <em>dentro</em> da exponencial: $\partial\hat y/\partial\beta_1 = \beta_0 x e^{\beta_1x}$ depende dos próprios parâmetros, então não existe $X$ fixa com $\hat y=X\beta$.</p>
+      <p><em>(Se o erro for multiplicativo, dá para linearizar tomando log: $\log y = \log\beta_0+\beta_1x$, com $X=[1,x]$. Mas isso é outro modelo para o ruído — não é o mesmo problema de mínimos quadrados.)</em></p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <p>"Linear" descreve <strong>como os parâmetros entram</strong>, não quão flexível é a classe de funções.</p>
+      <p>No polinômio de grau $d$, a classe é o espaço gerado por $\{1,x,\dots,x^d\}$, de dimensão $d+1$. A <mark>flexibilidade é o número de parâmetros</mark> — a dimensão de $\mathrm{col}(X)$, que é $\mathrm{tr}(H)=d+1$ (3.12e).</p>
+      <p>Quando $d$ cresce, a variância cresce junto (otimismo $2\sigma^2(d+1)/N$, 3.15d), e em $d=N-1$ o ajuste interpola: RSS $=0$ (3.35a). Linearidade nos parâmetros garante que o problema é fácil de <em>resolver</em>; não garante nada sobre <em>generalizar</em>.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="e335">
+  <div><span class="tab">Exercício 3.35</span><span class="kind">Demonstração</span></div>
+  <h3>Polinômios e a RSS</h3>
+  <div class="enun">
+    <p>Seja $\mathrm{RSS}(d)$ a soma dos quadrados dos resíduos do ajuste polinomial de grau $d$ a $N$ pontos com $x_i$ distintos.</p>
+    <ol type="a">
+      <li>Mostre que $\mathrm{RSS}(d)$ é não-crescente em $d$ e que $\mathrm{RSS}(N-1)=0$. Junte o Exercício 3.13 com o Exercício 2.3. Que $\mathrm{RSS}(d)$ o Exercício 2.22 mostra?</li>
+      <li>Mostre que, se os $x_i$ são simétricos em torno de $0$ (isto é, $-x_i$ também é um dos pontos), então as colunas de potências pares e ímpares são ortogonais. O que isso implica para $\hat\beta_1$ ao passar do grau 1 para o grau 2? E ao passar para o grau 3?</li>
+      <li>Por que a matriz $[1,x,x^2,\dots,x^d]$ com $x_i\in[0,1]$ tem $X^TX$ quase singular quando $d$ cresce? Usando o Exercício 3.14(a), o que isso faz com a variância dos coeficientes? O que centrar os $x_i$ resolve, e o que não resolve?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Não-crescente:</strong> o modelo de grau $d$ está <em>aninhado</em> no de grau $d+1$ (basta $\beta_{d+1}=0$), então pelo 3.13(a) $\mathrm{RSS}(d+1)\le\mathrm{RSS}(d)$.</p>
+      <p><strong>$\mathrm{RSS}(N-1)=0$:</strong> pelo 2.3, com os $x_i$ distintos existe um (único) polinômio de grau $\le N-1$ passando por todos os $N$ pontos. Esse polinômio pertence à classe de grau $N-1$ e tem RSS $=0$; como RSS $\ge 0$ sempre, ele é o mínimo.</p>
+      <p><em>(Em linguagem do 3.10(e): a matriz de Vandermonde $N\times N$ é invertível, logo $\mathrm{col}(X)=\mathbb R^N$ e $\hat y=y$. É o mesmo fato.)</em></p>
+      <div class="key">
+        <p>Juntando: a RSS de treino desce monotonicamente de $\mathrm{TSS}$ (grau 0, a função constante) até exatamente $0$ (grau $N-1$), <strong>sem nenhum acidente no caminho</strong>.</p>
+        <p>O <strong>2.22</strong> mostra o que essa curva esconde: o MSE de <em>teste</em> faz uma curva em U, com mínimo em algum grau intermediário, e depois explode.</p>
+        <p>Conclusão prática: <mark>$\mathrm{RSS}(d)$ não contém informação nenhuma sobre qual $d$ escolher.</mark> Ela sempre aponta $d=N-1$, em qualquer conjunto de dados, com qualquer nível de ruído.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>As colunas do design são $v_k$ com entradas $(v_k)_i=x_i^k$. Então o produto interno é</p>
+      $$\langle v_j,v_k\rangle = \sum_i x_i^{\,j+k}.$$
+      <p>Se $j+k$ é <strong>ímpar</strong> e os pontos vêm em pares $\{x,-x\}$, cada par contribui $x^{j+k}+(-x)^{j+k}=0$. Logo a soma inteira é zero: <strong>colunas de potência par são ortogonais às de potência ímpar</strong>. $\blacksquare$</p>
+      <p><strong>Grau 1 → grau 2: $\hat\beta_1$ não muda.</strong></p>
+      <p>Pela regressão parcial (3.17a), $\hat\beta_1$ no modelo $[\mathbf 1,x,x^2]$ é o coeficiente da regressão de $y$ sobre o resíduo de $x$ após descontar $\{\mathbf 1,x^2\}$.</p>
+      <p>Mas $\langle x,\mathbf 1\rangle = \sum x_i = 0$ e $\langle x,x^2\rangle = \sum x_i^3 = 0$ — as duas potências ímpares. Então $x$ já é ortogonal às duas colunas, o resíduo é o próprio $x$, e</p>
+      $$\hat\beta_1 = \frac{\langle x,y\rangle}{\langle x,x\rangle},$$
+      <p>que é exatamente o $\hat\beta_1$ do modelo de grau 1.</p>
+      <p><strong>Grau 3: $\hat\beta_1$ muda.</strong></p>
+      <p>Agora a nova coluna é $x^3$, e $\langle x,x^3\rangle=\sum x_i^4>0$ — potência par, não se anula. Ela não é ortogonal a $x$, o resíduo parcial muda, e o coeficiente muda junto.</p>
+      <p class="hand">moral: com desenho simétrico, potências pares e ímpares "não conversam"</p>
+      <p>Você pode acrescentar termos pares sem perturbar os coeficientes ímpares, e vice-versa.</p>
+      <div class="warn">
+        <p>Isso explica o <strong>3.21(g)</strong>: se a verdade é $Y=X^2+\varepsilon$ com $X$ simétrico em torno de zero, o coeficiente linear é <em>genuinamente zero na população</em> — não é falha de estimação.</p>
+        <p>O teste dá valor-$p$ alto e <strong>o teste não errou</strong>. Ele testou a ausência de relação <em>linear</em>, que de fato não existe, ainda que a dependência entre $X$ e $Y$ seja perfeita e determinística.</p>
+      </div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Com $x_i\in[0,1]$, as colunas $x^d$ e $x^{d+1}$ ficam cada vez mais parecidas: ambas são quase zero em quase todo o intervalo e só levantam perto de $x=1$. A correlação entre potências consecutivas tende a $1$.</p>
+      <p>Quantitativamente, se os $x_i$ forem aproximadamente uniformes,</p>
+      $$\frac1N(X^TX)_{jk} \approx \int_0^1 x^{j+k}\,dx = \frac{1}{j+k+1},$$
+      <p>que é a <strong>matriz de Hilbert</strong> — o exemplo clássico de matriz mal condicionada, cujo número de condição cresce exponencialmente em $d$.</p>
+      <p><strong>Efeito na variância:</strong> pelo 3.14(a), $\mathrm{Var}(\hat\beta)=\sigma^2(X^TX)^{-1}$. Autovalores minúsculos de $X^TX$ viram entradas gigantescas na inversa, então as <mark>variâncias dos coeficientes explodem</mark>.</p>
+      <p>O sintoma típico na prática: uma tabela de coeficientes enormes e de sinais alternados, que se cancelam quase perfeitamente na soma. Qualquer perturbação minúscula nos dados os sacode inteiros — e mesmo assim o ajuste na tela parece bom.</p>
+      <p><strong>Centrar resolve</strong> a correlação trivial entre $\mathbf 1$ e $x$ (e, reescalando para $[-1,1]$, mata metade dos produtos internos pelo argumento de (b)). Melhora bastante o condicionamento para $d$ moderado.</p>
+      <p><strong>Centrar não resolve</strong> o problema de fundo: a base monomial $\{1,x,x^2,\dots\}$ é <em>intrinsecamente</em> mal condicionada para $d$ grande. As funções são quase paralelas como vetores, não importa onde você as centre. As soluções reais são trocar de base (Legendre, Chebyshev, ou uma fatoração QR) ou <strong>regularizar</strong> (3.36c).</p>
+      <div class="key">
+        <p>Uma observação que fecha o círculo do curso: $\hat y$ — a projeção sobre $\mathrm{col}(X)$ — é <strong>o mesmo em qualquer base do mesmo espaço</strong> (3.12d).</p>
+        <p>Ou seja, o mal condicionamento estraga os <em>coeficientes</em> e a estabilidade numérica, mas <em>não</em> o ajuste nem a previsão.</p>
+        <p>É mais uma versão do tema que atravessa tudo: <mark>$\hat\beta$ e $\hat y$ são objetos diferentes, e inferência e previsão sofrem de doenças diferentes.</mark></p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<p class="foot">fim · boa revisão 🖊️</p>
+
+</div>
+
+<script>
+(function(){
+  var KEY = 'md22-abertos';
+  function sheets(){ return Array.prototype.slice.call(document.querySelectorAll('.sheet')); }
+
+  function save(){
+    try{
+      var abertos = sheets().filter(function(s){
+        return s.querySelector('.ans').classList.contains('open');
+      }).map(function(s){ return s.id; });
+      localStorage.setItem(KEY, JSON.stringify(abertos));
+    }catch(e){}
+  }
+
+  function setOpen(sheet, open){
+    var ans = sheet.querySelector('.ans');
+    var btn = sheet.querySelector('.toggle button');
+    if(!ans || !btn) return;
+    ans.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? 'esconder resposta' : 'ver resposta';
+  }
+
+  sheets().forEach(function(sheet){
+    var btn = sheet.querySelector('.toggle button');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var aberto = sheet.querySelector('.ans').classList.contains('open');
+      setOpen(sheet, !aberto);
+      save();
+    });
+  });
+
+  document.getElementById('showAll').addEventListener('click', function(){
+    sheets().forEach(function(s){ setOpen(s, true); });
+    save();
+  });
+  document.getElementById('hideAll').addEventListener('click', function(){
+    sheets().forEach(function(s){ setOpen(s, false); });
+    save();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  try{
+    var salvos = JSON.parse(localStorage.getItem(KEY) || '[]');
+    if(Array.isArray(salvos)){
+      salvos.forEach(function(id){
+        var s = document.getElementById(id);
+        if(s) setOpen(s, true);
+      });
+    }
+  }catch(e){}
+
+  var fKEY = 'md22-filtro-av1';
+  var fbtn = document.getElementById('onlyAv1');
+  function setFilter(on){
+    document.body.classList.toggle('only-av1', on);
+    fbtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+  fbtn.addEventListener('click', function(){
+    var on = !document.body.classList.contains('only-av1');
+    setFilter(on);
+    try{ localStorage.setItem(fKEY, on ? '1' : '0'); }catch(e){}
+  });
+  try{ if(localStorage.getItem(fKEY) === '1') setFilter(true); }catch(e){}
+})();
+</script>
+</body>
+</html>
