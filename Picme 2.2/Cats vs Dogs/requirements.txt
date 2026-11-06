@@ -1,6 +1,0 @@
-kagglehub
-torch
-numpy
-pillow
-scipy
-matplotlib
