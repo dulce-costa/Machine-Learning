@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Caderno — Estudo dirigido AV2 (MD22)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --paper:#f4efe3; --card:#fffdf8; --ink:#22252a; --ink-soft:#5c626c; --ink-faint:#8a9099;
+    --rule:#e0d9c8; --margin-line:#e3a9a9; --accent:#b3462f; --accent-2:#2f6b8f; --green:#4a7a4a;
+    --hi-yellow:#fdf4c0; --hi-blue:#e4eff7; --hi-green:#e2f0df; --quote-bg:#f7f3e8;
+    --shadow:rgba(70,55,25,.12); --tape:rgba(224,210,170,.8);
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#171a1d; --card:#20242a; --ink:#e7e4dc; --ink-soft:#a6abb3; --ink-faint:#787e87;
+      --rule:#333a42; --margin-line:#7d4b4b; --accent:#e98a6e; --accent-2:#84bade; --green:#93c393;
+      --hi-yellow:#3e3921; --hi-blue:#1f2e39; --hi-green:#233024; --quote-bg:#262b31;
+      --shadow:rgba(0,0,0,.5); --tape:rgba(66,62,50,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#171a1d; --card:#20242a; --ink:#e7e4dc; --ink-soft:#a6abb3; --ink-faint:#787e87;
+    --rule:#333a42; --margin-line:#7d4b4b; --accent:#e98a6e; --accent-2:#84bade; --green:#93c393;
+    --hi-yellow:#3e3921; --hi-blue:#1f2e39; --hi-green:#233024; --quote-bg:#262b31;
+    --shadow:rgba(0,0,0,.5); --tape:rgba(66,62,50,.7);
+  }
+  *,*::before,*::after{box-sizing:inherit}
+  html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px); -webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size:17px; line-height:1.78;
+  }
+  .wrap{max-width:800px;margin:0 auto;padding:26px 16px 120px}
+
+  .cover{
+    position:relative;background:var(--card);border-radius:4px;
+    padding:40px 30px 34px 34px;margin-bottom:30px;
+    box-shadow:0 10px 30px var(--shadow);overflow:hidden;
+  }
+  .cover::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+    background:repeating-linear-gradient(180deg,var(--accent) 0 16px,transparent 16px 30px);opacity:.45;
+  }
+  .tape{
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%) rotate(-1.5deg);
+    width:140px;height:30px;background:var(--tape);
+    border-left:1px dashed rgba(0,0,0,.08);border-right:1px dashed rgba(0,0,0,.08);
+  }
+  h1{font-family:"Caveat",cursive;font-weight:700;font-size:clamp(2.2rem,7.5vw,3.1rem);
+     line-height:1.05;margin:.12em 0 .1em}
+  .sub{font-family:"Caveat",cursive;font-size:1.4rem;color:var(--accent);margin:0 0 18px}
+  .meta{font-size:.8rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint)}
+  .howto{margin-top:22px;padding:16px 18px;border-left:3px solid var(--accent-2);
+    background:var(--hi-blue);border-radius:0 6px 6px 0;font-size:.95rem;line-height:1.7}
+  .howto p{margin:.5em 0}
+
+  .bar{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+    display:flex;flex-wrap:wrap;gap:9px;align-items:center;
+    background:var(--paper);padding:12px 2px;margin-bottom:22px;
+    border-bottom:1.5px solid var(--rule);
+  }
+  .bar .lbl{font-family:"Caveat",cursive;font-size:1.3rem;color:var(--ink-soft);margin-right:2px}
+  button{
+    font-family:inherit;font-size:.87rem;font-weight:700;cursor:pointer;
+    padding:7px 15px;border-radius:999px;border:1.5px solid var(--rule);
+    background:var(--card);color:var(--ink);transition:.15s;
+  }
+  button:hover{border-color:var(--accent);color:var(--accent)}
+
+  .toc{margin:0 0 42px}
+  .toc h2{font-family:"Caveat",cursive;font-size:1.8rem;margin:0 0 12px;color:var(--accent)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips a{
+    display:inline-block;padding:5px 13px;border-radius:999px;background:var(--card);
+    border:1.5px solid var(--rule);color:var(--ink);text-decoration:none;
+    font-size:.87rem;font-weight:700;box-shadow:0 1px 3px var(--shadow);
+  }
+  .chips a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .part{display:flex;align-items:center;gap:14px;margin:60px 0 28px}
+  .part span{font-family:"Caveat",cursive;font-size:2.1rem;color:var(--accent);white-space:nowrap}
+  .part::after{content:"";flex:1;height:2px;background:var(--accent);opacity:.28}
+
+  .sheet{
+    position:relative;background:var(--card);border-radius:4px;
+    margin:0 0 40px;padding:26px 28px 28px 34px;
+    box-shadow:0 5px 20px var(--shadow);
+  }
+  .sheet::before{
+    content:"";position:absolute;top:0;bottom:0;left:16px;width:1.5px;
+    background:var(--margin-line);opacity:.5;
+  }
+  .tab{
+    display:inline-block;font-size:.71rem;font-weight:800;letter-spacing:.13em;
+    text-transform:uppercase;color:#fff;background:var(--accent);
+    padding:4px 11px;border-radius:3px;
+  }
+  .kind{
+    display:inline-block;margin-left:8px;font-size:.68rem;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+    border:1.5px solid var(--rule);padding:3px 9px;border-radius:3px;
+  }
+  .sheet h3{font-family:"Caveat",cursive;font-weight:700;font-size:1.8rem;margin:12px 0 18px;line-height:1.2}
+
+  .enun{
+    background:var(--quote-bg);border:1.5px solid var(--rule);border-radius:7px;
+    padding:18px 20px;margin:0 0 22px;font-size:.98rem;line-height:1.75;
+  }
+  .enun::before{
+    content:"enunciado";font-family:"Caveat",cursive;font-size:1.25rem;color:var(--ink-faint);
+    display:block;line-height:1;margin-bottom:10px;
+  }
+  .enun p{margin:.5em 0}
+  .enun ol{margin:.7em 0 .2em;padding-left:1.5em}
+  .enun ol li{margin:.55em 0;padding-left:.2em}
+  .enun ol li::marker{color:var(--accent);font-weight:700}
+
+  .toggle{margin:0}
+  .toggle button{width:100%;text-align:left;border-style:dashed;padding:10px 16px}
+  .toggle button::before{content:"▸ ";color:var(--accent);font-weight:700}
+  .toggle button[aria-expanded="true"]::before{content:"▾ "}
+
+  .ans{display:none;padding-top:10px}
+  .ans.open{display:block}
+
+  .ans p{margin:1em 0}
+  .item{margin:26px 0 0;padding-left:34px;position:relative}
+  .item > .lab{
+    position:absolute;left:0;top:-2px;
+    font-family:"Caveat",cursive;font-size:1.5rem;font-weight:700;color:var(--accent-2);
+  }
+  .item > p:first-of-type{margin-top:0}
+
+  .key{
+    background:var(--hi-yellow);border-left:3px solid #d8b93c;
+    padding:14px 18px;border-radius:0 6px 6px 0;margin:20px 0;font-size:.97rem;line-height:1.72;
+  }
+  .key::before{
+    content:"ideia-chave";font-family:"Caveat",cursive;font-size:1.2rem;color:#96770f;
+    display:block;line-height:1;margin-bottom:7px;
+  }
+  .warn{
+    background:var(--hi-green);border-left:3px solid var(--green);
+    padding:14px 18px;border-radius:0 6px 6px 0;margin:20px 0;font-size:.95rem;line-height:1.72;
+  }
+  .warn::before{
+    content:"cuidado — pegadinha";font-family:"Caveat",cursive;font-size:1.2rem;color:var(--green);
+    display:block;line-height:1;margin-bottom:7px;
+  }
+  .key p,.warn p{margin:.55em 0}
+  .key p:first-of-type,.warn p:first-of-type{margin-top:0}
+  .key p:last-child,.warn p:last-child{margin-bottom:0}
+  mark{background:var(--hi-yellow);color:var(--ink);padding:1px 4px;border-radius:2px}
+  .hand{font-family:"Caveat",cursive;font-size:1.25rem;color:var(--accent);line-height:1.35}
+  em{font-style:italic;color:var(--ink-soft)}
+
+  .tbox{overflow-x:auto;margin:20px 0;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;min-width:430px;font-size:.92rem}
+  th,td{border-bottom:1px solid var(--rule);padding:11px 12px;text-align:left;vertical-align:top;line-height:1.6}
+  th{font-weight:800;color:var(--accent-2);font-size:.75rem;text-transform:uppercase;letter-spacing:.07em}
+
+  mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:6px 0}
+  mjx-container{color:var(--ink)}
+
+  .foot{text-align:center;font-family:"Caveat",cursive;font-size:1.4rem;color:var(--ink-faint);margin-top:56px}
+  .up{
+    display:inline-block;margin-top:24px;font-size:.78rem;color:var(--ink-faint);
+    text-decoration:none;border-bottom:1px dotted var(--ink-faint);
+  }
+  @media (max-width:560px){
+    body{font-size:16px;line-height:1.75}
+    .wrap{padding:18px 11px 90px}
+    .cover{padding:30px 20px 26px 24px}
+    .sheet{padding:22px 17px 24px 26px;margin-bottom:32px}
+    .sheet::before{left:11px}
+    .item{padding-left:28px}
+    .enun{padding:15px 16px}
+  }
+
+  .badge{display:inline-block;margin-left:8px;font-size:.66rem;font-weight:800;letter-spacing:.08em;
+    text-transform:uppercase;padding:3px 8px;border-radius:3px;vertical-align:1px}
+  .av1b{background:var(--hi-yellow);color:#8a6b0a;border:1.5px solid #d8b93c}
+  .newb{background:var(--hi-blue);color:var(--accent-2);border:1.5px solid var(--accent-2)}
+  .chips a.av1{border-color:#d8b93c}
+  #onlyAv1[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  body.only-av1 .sheet:not(.av1){display:none}
+  body.only-av1 .chips a:not(.av1){display:none}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .av1b{color:#e6cf7a}}
+  :root[data-theme="dark"] .av1b{color:#e6cf7a}
+
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+    background:var(--quote-bg);border:1px solid var(--rule);padding:0 5px;border-radius:3px}
+  pre.code{background:var(--quote-bg);border:1.5px solid var(--rule);border-radius:7px;
+    padding:13px 15px;margin:14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.8rem;line-height:1.6;white-space:pre}
+  pre.code code{background:none;border:0;padding:0;font-size:inherit}
+  pre.code .cm{color:var(--green)}
+  .enun pre.code{background:var(--card)}
+  .howto ol{margin:.4em 0;padding-left:1.4em}
+  .ans ul,.ans ol{padding-left:1.3em} .ans li{margin:.35em 0}
+  .flt[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  .bar{gap:7px}
+  .bar button{padding:5px 12px;font-size:.8rem}
+  @media (max-width:560px){.bar .lbl{display:none}.bar button{padding:4px 9px;font-size:.74rem}}
+  .prog{margin-left:auto;font-family:"Caveat",cursive;font-size:1.3rem;color:var(--green)}
+  .enun ol li{list-style:none;position:relative;padding-left:1.9em}
+  .enun ol{padding-left:.2em}
+  .enun ol li input.chk{position:absolute;left:0;top:.38em;width:1.05em;height:1.05em;accent-color:var(--green);cursor:pointer;margin:0}
+  .enun ol li.done{color:var(--ink-soft)}
+  .enun ol li .ltr{color:var(--accent);font-weight:700;margin-right:.35em}
+  .chips a.done{border-color:var(--green);color:var(--green)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <div class="tape"></div>
+  <div class="meta">Aprendizado de Máquina I · MD22 · IMPA Tech · 2026.2</div>
+  <h1>Estudo dirigido AV2</h1>
+  <p class="sub">caderno de revisão — logística, LDA/QDA, SVM, árvores, redes, PCA e JL</p>
+  <div class="howto">
+    <p><strong>Como usar:</strong> cada folha junta algumas perguntas do checklist do professor. Tente responder em voz alta ou no papel, e só então clique em <em>ver resposta</em>.</p>
+    <p>A caixa <em>ideia-chave</em> (amarela) é o que precisa estar na sua resposta; se você pegou ela, acertou. As caixas verdes marcam os erros que parecem certos.</p>
+    <p>O PDF divide tudo em quatro guias — <strong>conceitos, teoria, contas e código</strong>. Cada folha tem a etiqueta do seu guia, e os botões de filtro mostram um guia de cada vez. Os quadradinhos ☐ das perguntas podem ser marcados; ficam salvos no navegador.</p>
+  </div>
+</div>
+
+<div class="bar">
+  <span class="lbl">respostas:</span>
+  <button id="showAll" type="button">mostrar todas</button>
+  <button id="hideAll" type="button">esconder todas</button>
+  <span class="lbl" style="margin-left:6px">guia:</span>
+  <button class="flt" data-f="all" type="button" aria-pressed="true">tudo</button>
+  <button class="flt" data-f="conceito" type="button" aria-pressed="false">conceitos</button>
+  <button class="flt" data-f="teoria" type="button" aria-pressed="false">teoria</button>
+  <button class="flt" data-f="contas" type="button" aria-pressed="false">contas</button>
+  <button class="flt" data-f="codigo" type="button" aria-pressed="false">código</button>
+  <span class="prog" id="prog"></span>
+</div>
+
+<nav class="toc">
+  <h2>índice</h2>
+  <div class="chips"><a href="#s11" data-kind="conceito">1.1</a><a href="#s12" data-kind="conceito">1.2</a><a href="#s13" data-kind="conceito">1.3</a><a href="#s14" data-kind="teoria">1.4</a><a href="#s15" data-kind="contas">1.5</a><a href="#s21" data-kind="teoria">2.1</a><a href="#s22" data-kind="conceito">2.2</a><a href="#s23" data-kind="teoria">2.3</a><a href="#s24" data-kind="teoria">2.4</a><a href="#s25" data-kind="conceito">2.5</a><a href="#s26" data-kind="contas">2.6</a><a href="#s27" data-kind="contas">2.7</a><a href="#s31" data-kind="conceito">3.1</a><a href="#s32" data-kind="conceito">3.2</a><a href="#s33" data-kind="teoria">3.3</a><a href="#s34" data-kind="teoria">3.4</a><a href="#s35" data-kind="contas">3.5</a><a href="#s36" data-kind="contas">3.6</a><a href="#s41" data-kind="conceito">4.1</a><a href="#s42" data-kind="teoria">4.2</a><a href="#s43" data-kind="conceito">4.3</a><a href="#s44" data-kind="contas">4.4</a><a href="#s45" data-kind="contas">4.5</a><a href="#s46" data-kind="contas">4.6</a><a href="#s51" data-kind="conceito">5.1</a><a href="#s52" data-kind="teoria">5.2</a><a href="#s53" data-kind="teoria">5.3</a><a href="#s54" data-kind="conceito">5.4</a><a href="#s61" data-kind="conceito">6.1</a><a href="#s62" data-kind="teoria">6.2</a><a href="#s63" data-kind="contas">6.3</a><a href="#s64" data-kind="conceito">6.4</a><a href="#s65" data-kind="contas">6.5</a><a href="#s71" data-kind="teoria">7.1</a><a href="#s72" data-kind="teoria">7.2</a><a href="#s73" data-kind="conceito">7.3</a><a href="#c1" data-kind="codigo">C.1</a><a href="#c2" data-kind="codigo">C.2</a><a href="#c3" data-kind="codigo">C.3</a><a href="#c4" data-kind="codigo">C.4</a><a href="#c5" data-kind="codigo">C.5</a><a href="#c6" data-kind="codigo">C.6</a><a href="#c7" data-kind="codigo">C.7</a><a href="#f1" data-kind="teoria">F.1</a><a href="#f2" data-kind="codigo">F.2</a></div>
+</nav>
+
+<div class="part"><span>1 · Regressão logística</span></div>
+
+<section class="sheet" id="s11" data-kind="conceito">
+  <div><span class="tab">Folha 1.1</span><span class="kind">Conceitual</span></div>
+  <h3>O classificador de Bayes e a estratégia plug-in</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você sabe explicar o que é o classificador de Bayes e a estratégia plug-in?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>O <strong>classificador de Bayes</strong> é o melhor classificador possível quando se conhece a distribuição de $(X,Y)$: ele escolhe a classe mais provável dado $x$,</p>
+      $$C^*(x) = \arg\max_k \; P(Y=k \mid X=x).$$
+      <p>A <strong>estratégia plug-in</strong> é o que fazemos na prática, porque essas probabilidades são desconhecidas: estimamos $\hat p_k(x)\approx P(Y=k\mid X=x)$ e trocamos (“plugamos”) a verdadeira pela estimada: $\hat C(x)=\arg\max_k \hat p_k(x)$.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Por que o de Bayes é o melhor.</strong> Com perda 0-1, o erro condicional de um classificador $C$ no ponto $x$ é</p>
+      $$P(Y\neq C(x)\mid X=x) = 1 - P(Y=C(x)\mid X=x).$$
+      <p>Para minimizar isso em <em>cada</em> $x$, basta escolher a classe que maximiza $P(Y=k\mid X=x)$. Como o erro total é a média desse erro condicional sobre $X$, minimizar ponto a ponto minimiza a média. Nenhum classificador faz melhor.</p>
+      <p>O erro que ele comete,</p>
+      $$\text{erro de Bayes} = 1 - \mathbb E\Big[\max_k P(Y=k\mid X)\Big],$$
+      <p>é o <mark>piso irredutível</mark> da classificação — o análogo de $\mathrm{Var}(\varepsilon)$ na regressão. Ele só é zero se as classes não se sobrepõem.</p>
+      <p>No caso binário, $C^*(x)=1$ se $p(x)=P(Y=1\mid X=x)&gt;1/2$. A fronteira de Bayes é o conjunto $\{x : p(x)=1/2\}$.</p>
+      <p><strong>Plug-in.</strong> Todos os métodos desta parte do curso são formas diferentes de estimar $p_k(x)$:</p>
+      <div class="tbox"><table>
+        <tr><th>método</th><th>como estima $p_k(x)$</th></tr>
+        <tr><td>regressão logística</td><td>modela $p_k(x)$ <strong>direto</strong> (forma sigmoide/softmax) — discriminativo</td></tr>
+        <tr><td>LDA / QDA</td><td>modela $f_k(x)=p(x\mid Y=k)$ e $\pi_k$, e inverte com a regra de Bayes — generativo</td></tr>
+        <tr><td>kNN</td><td>fração de vizinhos da classe $k$</td></tr>
+        <tr><td>árvore</td><td>fração da classe $k$ na caixa onde $x$ cai</td></tr>
+      </table></div>
+      <div class="warn">
+        <p>O limiar $1/2$ vem da perda 0-1. Se os erros têm custos diferentes — custo $c_{FN}$ de dizer 0 quando é 1 e $c_{FP}$ de dizer 1 quando é 0 — a regra ótima vira</p>
+        $$\text{dizer } 1 \iff p(x) &gt; \frac{c_{FP}}{c_{FP}+c_{FN}}.$$
+        <p>A estimativa $\hat p$ é a mesma; só muda o limiar. Essa é uma vantagem do plug-in: a mesma probabilidade serve para qualquer custo. A SVM (folha 3.2) não tem essa flexibilidade.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s12" data-kind="conceito">
+  <div><span class="tab">Folha 1.2</span><span class="kind">Conceitual</span></div>
+  <h3>Por que não uma reta — e por que a sigmoide</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue apontar três problemas de modelar $p(x)$ por uma reta?</li>
+      <li>Sabe o que são odds e logit, e por que a sigmoide resolve os problemas da reta?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>A reta $p(x)=\beta_0+\beta^Tx$ trata uma <strong>probabilidade</strong> como se fosse um número qualquer. A logística modela linearmente uma quantidade que <em>pode</em> ser qualquer número real — o <strong>logit</strong> — e volta para $[0,1]$ pela sigmoide.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>1. Sai de $[0,1]$.</strong> Uma reta não é limitada: para $x$ grande o bastante, $\hat p(x)&lt;0$ ou $\hat p(x)&gt;1$. Isso não é probabilidade, e não tem leitura.</p>
+      <p><strong>2. Efeito constante, sem saturação.</strong> Na reta, aumentar $x_j$ em uma unidade muda $p$ sempre em $\beta_j$, esteja $p$ em $0{,}5$ ou em $0{,}99$. Mas perto de 0 e de 1 a probabilidade <em>tem</em> que achatar — não dá para subir $0{,}1$ a partir de $0{,}95$. A relação real tem forma de S.</p>
+      <p><strong>3. Mínimos quadrados é a ferramenta errada para $Y\in\{0,1\}$.</strong></p>
+      <ul>
+        <li>A variância não é constante: $\mathrm{Var}(Y\mid x)=p(x)(1-p(x))$, que depende de $x$ (heterocedasticidade). As hipóteses de MQ não valem, e erros-padrão saem errados.</li>
+        <li>Pontos <em>muito bem classificados</em>, longe da fronteira, têm resíduo grande ($y=1$ mas $\hat p=1{,}4$, por exemplo) e puxam a reta. A fronteira $\hat p=1/2$ se desloca por causa de pontos que nem estavam em dúvida.</li>
+      </ul>
+      <p><em>Bônus (várias classes):</em> codificar $Y\in\{1,2,3\}$ e fazer regressão impõe uma ordem e um espaçamento igual entre as classes que não existem.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Odds</strong> (chance) é a razão</p>
+      $$\text{odds}(x) = \frac{p(x)}{1-p(x)} \in (0,\infty).$$
+      <p>$p=0{,}2$ dá odds $1/4$ (“1 para 4”); $p=0{,}5$ dá odds 1; $p=0{,}9$ dá odds 9.</p>
+      <p><strong>Logit</strong> é o log das odds:</p>
+      $$\text{logit}(p) = \log\frac{p}{1-p} \in (-\infty,\infty).$$
+      <p>O logit leva $(0,1)$ em $\mathbb R$ inteiro, então <mark>agora sim faz sentido igualá-lo a algo linear</mark>:</p>
+      $$\log\frac{p(x)}{1-p(x)} = \beta_0+\beta^Tx \quad\Longleftrightarrow\quad p(x) = \sigma(\beta_0+\beta^Tx) = \frac{1}{1+e^{-(\beta_0+\beta^Tx)}}.$$
+      <p>Como a sigmoide resolve cada problema:</p>
+      <div class="tbox"><table>
+        <tr><th>problema da reta</th><th>o que a sigmoide faz</th></tr>
+        <tr><td>1. sai de $[0,1]$</td><td>$\sigma:\mathbb R\to(0,1)$, então $\hat p$ é sempre uma probabilidade.</td></tr>
+        <tr><td>2. sem saturação</td><td>$\dfrac{\partial p}{\partial x_j} = \beta_j\,p(1-p)$: o efeito é máximo em $p=1/2$ e some perto de 0 e 1. É a forma de S.</td></tr>
+        <tr><td>3. MQ inadequado</td><td>O ajuste passa a ser por <strong>máxima verossimilhança</strong> Bernoulli (folha 1.5), que já leva em conta $\mathrm{Var}=p(1-p)$. E um ponto bem classificado longe da fronteira tem $y_i-p_i\approx 0$: quase não entra no gradiente, então não puxa a fronteira.</td></tr>
+      </table></div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s13" data-kind="conceito">
+  <div><span class="tab">Folha 1.3</span><span class="kind">Conceitual</span></div>
+  <h3>Lendo os coeficientes $\beta_j$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue interpretar os coeficientes $\beta_j$?</li>
+      <li>Você entende por que a leitura natural é em odds, e não em probabilidade?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>Aumentar $x_j$ em uma unidade, <strong>mantendo os outros preditores fixos</strong>:</p>
+      <ul>
+        <li>soma $\beta_j$ ao logit;</li>
+        <li><mark>multiplica as odds por $e^{\beta_j}$</mark>;</li>
+        <li>muda a probabilidade por um valor que <em>depende de onde você está</em>.</li>
+      </ul>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>Do modelo, $\text{odds}(x)=e^{\beta_0+\beta_1x_1+\dots+\beta_px_p}$. Trocando $x_j$ por $x_j+1$:</p>
+      $$\frac{\text{odds}(x_j+1)}{\text{odds}(x_j)} = e^{\beta_j}.$$
+      <p>Esse quociente é a <strong>razão de chances</strong> (<em>odds ratio</em>), e não depende de $x$.</p>
+      <ul>
+        <li><strong>Sinal:</strong> $\beta_j&gt;0$ ⇒ $p$ cresce com $x_j$; $\beta_j&lt;0$ ⇒ decresce; $\beta_j=0$ ⇒ $x_j$ não afeta (dado o resto).</li>
+        <li><strong>Tamanho:</strong> $\beta_j=0{,}7$ ⇒ $e^{0{,}7}\approx 2{,}01$, as odds dobram. Para $\beta_j$ pequeno, $e^{\beta_j}-1\approx\beta_j$: $\beta_j=0{,}05$ é “cerca de $5\%$ a mais nas odds por unidade”.</li>
+        <li><strong>Intercepto:</strong> $\beta_0$ é o logit quando todos os $x_j=0$; $\sigma(\beta_0)$ é a probabilidade nesse ponto (que pode não ter sentido físico).</li>
+        <li><strong>Variável binária</strong> (dummy): $e^{\beta_j}$ é a razão entre as odds do grupo 1 e do grupo 0.</li>
+      </ul>
+      <div class="warn">“Mantendo os outros fixos” não é detalhe: o coeficiente de $x_j$ muda se você tira ou põe outro preditor correlacionado com ele. E é associação, não efeito causal — o mesmo cuidado da regressão linear.</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Porque em probabilidade <strong>não existe um número só</strong> que resuma o efeito de $x_j$. A derivada é</p>
+      $$\frac{\partial p}{\partial x_j} = \beta_j\,p(x)\,(1-p(x)),$$
+      <p>que depende do ponto. Exemplo com $\beta_j=\ln 2$ (odds dobram):</p>
+      <div class="tbox"><table>
+        <tr><th>ponto de partida</th><th>odds</th><th>depois (+1 em $x_j$)</th><th>mudança em $p$</th></tr>
+        <tr><td>$p=0{,}5$</td><td>$1\to 2$</td><td>$p=2/3\approx0{,}667$</td><td>$+0{,}167$</td></tr>
+        <tr><td>$p=0{,}9$</td><td>$9\to 18$</td><td>$p=18/19\approx0{,}947$</td><td>$+0{,}047$</td></tr>
+        <tr><td>$p=0{,}01$</td><td>$\approx0{,}0101\to0{,}0202$</td><td>$p\approx0{,}0198$</td><td>$+0{,}0098$</td></tr>
+      </table></div>
+      <p>O efeito em odds é o mesmo nas três linhas (×2); em probabilidade, varia mais de dez vezes.</p>
+      <div class="key">O modelo é linear no <strong>logit</strong>. Então é na escala do logit (somar $\beta_j$), ou das odds (multiplicar por $e^{\beta_j}$), que o efeito de $x_j$ é constante. A probabilidade é uma transformação não linear disso, e herda um efeito que muda de ponto a ponto.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s14" data-kind="teoria">
+  <div><span class="tab">Folha 1.4</span><span class="kind">Teoria</span></div>
+  <h3>Fronteira de decisão e várias classes</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe que tipo de fronteira de decisão a logística desenha, e como obter fronteiras curvas?</li>
+      <li>Sabe como o modelo se estende para várias classes?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>A fronteira é onde $\hat p(x)=1/2$. Como $\sigma(z)=1/2 \iff z=0$:</p>
+      $$\{x : \hat p(x)=\tfrac12\} = \{x : \beta_0+\beta^Tx = 0\},$$
+      <p>um <mark>hiperplano</mark> (reta em $\mathbb R^2$). Com qualquer outro limiar $t$, a fronteira vira $\beta_0+\beta^Tx=\text{logit}(t)$: outro hiperplano, paralelo. As curvas de nível de $\hat p$ são todas hiperplanos paralelos com normal $\beta$.</p>
+      <p><strong>Fronteiras curvas:</strong> expanda as variáveis. Troque $x$ por $\phi(x)$, por exemplo</p>
+      $$\phi(x_1,x_2) = (x_1,\,x_2,\,x_1^2,\,x_2^2,\,x_1x_2).$$
+      <p>O modelo $\text{logit}\,p = \beta_0+\beta^T\phi(x)$ continua <strong>linear nos parâmetros</strong> — o ajuste é exatamente o mesmo, só com mais colunas. A fronteira $\beta_0+\beta^T\phi(x)=0$ é linear em $\phi$, mas no espaço original é uma cônica. Splines, interações e polinômios funcionam do mesmo jeito.</p>
+      <div class="warn">Mais termos = mais parâmetros = mais variância. Com muitos termos, os dados de treino ficam separáveis com facilidade, e aí a máxima verossimilhança diverge (folha 1.5). Use regularização ou escolha o grau por validação cruzada. É o mesmo raciocínio que leva ao truque do kernel na SVM (folha 3.4).</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Regressão logística multinomial.</strong> Escolha uma classe de referência, digamos $K$, e modele o log das odds de cada classe contra ela:</p>
+      $$\log\frac{P(Y=k\mid x)}{P(Y=K\mid x)} = \beta_{k0}+\beta_k^Tx,\qquad k=1,\dots,K-1.$$
+      <p>Resolvendo (e usando que as probabilidades somam 1):</p>
+      $$P(Y=k\mid x) = \frac{e^{\beta_{k0}+\beta_k^Tx}}{1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_l^Tx}},\qquad P(Y=K\mid x)=\frac{1}{1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_l^Tx}}.$$
+      <p>É a <strong>softmax</strong> com $\beta_K=0$. São $(K-1)(p+1)$ parâmetros. Com $K=2$ volta à logística usual.</p>
+      <ul>
+        <li><strong>Por que fixar uma classe?</strong> Somar o mesmo vetor a todos os $\beta_k$ não muda nenhuma probabilidade (a softmax é invariante a deslocamento). Sem fixar, os parâmetros não são identificáveis. A versão simétrica (um $\beta_k$ por classe) só funciona com regularização.</li>
+        <li><strong>Interpretação</strong>: $e^{\beta_{kj}}$ é o fator nas odds de $k$ <em>contra a referência</em>. Os coeficientes dependem de qual classe é a referência; as probabilidades previstas não.</li>
+        <li><strong>Fronteiras</strong>: entre $k$ e $l$ é onde $(\beta_{k0}-\beta_{l0})+(\beta_k-\beta_l)^Tx=0$ — de novo hiperplanos. O espaço fica dividido em regiões convexas (poliedros).</li>
+      </ul>
+      <p><em>Alternativa:</em> “um contra todos” — $K$ logísticas binárias, cada uma separando uma classe do resto, e classifica pela maior $\hat p$. Mais simples, mas as probabilidades não somam 1.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s15" data-kind="contas">
+  <div><span class="tab">Folha 1.5</span><span class="kind">Contas</span></div>
+  <h3>O problema de otimização da logística</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você consegue deduzir o problema de otimização definido pela regressão logística para se ajustar os coeficientes?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>Máxima verossimilhança com $Y_i\mid x_i\sim\text{Bernoulli}(p(x_i))$. O resultado é</p>
+      $$\hat\beta = \arg\max_\beta\; \ell(\beta) = \arg\max_\beta \sum_{i=1}^N \Big[y_i\,\tilde x_i^T\beta - \log\big(1+e^{\tilde x_i^T\beta}\big)\Big],$$
+      <p>com $\tilde x_i=(1,x_i)$. Equivalente: minimizar a <strong>entropia cruzada</strong> $-\ell(\beta)$. É côncavo, sem solução fechada, e se resolve por Newton (IRLS) ou descida do gradiente.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>1. Verossimilhança.</strong> Escreva $p_i=p(x_i)=\sigma(z_i)$, $z_i=\tilde x_i^T\beta$. Para uma Bernoulli, $P(Y_i=y_i)=p_i^{y_i}(1-p_i)^{1-y_i}$ (vale $p_i$ se $y_i=1$, $1-p_i$ se $y_i=0$). Com observações independentes:</p>
+      $$L(\beta) = \prod_{i=1}^N p_i^{\,y_i}(1-p_i)^{1-y_i}.$$
+      <p><strong>2. Log.</strong> Produto vira soma (e o argmax não muda, porque log é crescente):</p>
+      $$\ell(\beta) = \sum_{i=1}^N \Big[y_i\log p_i + (1-y_i)\log(1-p_i)\Big].$$
+      <p><strong>3. Simplificar.</strong> Com $p_i=\dfrac{e^{z_i}}{1+e^{z_i}}$ e $1-p_i=\dfrac{1}{1+e^{z_i}}$:</p>
+      $$\log p_i = z_i - \log(1+e^{z_i}),\qquad \log(1-p_i) = -\log(1+e^{z_i}).$$
+      <p>Substituindo, o termo $i$ fica $y_iz_i - y_i\log(1+e^{z_i}) - (1-y_i)\log(1+e^{z_i}) = y_iz_i-\log(1+e^{z_i})$. Então</p>
+      $$\boxed{\;\ell(\beta) = \sum_{i=1}^N \Big[y_i\,\tilde x_i^T\beta - \log\big(1+e^{\tilde x_i^T\beta}\big)\Big]\;}$$
+      <p><strong>4. Gradiente.</strong> Como $\frac{d}{dz}\log(1+e^z)=\sigma(z)$:</p>
+      $$\nabla\ell(\beta) = \sum_{i=1}^N (y_i - p_i)\,\tilde x_i = \tilde X^T(y-p).$$
+      <p>Leitura: cada ponto empurra $\beta$ na direção de $\tilde x_i$ com peso igual ao seu <strong>resíduo</strong> $y_i-p_i$. Ponto já bem classificado ($p_i\approx y_i$) quase não empurra.</p>
+      <p><strong>5. Equação de verossimilhança.</strong> $\nabla\ell=0$ dá $\tilde X^T(y-p(\beta))=0$: $p+1$ equações <em>não lineares</em> em $\beta$ (o $\beta$ está dentro da sigmoide). Não há solução fechada.</p>
+      <p><strong>6. Concavidade.</strong> A hessiana é</p>
+      $$\nabla^2\ell(\beta) = -\sum_i p_i(1-p_i)\,\tilde x_i\tilde x_i^T = -\tilde X^TW\tilde X,\qquad W=\mathrm{diag}\big(p_i(1-p_i)\big).$$
+      <p>Para todo $v$, $v^T\tilde X^TW\tilde Xv=\sum_i p_i(1-p_i)(\tilde x_i^Tv)^2\ge 0$, então a hessiana é semidefinida negativa: $\ell$ é <strong>côncava</strong>. Todo ponto crítico é máximo global — não há mínimos locais para atrapalhar (bem diferente das redes, folha 5.2).</p>
+      <p><strong>7. Como resolver.</strong> Newton–Raphson:</p>
+      $$\beta^{\text{novo}} = \beta + (\tilde X^TW\tilde X)^{-1}\tilde X^T(y-p).$$
+      <p>Isso é o mesmo que resolver, a cada passo, mínimos quadrados <em>ponderados</em> com pesos $W$ — por isso o nome IRLS (<em>iteratively reweighted least squares</em>). Ou descida do gradiente simples: $\beta\leftarrow\beta+\eta\,\tilde X^T(y-p)/N$ (código C.1).</p>
+      <div class="warn">
+        <p><strong>Dados separáveis:</strong> se um hiperplano separa perfeitamente as classes, dá para fazer todos os $p_i\to y_i$ multiplicando $\beta$ por uma constante cada vez maior. A verossimilhança tende a 1 (log a 0) sem nunca atingir: <mark>o máximo não existe</mark>, $\|\hat\beta\|\to\infty$. O software avisa “não convergiu”. Remédio: regularização ($-\ell(\beta)+\lambda\|\beta\|^2$), ou LDA, ou SVM.</p>
+      </div>
+      <p><em>Forma equivalente, útil para comparar com a SVM:</em> com rótulos $y_i\in\{-1,+1\}$, a mesma conta dá</p>
+      $$\min_\beta \sum_{i=1}^N \log\big(1+e^{-y_i\,\tilde x_i^T\beta}\big),$$
+      <p>a <strong>perda logística</strong> da margem $y_i f(x_i)$. A SVM troca essa perda pela perda <em>hinge</em> $\max(0,1-y_if(x_i))$ (folha 3.3). As duas são quase zero para margens grandes e crescem linearmente para margens negativas.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>2 · LDA e QDA</span></div>
+
+<section class="sheet" id="s21" data-kind="teoria">
+  <div><span class="tab">Folha 2.1</span><span class="kind">Teoria</span></div>
+  <h3>Generativo × discriminativo, e as hipóteses</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você sabe explicar a diferença entre método generativo e discriminativo?</li>
+      <li>Consegue enunciar as hipóteses da LDA e da QDA?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p><strong>Discriminativo</strong> modela só o que precisa para classificar: $P(Y\mid X)$.</p>
+      <p><strong>Generativo</strong> modela como os dados são <em>gerados</em> — a distribuição de $X$ dentro de cada classe, $f_k(x)$, e a proporção de cada classe, $\pi_k$ — e chega em $P(Y\mid X)$ pela regra de Bayes.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>No generativo, a conta é</p>
+      $$p_k(x) = P(Y=k\mid X=x) = \frac{\pi_k\,f_k(x)}{\sum_{l=1}^K \pi_l\,f_l(x)}.$$
+      <div class="tbox"><table>
+        <tr><th></th><th>discriminativo (logística)</th><th>generativo (LDA, QDA, naive Bayes)</th></tr>
+        <tr><td>o que modela</td><td>$P(Y\mid X)$</td><td>$f_k(x)=p(x\mid Y=k)$ e $\pi_k$ — a conjunta de $(X,Y)$</td></tr>
+        <tr><td>hipóteses sobre $X$</td><td>nenhuma; a marginal de $X$ fica livre</td><td>uma forma para $f_k$ (gaussiana)</td></tr>
+        <tr><td>estimação</td><td>verossimilhança <em>condicional</em> $\prod P(y_i\mid x_i)$</td><td>verossimilhança <em>conjunta</em> $\prod \pi_{y_i}f_{y_i}(x_i)$</td></tr>
+        <tr><td>consegue gerar dados novos?</td><td>não</td><td>sim — sorteia $Y\sim\pi$, depois $X\sim f_Y$</td></tr>
+        <tr><td>quando ganha</td><td>hipótese gaussiana falsa; $N$ grande</td><td>hipótese aproximadamente verdadeira; $N$ pequeno; classes separadas</td></tr>
+      </table></div>
+      <p>O generativo aposta mais (faz mais hipóteses). Se a aposta está certa, ele usa a informação dos dados de forma mais eficiente; se está errada, paga em viés.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Em comum:</strong> observações independentes; $Y$ tem probabilidades a priori $\pi_k=P(Y=k)$; e, dentro de cada classe, $X$ é gaussiana multivariada.</p>
+      <p><strong>LDA:</strong></p>
+      $$X\mid Y=k \;\sim\; N_p(\mu_k,\;\Sigma)\qquad\text{— médias diferentes, mesma covariância } \Sigma \text{ em todas as classes.}$$
+      <p><strong>QDA:</strong></p>
+      $$X\mid Y=k \;\sim\; N_p(\mu_k,\;\Sigma_k)\qquad\text{— cada classe tem sua própria covariância.}$$
+      <p>Geometricamente: na LDA, as nuvens das classes são elipses de <em>mesma forma e orientação</em>, só transladadas. Na QDA cada nuvem tem forma e orientação próprias.</p>
+      <p><strong>Estimativas plug-in:</strong></p>
+      $$\hat\pi_k=\frac{n_k}{N},\qquad \hat\mu_k=\frac1{n_k}\sum_{i:\,y_i=k}x_i,$$
+      $$\text{LDA: }\hat\Sigma = \frac{1}{N-K}\sum_{k=1}^K\sum_{i:\,y_i=k}(x_i-\hat\mu_k)(x_i-\hat\mu_k)^T,\qquad \text{QDA: }\hat\Sigma_k=\frac{1}{n_k-1}\sum_{i:\,y_i=k}(x_i-\hat\mu_k)(x_i-\hat\mu_k)^T.$$
+      <p>O $\hat\Sigma$ da LDA é a covariância <strong>combinada</strong> (<em>pooled</em>): desvios de cada ponto em relação à média da <em>sua</em> classe. O $N-K$ é o número de observações menos as $K$ médias estimadas (para não subestimar).</p>
+      <div class="warn">A hipótese é gaussiana <em>dentro de cada classe</em>, não “$X$ é gaussiana”. A marginal de $X$ é uma mistura de gaussianas e pode ter vários picos.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s22" data-kind="conceito">
+  <div><span class="tab">Folha 2.2</span><span class="kind">Conceitual</span></div>
+  <h3>Por que a gaussiana?</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe dizer por que escolher a gaussiana, o que se ganha quando a hipótese vale, e o que se perde quando não vale?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Por que ela.</strong></p>
+      <ul>
+        <li><strong>A conta fecha.</strong> O log da densidade gaussiana é uma forma quadrática em $x$. Então $\log(\pi_kf_k(x))$ é quadrático, e o discriminante sai em fórmula fechada: linear (LDA) ou quadrático (QDA) — folha 2.6.</li>
+        <li><strong>Só precisa de médias e covariâncias.</strong> A gaussiana é determinada pelos dois primeiros momentos, que se estimam com médias amostrais. Nada de otimização iterativa.</li>
+        <li><strong>É a escolha “menos comprometida”</strong> dados média e covariância (máxima entropia), e aparece naturalmente quando a medição é soma de muitos efeitos pequenos (TCL).</li>
+      </ul>
+      <p><strong>Quando vale, ganha-se:</strong></p>
+      <ul>
+        <li><mark>O plug-in converge para o classificador de Bayes</mark>: a família contém a verdade, então não há viés de modelo.</li>
+        <li><strong>Eficiência</strong>: usando a distribuição inteira de $X$ (inclusive pontos longe da fronteira, que ajudam a estimar $\mu_k$ e $\Sigma$), a LDA tem variância menor que a logística para o mesmo $N$. Faz diferença com $N$ pequeno.</li>
+        <li><strong>Estabilidade</strong>: com classes bem separadas a logística diverge (folha 1.5); a LDA não, porque só estima médias e covariâncias.</li>
+      </ul>
+      <p><strong>Quando não vale, perde-se:</strong></p>
+      <ul>
+        <li><strong>Viés que não some com $N$.</strong> O plug-in converge para a melhor <em>gaussiana</em>, não para o $p_k(x)$ verdadeiro. Mais dados não consertam.</li>
+        <li><strong>Sensibilidade a pontos extremos.</strong> Médias e covariâncias não são robustas: um ponto distante, mesmo bem classificado, desloca $\hat\mu_k$ e $\hat\Sigma$ e, com eles, a fronteira.</li>
+        <li>Classes multimodais (cada classe é um “cacho” de grupos), caudas pesadas, variáveis categóricas — tudo isso foge do modelo.</li>
+      </ul>
+      <div class="warn">“Perde-se” não significa que a LDA vira lixo. Para classificar, só a <strong>fronteira</strong> importa; uma densidade errada pode gerar uma fronteira boa. Por isso LDA costuma funcionar bem mesmo fora da hipótese — e é o mesmo argumento da folha 2.5(c).</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s23" data-kind="teoria">
+  <div><span class="tab">Folha 2.3</span><span class="kind">Teoria</span></div>
+  <h3>Viés–variância entre LDA e QDA, e o caso $n_k\le p$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você entende o trade-off viés–variância entre LDA e QDA?</li>
+      <li>Sabe o que acontece com $\hat\Sigma_k$ quando $n_k\le p$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">A QDA é mais flexível porque estima <strong>$K$ matrizes de covariância</strong> em vez de uma. Cada matriz tem $p(p+1)/2$ números. Esse é o preço em variância.</div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Contagem de parâmetros</strong> (além das $K-1$ probabilidades a priori):</p>
+      <div class="tbox"><table>
+        <tr><th></th><th>médias</th><th>covariâncias</th><th>$p=10,\,K=3$</th><th>$p=50,\,K=3$</th></tr>
+        <tr><td>LDA</td><td>$Kp$</td><td>$p(p+1)/2$</td><td>$30+55=85$</td><td>$150+1275=1425$</td></tr>
+        <tr><td>QDA</td><td>$Kp$</td><td>$K\,p(p+1)/2$</td><td>$30+165=195$</td><td>$150+3825=3975$</td></tr>
+      </table></div>
+      <ul>
+        <li><strong>LDA</strong>: menos parâmetros ⇒ <mark>variância baixa</mark>. Mas se as $\Sigma_k$ verdadeiras forem diferentes, a fronteira de Bayes é curva e a LDA só desenha hiperplanos ⇒ <strong>viés</strong>.</li>
+        <li><strong>QDA</strong>: contém a LDA como caso particular ⇒ <mark>viés menor</mark>. Mas cada $\hat\Sigma_k$ usa só os $n_k$ pontos da classe ⇒ <strong>variância alta</strong>, ainda mais com $p$ grande.</li>
+      </ul>
+      <p><strong>Regra prática:</strong> LDA com $N$ pequeno ou $p$ grande (reduzir variância é o que importa); QDA com $N$ grande ou quando as covariâncias são claramente diferentes.</p>
+      <p><em>Meio-termo:</em> a análise discriminante regularizada encolhe cada $\hat\Sigma_k$ para a combinada, $\hat\Sigma_k(\alpha)=\alpha\hat\Sigma_k+(1-\alpha)\hat\Sigma$, com $\alpha\in[0,1]$ escolhido por validação cruzada. $\alpha=0$ é LDA, $\alpha=1$ é QDA — o mesmo botão de flexibilidade de sempre.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>$\hat\Sigma_k$ fica singular</strong> — não tem inversa, e $\det\hat\Sigma_k=0$.</p>
+      <p><em>Por quê:</em> $\hat\Sigma_k=\frac1{n_k-1}\sum_{i}d_id_i^T$ com $d_i=x_i-\hat\mu_k$. É uma soma de $n_k$ matrizes de posto 1, então o posto é no máximo $n_k$. Mas tem mais: os desvios somam zero, $\sum_i d_i=0$, então só $n_k-1$ deles são linearmente independentes. Logo</p>
+      $$\mathrm{posto}(\hat\Sigma_k)\le n_k-1 &lt; p \quad\text{sempre que } n_k\le p.$$
+      <p>Uma matriz $p\times p$ de posto menor que $p$ é singular. Geometricamente: $n_k$ pontos cabem num subespaço afim de dimensão $n_k-1$; na direção perpendicular a ele a variância amostral é exatamente zero.</p>
+      <p><strong>Consequência para a QDA:</strong> o discriminante usa $\hat\Sigma_k^{-1}$ e $\log|\hat\Sigma_k|$ (folha 2.6). Nenhum dos dois existe ($\log 0=-\infty$). O método simplesmente não está definido.</p>
+      <div class="warn">Mesmo com $n_k$ um pouco maior que $p$ a coisa já vai mal: os menores autovalores de $\hat\Sigma_k$ saem muito subestimados, e $\hat\Sigma_k^{-1}$ tem autovalores enormes nessas direções. Inverter amplifica o ruído. A variância explode antes de a matriz ficar singular.</div>
+      <p><strong>Saídas:</strong> usar LDA (a combinada tem posto até $N-K$, bem maior); regularizar, $\hat\Sigma_k+\lambda I$; supor covariância diagonal (naive Bayes gaussiano); ou reduzir a dimensão antes (PCA).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s24" data-kind="teoria">
+  <div><span class="tab">Folha 2.4</span><span class="kind">Teoria</span></div>
+  <h3>LDA e logística: mesma forma, resultados diferentes</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue explicar por que LDA e logística têm a mesma forma, mas dão resultados diferentes?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>As duas dão um <strong>log-odds linear em $x$</strong>. A diferença está em <strong>como os coeficientes são estimados</strong>: a LDA tira $c_0,c$ de médias e covariâncias (verossimilhança conjunta, supondo gaussiana); a logística maximiza a verossimilhança condicional, sem supor nada sobre $X$.</p>
+      <p>Mesma família de funções, estimadores diferentes.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>A mesma forma.</strong> Com duas classes na LDA, usando os discriminantes da folha 2.6:</p>
+      $$\log\frac{p_1(x)}{p_2(x)} = \delta_1(x)-\delta_2(x) = \underbrace{\log\frac{\pi_1}{\pi_2}-\tfrac12(\mu_1+\mu_2)^T\Sigma^{-1}(\mu_1-\mu_2)}_{c_0} \;+\; x^T\underbrace{\Sigma^{-1}(\mu_1-\mu_2)}_{c}.$$
+      <p>O termo quadrático $-\frac12x^T\Sigma^{-1}x$ apareceu nos dois $\delta$'s e cancelou porque a covariância é comum. Sobra $c_0+c^Tx$ — <mark>exatamente a forma da logística</mark>, $\beta_0+\beta^Tx$.</p>
+      <p><strong>Por que os números saem diferentes:</strong></p>
+      <div class="tbox"><table>
+        <tr><th></th><th>LDA</th><th>logística</th></tr>
+        <tr><td>maximiza</td><td>$\prod_i \pi_{y_i}f_{y_i}(x_i)$ — conjunta</td><td>$\prod_i P(y_i\mid x_i)$ — condicional</td></tr>
+        <tr><td>coeficientes</td><td>$\hat c=\hat\Sigma^{-1}(\hat\mu_1-\hat\mu_2)$, em fórmula fechada</td><td>$\hat\beta$ por Newton / gradiente</td></tr>
+        <tr><td>hipótese sobre $X$</td><td>gaussiana com $\Sigma$ comum</td><td>nenhuma</td></tr>
+        <tr><td>quem influencia</td><td><strong>todos os pontos</strong>, pelas médias e pela covariância</td><td>principalmente os pontos perto da fronteira (peso $p_i(1-p_i)$)</td></tr>
+      </table></div>
+      <p>Se a hipótese gaussiana for verdadeira, os dois estimam o mesmo $(c_0,c)$ e convergem para o mesmo lugar — a LDA com menos variância. Se for falsa, a LDA converge para outro lugar (viés), enquanto a logística continua mirando o melhor log-odds linear.</p>
+      <div class="warn">Um ponto muito distante e bem classificado muda $\hat\mu_k$ e $\hat\Sigma$ e portanto a fronteira da LDA. Na logística, esse ponto tem $p_i\approx y_i$ e quase não entra no gradiente. É por isso que a logística é mais robusta a dados não gaussianos.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s25" data-kind="conceito">
+  <div><span class="tab">Folha 2.5</span><span class="kind">Conceitual</span></div>
+  <h3>Logística, LDA e QDA: quem ganha?</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe comparar os três métodos: Regressão Logística, LDA e QDA?</li>
+      <li>Consegue prever qual deles ganha com $\Sigma$ iguais, com $\Sigma$ diferentes e com dados não gaussianos?</li>
+      <li>Sabe por que a QDA pode ganhar mesmo com a hipótese gaussiana falsa?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <div class="tbox"><table>
+        <tr><th></th><th>logística</th><th>LDA</th><th>QDA</th></tr>
+        <tr><td>tipo</td><td>discriminativo</td><td>generativo</td><td>generativo</td></tr>
+        <tr><td>hipótese</td><td>log-odds linear</td><td>$N(\mu_k,\Sigma)$</td><td>$N(\mu_k,\Sigma_k)$</td></tr>
+        <tr><td>fronteira</td><td>hiperplano</td><td>hiperplano</td><td>quádrica</td></tr>
+        <tr><td>parâmetros ($K=2$)</td><td>$p+1$</td><td>$2p+p(p+1)/2$</td><td>$2p+p(p+1)$</td></tr>
+        <tr><td>ajuste</td><td>iterativo</td><td>fórmula fechada</td><td>fórmula fechada</td></tr>
+        <tr><td>viés / variância</td><td>viés médio, variância baixa–média</td><td>viés alto se $\Sigma_k$ diferem; variância baixa</td><td>viés baixo; variância alta</td></tr>
+        <tr><td>classes separáveis</td><td>diverge</td><td>ok</td><td>ok</td></tr>
+        <tr><td>pontos extremos</td><td>robusta</td><td>sensível</td><td>sensível</td></tr>
+        <tr><td>$n_k\le p$</td><td>ok (com regularização)</td><td>ok se $N-K\ge p$</td><td>não funciona</td></tr>
+      </table></div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <div class="tbox"><table>
+        <tr><th>cenário</th><th>a fronteira de Bayes é…</th><th>quem ganha</th><th>por quê</th></tr>
+        <tr><td>gaussianas, <strong>$\Sigma$ iguais</strong></td><td>linear</td><td><strong>LDA</strong> (logística logo atrás)</td><td>LDA é o modelo certo com o mínimo de parâmetros. Logística tem a forma certa, mas variância um pouco maior. QDA tem a forma certa também, mas paga a variância das $K$ covariâncias por nada.</td></tr>
+        <tr><td>gaussianas, <strong>$\Sigma$ diferentes</strong></td><td>quadrática</td><td><strong>QDA</strong> (se houver dados)</td><td>Só ela desenha a fronteira certa. LDA e logística ficam presas a hiperplanos: viés que não cai com $N$. Com $N$ muito pequeno, a LDA ainda pode ganhar pela variância.</td></tr>
+        <tr><td><strong>não gaussianos</strong>, fronteira ~ linear</td><td>linear</td><td><strong>logística</strong></td><td>Não depende de uma hipótese que é falsa. A LDA erra $\mu_k,\Sigma$ por causa de caudas pesadas / assimetria e desloca a fronteira.</td></tr>
+        <tr><td>não gaussianos, fronteira bem não linear</td><td>complicada</td><td>nenhum dos três; kNN, árvores, SVM com kernel</td><td>Os três são paramétricos com fronteira simples.</td></tr>
+      </table></div>
+      <p>Esses são justamente os cenários de simulação do ISLR (cap. 4): $t$ de Student no lugar da normal favorece a logística; correlações diferentes entre classes favorecem a QDA; fronteira muito irregular favorece kNN com $k$ escolhido por validação cruzada.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <div class="key">Para classificar, o que importa é <strong>onde fica a fronteira</strong>, não se a densidade está certa. A QDA é, na prática, uma família de fronteiras quadráticas. Se a fronteira de Bayes é (aproximadamente) quadrática, a QDA tem a forma certa — mesmo que as nuvens de pontos não sejam gaussianas.</div>
+      <p>Exemplo: $X$ não gaussiana, mas $Y$ gerada por uma logística com termos $x_1^2, x_2^2, x_1x_2$. A fronteira de Bayes é uma cônica. A LDA e a logística linear não conseguem desenhar cônicas; a QDA consegue.</p>
+      <p>A hipótese falsa faz $\hat p_k(x)$ errar <em>nos valores</em> — as probabilidades da QDA saem descalibradas. Mas o $\arg\max$ pode continuar certo na maior parte do espaço, e é ele que define o erro de classificação.</p>
+      <p>Outra forma de ver: o log-odds da QDA é $x^TAx+b^Tx+c$, a mesma família da logística com todos os termos quadráticos. A QDA é um jeito (enviesado, mas de baixa variância) de estimar uma logística quadrática.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s26" data-kind="contas">
+  <div><span class="tab">Folha 2.6</span><span class="kind">Contas</span></div>
+  <h3>Deduzindo os discriminantes</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue deduzir a fórmula do discriminante do LDA e QDA?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>Receita: maximizar $p_k(x)$ em $k$ é o mesmo que maximizar $\log\big(\pi_kf_k(x)\big)$ (o denominador de Bayes não depende de $k$, e log é crescente). Depois, jogue fora tudo que não depende de $k$.</p>
+      $$\delta_k^{\text{QDA}}(x) = -\tfrac12(x-\mu_k)^T\Sigma_k^{-1}(x-\mu_k) - \tfrac12\log|\Sigma_k| + \log\pi_k,$$
+      $$\delta_k^{\text{LDA}}(x) = x^T\Sigma^{-1}\mu_k - \tfrac12\mu_k^T\Sigma^{-1}\mu_k + \log\pi_k.$$
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>1. Tirar o denominador.</strong></p>
+      $$p_k(x)=\frac{\pi_kf_k(x)}{\sum_l\pi_lf_l(x)} \quad\Rightarrow\quad \arg\max_k p_k(x) = \arg\max_k \pi_kf_k(x) = \arg\max_k \log\big(\pi_kf_k(x)\big).$$
+      <p><strong>2. Densidade gaussiana.</strong></p>
+      $$f_k(x) = \frac{1}{(2\pi)^{p/2}|\Sigma_k|^{1/2}}\exp\Big(-\tfrac12(x-\mu_k)^T\Sigma_k^{-1}(x-\mu_k)\Big).$$
+      <p><strong>3. Log.</strong></p>
+      $$\log(\pi_kf_k(x)) = \log\pi_k - \tfrac p2\log(2\pi) - \tfrac12\log|\Sigma_k| - \tfrac12(x-\mu_k)^T\Sigma_k^{-1}(x-\mu_k).$$
+      <p><strong>4. QDA.</strong> Só $-\frac p2\log 2\pi$ não depende de $k$. Sai:</p>
+      $$\delta_k(x) = -\tfrac12(x-\mu_k)^T\Sigma_k^{-1}(x-\mu_k) - \tfrac12\log|\Sigma_k| + \log\pi_k.$$
+      <p>Expandindo a forma quadrática (e usando que $\Sigma_k^{-1}$ é simétrica, então $x^T\Sigma_k^{-1}\mu_k=\mu_k^T\Sigma_k^{-1}x$):</p>
+      $$\delta_k(x) = -\tfrac12x^T\Sigma_k^{-1}x + x^T\Sigma_k^{-1}\mu_k - \tfrac12\mu_k^T\Sigma_k^{-1}\mu_k - \tfrac12\log|\Sigma_k| + \log\pi_k.$$
+      <p>O primeiro termo depende de $k$ (por $\Sigma_k$): $\delta_k$ é <strong>quadrático em $x$</strong> — daí o nome.</p>
+      <p><strong>5. LDA.</strong> Agora $\Sigma_k=\Sigma$ para todo $k$. Dois termos passam a ser iguais para todas as classes e saem: $-\frac12\log|\Sigma|$ e $-\frac12x^T\Sigma^{-1}x$. Sobra</p>
+      $$\delta_k(x) = x^T\Sigma^{-1}\mu_k - \tfrac12\mu_k^T\Sigma^{-1}\mu_k + \log\pi_k,$$
+      <p><strong>linear em $x$</strong>. Classifica-se em $\arg\max_k\hat\delta_k(x)$, com as estimativas da folha 2.1 no lugar de $\pi_k,\mu_k,\Sigma$.</p>
+      <p><strong>Leitura:</strong> com priors iguais, $\delta_k^{\text{LDA}}$ é (a menos de constante) $-\frac12$ da <em>distância de Mahalanobis</em> ao quadrado de $x$ até $\mu_k$. A LDA classifica pelo centro mais próximo, medindo distância com a métrica de $\Sigma^{-1}$. O $\log\pi_k$ puxa a decisão para classes mais comuns.</p>
+      <p><strong>Caso $p=1$:</strong> $\delta_k(x)=x\,\dfrac{\mu_k}{\sigma^2}-\dfrac{\mu_k^2}{2\sigma^2}+\log\pi_k$. Com $K=2$ e $\pi_1=\pi_2$, $\delta_1=\delta_2$ dá</p>
+      $$x\,\frac{\mu_1-\mu_2}{\sigma^2} = \frac{\mu_1^2-\mu_2^2}{2\sigma^2} \quad\Rightarrow\quad x = \frac{\mu_1+\mu_2}{2}:$$
+      <p>o ponto médio entre as médias, como a intuição pede.</p>
+      <div class="warn">Não jogue fora o $-\frac12\log|\Sigma_k|$ na QDA: ele depende de $k$. É ele que penaliza classes com covariância “grande” — uma densidade espalhada é baixa em todo lugar.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s27" data-kind="contas">
+  <div><span class="tab">Folha 2.7</span><span class="kind">Contas</span></div>
+  <h3>Que curvas são as fronteiras</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue mostrar quais curvas são definidas pelas fronteiras do LDA e QDA?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">A fronteira entre as classes $k$ e $l$ é o conjunto $\{x:\delta_k(x)=\delta_l(x)\}$. Na LDA a diferença $\delta_k-\delta_l$ é afim ⇒ <strong>hiperplano</strong>. Na QDA é um polinômio de grau 2 ⇒ <strong>quádrica</strong> (em $\mathbb R^2$: cônica).</div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>LDA.</strong> $\delta_k(x)=\delta_l(x)$ vira</p>
+      $$x^T\Sigma^{-1}(\mu_k-\mu_l) = \tfrac12\big(\mu_k^T\Sigma^{-1}\mu_k - \mu_l^T\Sigma^{-1}\mu_l\big) - \log\frac{\pi_k}{\pi_l}.$$
+      <p>É da forma $a^Tx=c$, com $a=\Sigma^{-1}(\mu_k-\mu_l)$: <mark>um hiperplano</mark> (reta em $\mathbb R^2$) com vetor normal $a$.</p>
+      <p>Com priors iguais, dá para reescrever como $a^T\big(x-\frac{\mu_k+\mu_l}2\big)=0$: o hiperplano passa pelo ponto médio das médias. Priors diferentes o deslizam em direção à classe menos provável.</p>
+      <div class="warn">A normal é $\Sigma^{-1}(\mu_k-\mu_l)$, <strong>não</strong> $\mu_k-\mu_l$. A fronteira só é perpendicular ao segmento entre as médias se $\Sigma\propto I$. Com variáveis correlacionadas, ela inclina.</div>
+      <p><strong>QDA.</strong> $\delta_k(x)=\delta_l(x)$ vira</p>
+      $$-\tfrac12\,x^T\underbrace{(\Sigma_k^{-1}-\Sigma_l^{-1})}_{A}\,x + x^T\underbrace{(\Sigma_k^{-1}\mu_k-\Sigma_l^{-1}\mu_l)}_{b} + c = 0,$$
+      $$c = -\tfrac12\mu_k^T\Sigma_k^{-1}\mu_k + \tfrac12\mu_l^T\Sigma_l^{-1}\mu_l - \tfrac12\log\frac{|\Sigma_k|}{|\Sigma_l|} + \log\frac{\pi_k}{\pi_l}.$$
+      <p>Uma equação de segundo grau em $x$: uma <mark>quádrica</mark>. O tipo depende dos autovalores da matriz simétrica $A$:</p>
+      <div class="tbox"><table>
+        <tr><th>$A=\Sigma_k^{-1}-\Sigma_l^{-1}$</th><th>fronteira em $\mathbb R^2$</th><th>quando acontece</th></tr>
+        <tr><td>definida (autovalores do mesmo sinal)</td><td>elipse</td><td>uma classe é “mais espalhada” que a outra em todas as direções: a mais concentrada fica dentro de uma elipse</td></tr>
+        <tr><td>indefinida (sinais opostos)</td><td>hipérbole</td><td>$k$ é mais espalhada numa direção e $l$ em outra</td></tr>
+        <tr><td>singular, $\neq 0$</td><td>parábola (ou par de retas)</td><td>covariâncias iguais em uma direção</td></tr>
+        <tr><td>$A=0$</td><td>reta</td><td>$\Sigma_k=\Sigma_l$: volta à LDA</td></tr>
+      </table></div>
+      <p><strong>Exemplo que a LDA não consegue nem começar:</strong> $\mu_k=\mu_l=0$, $\Sigma_k=I$, $\Sigma_l=4I$, priors iguais. Na LDA, médias iguais dão $\delta_k=\delta_l$ em todo lugar — nada a separar. Na QDA:</p>
+      $$\delta_k = -\tfrac12\|x\|^2,\qquad \delta_l = -\tfrac18\|x\|^2 - \tfrac12\log 4^p = -\tfrac18\|x\|^2 - p\log 2.$$
+      $$\delta_k=\delta_l \iff \tfrac38\|x\|^2 = p\log2 \iff \|x\|^2 = \tfrac{8p\log 2}{3}.$$
+      <p>Uma <strong>esfera</strong> (círculo de raio $\approx1{,}92$ em $p=2$): dentro, classe $k$ (concentrada); fora, classe $l$ (espalhada). Repare no papel do $\log|\Sigma_k|$: sem ele, a classe $l$ ganharia em todo lugar.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>3 · Máquinas de vetores suporte</span></div>
+
+<section class="sheet" id="s31" data-kind="conceito">
+  <div><span class="tab">Folha 3.1</span><span class="kind">Conceitual</span></div>
+  <h3>Margem e vetores suporte</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você sabe explicar por que a margem é um critério razoável?</li>
+      <li>Consegue dizer o que são os vetores suporte, e o que acontece se outro ponto se move sem entrar na faixa?</li>
+      <li>Sabe comparar de quais pontos dependem SVM, LDA e logística?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Se os dados são separáveis, existem <em>infinitos</em> hiperplanos que separam o treino com erro zero. O risco empírico não escolhe entre eles. A margem escolhe o que fica <strong>o mais longe possível dos pontos das duas classes</strong>.</p>
+      <ul>
+        <li><strong>Folga contra ruído:</strong> um ponto de teste parecido com um de treino — deslocado de menos que a margem $M$ — continua do lado certo. Hiperplano colado num ponto erra com qualquer perturbação.</li>
+        <li><strong>Controle de complexidade:</strong> a capacidade dos hiperplanos com margem $M$ (dados num raio $R$) é controlada por $R^2/M^2$, <em>independentemente da dimensão</em>. Margem grande = classe de funções “pequena” = menos sobreajuste. É a ideia de regularização: $\max M \iff \min\|w\|$ (folha 3.6).</li>
+        <li><strong>Unicidade:</strong> o problema é convexo com objetivo estritamente convexo em $w$; a solução é única.</li>
+      </ul>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Vetores suporte</strong> são os pontos que <em>tocam</em> a margem — $y_i(w^Tx_i+b)=1$ — e, na margem suave (folha 3.3), também os que ficam dentro da faixa ou do lado errado ($\xi_i&gt;0$). Formalmente, são os pontos com multiplicador $\alpha_i&gt;0$ no dual:</p>
+      $$w = \sum_{i=1}^N \alpha_i y_i x_i = \sum_{i\in\text{VS}}\alpha_iy_ix_i.$$
+      <div class="key">A solução <strong>só depende dos vetores suporte</strong>. Se um ponto que não é vetor suporte se move, sem entrar na faixa $\{|w^Tx+b|&lt;1\}$, <mark>o hiperplano não muda nada</mark>. Pode até apagar esse ponto.</div>
+      <p><em>Por quê:</em> as condições de otimalidade (KKT) envolvem o ponto só pela restrição $y_i(w^Tx_i+b)\ge1$ com $\alpha_i=0$. Enquanto ela continuar valendo com folga, a mesma solução $(w,b,\alpha)$ continua satisfazendo tudo. Se o ponto entra na faixa, a restrição é violada, ele vira vetor suporte e a solução muda.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <div class="tbox"><table>
+        <tr><th>método</th><th>depende de</th><th>como</th></tr>
+        <tr><td><strong>LDA</strong></td><td><strong>todos</strong> os pontos, com o mesmo peso</td><td>pelas médias $\hat\mu_k$ e pela covariância $\hat\Sigma$. Um ponto longe da fronteira, mesmo bem classificado, muda a fronteira.</td></tr>
+        <tr><td><strong>logística</strong></td><td>todos, mas com <strong>pesos</strong></td><td>o gradiente é $\sum(y_i-p_i)\tilde x_i$: pontos bem classificados longe da fronteira têm $y_i-p_i\approx 0$ e pesam quase nada. Os que importam estão perto da fronteira.</td></tr>
+        <tr><td><strong>SVM</strong></td><td>só os <strong>vetores suporte</strong></td><td>os outros têm $\alpha_i=0$ exatamente.</td></tr>
+      </table></div>
+      <p>É um espectro: <mark>LDA (global) → logística (pesos suaves) → SVM (só a fronteira)</mark>. A perda logística $\log(1+e^{-yf})$ e a hinge $\max(0,1-yf)$ têm o mesmo desenho — quase nulas para margem grande, lineares para margem negativa —, a diferença é que a hinge é <em>exatamente</em> zero a partir de $yf=1$.</p>
+      <div class="warn">“Só depende dos vetores suporte” não quer dizer “robusta a tudo”. A SVM é imune a pontos distantes do lado certo, mas um ponto atípico do lado errado vira vetor suporte e puxa a fronteira (é para isso que serve o $C$).</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s32" data-kind="conceito">
+  <div><span class="tab">Folha 3.2</span><span class="kind">Conceitual</span></div>
+  <h3>A SVM não é plug-in</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe por que a SVM não é um método plug-in, e o que o valor $w^Tx+b$ mede?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">Plug-in = estimar $P(Y=k\mid x)$ e depois tomar o $\arg\max$. A SVM <strong>pula a etapa da probabilidade</strong>: procura direto uma fronteira, minimizando uma perda de classificação (hinge) mais uma penalidade. Ela nunca produz $\hat P(Y=1\mid x)$.</div>
+    <div class="item"><span class="lab">a.</span>
+      <p>A regra é $\hat C(x)=\mathrm{sinal}(w^Tx+b)$. Não há nenhum modelo para $p(x)$ no meio.</p>
+      <p>Um fato bonito: o minimizador populacional da hinge é $f^*(x)=\mathrm{sinal}\big(2p(x)-1\big)$ — o próprio classificador de Bayes, mas <em>só o sinal</em>. A hinge estima a fronteira, e joga fora a informação de “quão provável”. A perda logística, ao contrário, tem minimizador $\log\frac{p(x)}{1-p(x)}$ — o logit inteiro.</p>
+      <p><strong>O que $w^Tx+b$ mede.</strong> Pela folha 3.5,</p>
+      $$\frac{w^Tx+b}{\|w\|} = \text{distância com sinal de } x \text{ ao hiperplano}.$$
+      <p>Então $w^Tx+b$ é a distância com sinal <strong>em unidades de meia-margem</strong> $M=1/\|w\|$:</p>
+      <ul>
+        <li>$w^Tx+b=0$: em cima da fronteira;</li>
+        <li>$|w^Tx+b|=1$: na borda da faixa (onde moram os vetores suporte);</li>
+        <li>$|w^Tx+b|&gt;1$: fora da faixa; quanto maior, mais longe.</li>
+      </ul>
+      <p>O sinal diz a classe; o tamanho diz o quão longe da fronteira — uma espécie de <em>confiança geométrica</em>.</p>
+      <div class="warn">
+        <p>Esse número <strong>não é probabilidade</strong>: não está em $[0,1]$, e não há calibração — $w^Tx+b=2$ não quer dizer “$90\%$”. Se precisar de probabilidades, é preciso um passo extra, depois do ajuste: por exemplo, ajustar uma logística em $w^Tx+b$ (Platt scaling) num conjunto de validação.</p>
+        <p>Consequência prática: com custos assimétricos (folha 1.1), não dá para simplesmente mudar o limiar para $c_{FP}/(c_{FP}+c_{FN})$, porque não há um $\hat p$ para comparar.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s33" data-kind="teoria">
+  <div><span class="tab">Folha 3.3</span><span class="kind">Teoria</span></div>
+  <h3>Quando os dados não são separáveis</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você entende o que acontece com o problema de otimização quando os dados não são separáveis?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">O problema de margem rígida <strong>fica inviável</strong>: nenhum $(w,b)$ satisfaz $y_i(w^Tx_i+b)\ge 1$ para todo $i$, e o conjunto viável é vazio — não há o que minimizar. A saída é afrouxar as restrições com variáveis de folga $\xi_i$, pagando por elas no objetivo.</div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Margem suave (soft margin):</strong></p>
+      $$\min_{w,b,\xi}\;\tfrac12\|w\|^2 + C\sum_{i=1}^N\xi_i\quad\text{sujeito a}\quad y_i(w^Tx_i+b)\ge 1-\xi_i,\;\;\xi_i\ge 0.$$
+      <p>Leitura de cada $\xi_i$:</p>
+      <div class="tbox"><table>
+        <tr><th>$\xi_i$</th><th>onde está o ponto</th></tr>
+        <tr><td>$0$</td><td>do lado certo, fora da faixa (ou na borda)</td></tr>
+        <tr><td>$0&lt;\xi_i\le1$</td><td>do lado certo, mas dentro da faixa</td></tr>
+        <tr><td>$&gt;1$</td><td>do lado errado: erro de classificação</td></tr>
+      </table></div>
+      <p>Logo $\sum_i\xi_i\ge$ número de erros no treino.</p>
+      <p><strong>Forma equivalente</strong> (sem restrições): no ótimo, $\xi_i=\max(0,\,1-y_i(w^Tx_i+b))$. Substituindo,</p>
+      $$\min_{w,b}\;\sum_{i=1}^N\max\big(0,\,1-y_i(w^Tx_i+b)\big) + \lambda\|w\|^2,\qquad \lambda=\frac{1}{2C}.$$
+      <p><mark>Perda hinge + penalidade ridge</mark>: a mesma estrutura “ajuste + penalidade” de sempre (código C.3).</p>
+      <p><strong>O papel de $C$:</strong></p>
+      <ul>
+        <li>$C$ grande: violação é cara ⇒ poucas violações, faixa estreita, poucos vetores suporte ⇒ viés baixo, <strong>variância alta</strong>. $C\to\infty$ recupera a margem rígida (quando ela existe).</li>
+        <li>$C$ pequeno: violação é barata ⇒ faixa larga, muitos vetores suporte ⇒ <strong>viés maior</strong>, variância baixa.</li>
+      </ul>
+      <p>Escolhe-se $C$ por validação cruzada. Mesmo com dados separáveis, a margem suave costuma ser melhor: um único ponto atípico não força uma faixa estreitíssima.</p>
+      <div class="warn">No ISLR o $C$ aparece com o <strong>sentido invertido</strong>: lá ele é um <em>orçamento</em>, $\sum_i\epsilon_i\le C$. $C$ grande no ISLR = muitas violações permitidas = faixa larga. No sklearn (e na formulação acima) é o contrário. Sempre confira qual convenção está sendo usada.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s34" data-kind="teoria">
+  <div><span class="tab">Folha 3.4</span><span class="kind">Teoria</span></div>
+  <h3>Levantar os dados, o truque do kernel e padronização</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe como levantar os dados para um espaço maior ajuda, e que risco isso traz?</li>
+      <li>Consegue explicar o truque do kernel e de que depende o seu custo?</li>
+      <li>Sabe por que padronizar as variáveis antes de usar um kernel?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Troque $x\in\mathbb R^p$ por $\phi(x)\in\mathbb R^D$, $D&gt;p$, e rode a SVM linear em $\phi(x)$. Um hiperplano em $\mathbb R^D$ corresponde a uma <strong>fronteira curva</strong> em $\mathbb R^p$.</p>
+      <p><strong>Exemplo:</strong> classe $+1$ dentro do círculo unitário, $-1$ fora. Nenhuma reta separa. Com $\phi(x_1,x_2)=(x_1,x_2,x_1^2+x_2^2)$, o plano $z_3=1$ separa perfeitamente: no espaço levantado é linear; de volta em $\mathbb R^2$, é o círculo.</p>
+      <p><strong>Riscos:</strong></p>
+      <ul>
+        <li><strong>Custo:</strong> o número de variáveis explode. Todos os monômios de grau $\le d$ em $p$ variáveis são $\binom{p+d}{d}$: com $p=100$, $d=3$, são $176\,851$.</li>
+        <li><strong>Sobreajuste:</strong> em dimensão alta quase tudo fica separável. $N$ pontos em posição geral em $\mathbb R^{N-1}$ são separáveis com <em>qualquer</em> rotulação (teorema de Cover). Separar o treino deixa de significar alguma coisa. A margem (e o $C$) é o que segura a variância.</li>
+      </ul>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>O problema dual da SVM e a função de decisão <strong>só usam produtos internos</strong> entre pontos:</p>
+      $$\max_\alpha\;\sum_i\alpha_i - \tfrac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\,\langle x_i,x_j\rangle,\qquad f(x)=\sum_i\alpha_iy_i\,\langle x_i,x\rangle + b.$$
+      <p>Depois de levantar, isso vira $\langle\phi(x_i),\phi(x_j)\rangle$. O truque: escolher uma função $K(x,x')$ que <mark>calcula $\langle\phi(x),\phi(x')\rangle$ direto, sem nunca construir $\phi$</mark>.</p>
+      <p><strong>Exemplo</strong> ($p=2$): $K(x,z)=(x^Tz)^2 = x_1^2z_1^2+2x_1x_2z_1z_2+x_2^2z_2^2 = \langle\phi(x),\phi(z)\rangle$ com $\phi(x)=(x_1^2,\sqrt2\,x_1x_2,x_2^2)$. Custo: um produto interno em $\mathbb R^2$ e um quadrado, em vez de montar $\phi$.</p>
+      <div class="tbox"><table>
+        <tr><th>kernel</th><th>$K(x,x')$</th><th>$\phi$ implícito</th></tr>
+        <tr><td>linear</td><td>$x^Tx'$</td><td>$\phi(x)=x$</td></tr>
+        <tr><td>polinomial</td><td>$(1+x^Tx')^d$</td><td>todos os monômios de grau $\le d$ (com pesos)</td></tr>
+        <tr><td>RBF / gaussiano</td><td>$\exp(-\gamma\|x-x'\|^2)$</td><td>dimensão <strong>infinita</strong></td></tr>
+      </table></div>
+      <div class="key">
+        <p>O custo depende de <strong>$N$</strong> (número de pontos) e do custo de avaliar $K$ (tipicamente $O(p)$) — <strong>não de $D$</strong>, a dimensão do espaço levantado.</p>
+        <ul>
+          <li>Montar a matriz de Gram $K_{ij}=K(x_i,x_j)$: $O(N^2p)$ contas e $O(N^2)$ de memória.</li>
+          <li>Resolver o dual: entre $O(N^2)$ e $O(N^3)$, dependendo do algoritmo.</li>
+          <li>Prever um ponto novo: $O(\#\text{VS}\cdot p)$.</li>
+        </ul>
+        <p>Ótimo quando $D$ é enorme (ou infinito) e $N$ é moderado; ruim quando $N$ é da ordem de milhões.</p>
+      </div>
+      <p>Nem toda função serve: $K$ precisa ser simétrica e <strong>positiva semidefinida</strong> (toda matriz de Gram $\succeq0$). É a condição de Mercer, que garante que existe algum $\phi$ por trás.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Os kernels usuais dependem de <strong>distâncias ou produtos internos</strong>:</p>
+      $$\|x-x'\|^2 = \sum_{j=1}^p (x_j-x'_j)^2.$$
+      <p>Uma variável em escala grande domina a soma. Com renda em reais (diferenças de milhares) e idade em anos (diferenças de dezenas), o RBF praticamente só enxerga a renda; a idade não influencia nada.</p>
+      <p>E essa escolha é arbitrária: medir em reais ou em milhares de reais muda o resultado — o modelo dependeria da unidade. Padronizar (média 0, desvio 1) coloca todas as variáveis na mesma régua.</p>
+      <p>Bônus: o $\gamma$ do RBF passa a ter uma escala interpretável, o que facilita a busca por validação cruzada.</p>
+      <div class="warn">Isso vale também para a SVM <strong>linear</strong>: a penalidade $\|w\|^2$ não é invariante à escala (ao contrário de MQ sem penalidade). E as médias e desvios da padronização vêm <em>só do treino</em>; usar os do conjunto todo é vazamento.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s35" data-kind="contas">
+  <div><span class="tab">Folha 3.5</span><span class="kind">Contas</span></div>
+  <h3>Distância de um ponto ao hiperplano</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe mostrar que a distância de $x$ ao hiperplano $w^Tx+b=0$ é $|w^Tx+b|/\|w\|$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Seja $H=\{z:w^Tz+b=0\}$, com $w\neq0$.</p>
+      <p><strong>Passo 1: $w$ é normal a $H$.</strong> Se $z_1,z_2\in H$, então $w^Tz_1=w^Tz_2=-b$, logo $w^T(z_1-z_2)=0$. Todo vetor “dentro” de $H$ é ortogonal a $w$.</p>
+      <p><strong>Passo 2: decompor $x$.</strong> Escreva $u=w/\|w\|$ (unitário) e</p>
+      $$x = x_H + r\,u,\qquad x_H\in H,\; r\in\mathbb R.$$
+      <p>(Basta tomar $x_H=x-ru$ com o $r$ certo; vamos achá-lo.) Aplicando $w^T(\cdot)+b$ nos dois lados:</p>
+      $$w^Tx+b = \underbrace{w^Tx_H+b}_{=0} + r\,w^Tu = r\,\frac{w^Tw}{\|w\|} = r\,\|w\| \quad\Rightarrow\quad r=\frac{w^Tx+b}{\|w\|}.$$
+      <p><strong>Passo 3: $x_H$ é o ponto de $H$ mais próximo de $x$.</strong> Para qualquer $z\in H$,</p>
+      $$x-z = r\,u + (x_H-z),$$
+      <p>e $x_H-z$ está em $H$ (diferença de dois pontos de $H$), logo é ortogonal a $u$. Por Pitágoras:</p>
+      $$\|x-z\|^2 = r^2 + \|x_H-z\|^2 \;\ge\; r^2,$$
+      <p>com igualdade só em $z=x_H$. Então</p>
+      $$\boxed{\;\mathrm{dist}(x,H) = |r| = \frac{|w^Tx+b|}{\|w\|}\;}$$
+      <p><em>Bônus:</em> $r$ com sinal diz de que lado de $H$ o ponto está — é exatamente o que a SVM usa (folha 3.2).</p>
+      <p><strong>Caminho alternativo (Lagrange):</strong> minimizar $\frac12\|x-z\|^2$ sujeito a $w^Tz+b=0$. A condição $z-x=\lambda w$ dá $z=x+\lambda w$; impondo a restrição, $w^Tx+\lambda\|w\|^2+b=0$, $\lambda=-\frac{w^Tx+b}{\|w\|^2}$, e $\|x-z\|=|\lambda|\,\|w\|=\frac{|w^Tx+b|}{\|w\|}$.</p>
+      <div class="warn">Para um ponto <strong>bem classificado</strong>, $w^Tx_i+b$ tem o sinal de $y_i$, então $|w^Tx_i+b|=y_i(w^Tx_i+b)$. É essa troca que tira o módulo e deixa a restrição da folha 3.6 linear.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s36" data-kind="contas">
+  <div><span class="tab">Folha 3.6</span><span class="kind">Contas</span></div>
+  <h3>De “maximizar a margem” a $\min\|w\|^2$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue deduzir o problema de otimização $\displaystyle\min_{w,b}\|w\|^2$ sujeito a $y_i(w^Tx_i+b)\ge1$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">Dois ingredientes: (1) a distância de cada ponto é $y_i(w^Tx_i+b)/\|w\|$; (2) $(w,b)$ e $(cw,cb)$ são o <strong>mesmo hiperplano</strong>, então dá para fixar a escala de modo que o ponto mais próximo tenha $y_i(w^Tx_i+b)=1$. Aí a margem vira $1/\|w\|$, e maximizá-la é minimizar $\|w\|$.</div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>1. O problema “de verdade”.</strong> Queremos o hiperplano que classifica todos corretamente e maximiza a menor distância:</p>
+      $$\max_{w,b,M}\;M \quad\text{s.a.}\quad \frac{y_i(w^Tx_i+b)}{\|w\|}\ge M,\;\; i=1,\dots,N.$$
+      <p>(Pela folha 3.5, para pontos do lado certo, $y_i(w^Tx_i+b)/\|w\|$ é a distância ao hiperplano. A restrição diz: todos do lado certo e a distância pelo menos $M$.)</p>
+      <p><strong>2. Invariância de escala.</strong> Para $c&gt;0$, $\{x: cw^Tx+cb=0\}=\{x:w^Tx+b=0\}$, e $y_i(cw^Tx_i+cb)/\|cw\|$ não muda. Há um grau de liberdade sobrando. Use-o para impor</p>
+      $$\min_i\; y_i(w^Tx_i+b) = 1,$$
+      <p>isto é, $M\|w\|=1$, ou $M=\dfrac1{\|w\|}$.</p>
+      <p><strong>3. Reescrever.</strong> As restrições ficam $y_i(w^Tx_i+b)\ge1$ (multiplicando por $\|w\|$), e o objetivo $\max 1/\|w\|$. Como $t\mapsto 1/t$ é decrescente e $t\mapsto t^2/2$ é crescente em $t&gt;0$:</p>
+      $$\max\frac1{\|w\|}\iff\min\|w\|\iff\min\tfrac12\|w\|^2.$$
+      $$\boxed{\;\min_{w,b}\;\tfrac12\|w\|^2\quad\text{s.a.}\quad y_i(w^Tx_i+b)\ge1,\;\;i=1,\dots,N\;}$$
+      <p>(O $\frac12$ e o quadrado só deixam a conta mais limpa: objetivo diferenciável, gradiente $w$.)</p>
+      <p><strong>4. Por que não precisa impor o “$=1$” explicitamente.</strong> Trocamos “$\min_i=1$” por “$\ge1$ para todos”. No ótimo alguma restrição tem que ser ativa: se todas fossem estritas, $\min_i y_i(w^Tx_i+b)=c&gt;1$, e $(w/c,b/c)$ seria viável com norma menor — contradição.</p>
+      <p><strong>5. O que se ganhou.</strong> Objetivo quadrático estritamente convexo, restrições lineares: um <strong>problema quadrático convexo</strong>, com $w$ único e algoritmos eficientes. A largura total da faixa é $2/\|w\|$.</p>
+      <p><strong>6. O dual (ligando com as folhas 3.1 e 3.4).</strong> Lagrangiano com $\alpha_i\ge0$:</p>
+      $$\mathcal L = \tfrac12\|w\|^2-\sum_i\alpha_i\big[y_i(w^Tx_i+b)-1\big].$$
+      $$\frac{\partial\mathcal L}{\partial w}=0\Rightarrow w=\sum_i\alpha_iy_ix_i,\qquad \frac{\partial\mathcal L}{\partial b}=0\Rightarrow\sum_i\alpha_iy_i=0.$$
+      <p>Folga complementar: $\alpha_i\big[y_i(w^Tx_i+b)-1\big]=0$. Então $\alpha_i&gt;0$ só para pontos com $y_i(w^Tx_i+b)=1$ — os <strong>vetores suporte</strong>. E substituindo $w$ no Lagrangiano aparece o dual da folha 3.4, que só tem produtos internos $x_i^Tx_j$: é ali que entra o kernel.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>4 · Árvores e ensembles</span></div>
+
+<section class="sheet" id="s41" data-kind="conceito">
+  <div><span class="tab">Folha 4.1</span><span class="kind">Conceitual</span></div>
+  <h3>Árvore = caixas + plug-in, crescida de forma gulosa</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você sabe explicar uma árvore como uma partição em caixas, com plug-in em cada caixa?</li>
+      <li>Consegue dizer por que o crescimento é guloso?</li>
+      <li>Sabe por que uma tática é: cresce até o fim e depois poda?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Cada nó interno faz uma pergunta “$x_j&lt;s$?”. Depois de todas as divisões, o espaço $\mathbb R^p$ fica dividido em $J$ <strong>caixas</strong> (retângulos com lados paralelos aos eixos) disjuntas $R_1,\dots,R_J$ — uma por folha.</p>
+      <p>Em cada caixa, a previsão é uma constante estimada com os pontos de treino que caíram lá:</p>
+      $$\hat f(x) = \sum_{m=1}^J c_m\,\mathbf 1\{x\in R_m\}.$$
+      <ul>
+        <li><strong>Regressão:</strong> $c_m=\bar y_{R_m}$, a média dos $y_i$ na caixa — estimativa de $\mathbb E[Y\mid X\in R_m]$.</li>
+        <li><strong>Classificação:</strong> $\hat p_{mk}=$ fração da classe $k$ na caixa — estimativa de $P(Y=k\mid X\in R_m)$ — e a previsão é $\arg\max_k\hat p_{mk}$.</li>
+      </ul>
+      <div class="key">Isso é <strong>plug-in local</strong>: aproxima $P(Y=k\mid X=x)$ por $P(Y=k\mid X\in R(x))$, estima pela frequência e toma o $\arg\max$. É parente do kNN — só que a vizinhança é uma caixa escolhida pelos dados, não os $k$ pontos mais próximos.</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>O problema ideal seria: entre todas as partições em $J$ caixas, achar a que minimiza</p>
+      $$\sum_{m=1}^J\sum_{i:\,x_i\in R_m}(y_i-\bar y_{R_m})^2.$$
+      <p>O número de partições possíveis é combinatório — achar a árvore ótima é NP-difícil. <mark>Inviável</mark>.</p>
+      <p>A <strong>divisão binária recursiva</strong> resolve só o problema da vez: no nó atual, escolhe o par $(j,s)$ que minimiza</p>
+      $$\sum_{x_i\in R_1(j,s)}(y_i-\bar y_{R_1})^2+\sum_{x_i\in R_2(j,s)}(y_i-\bar y_{R_2})^2,\quad R_1=\{x_j&lt;s\},\;R_2=\{x_j\ge s\},$$
+      <p>e segue para os filhos. Cada passo é barato: $p$ variáveis × no máximo $N-1$ cortes úteis cada.</p>
+      <p>É <strong>guloso</strong> porque pega a melhor divisão <em>agora</em>, sem olhar adiante e sem nunca voltar atrás. A divisão que parece melhor hoje pode não levar à melhor árvore.</p>
+      <p>Em classificação, o critério é <strong>Gini</strong> $\sum_k\hat p_{mk}(1-\hat p_{mk})$ ou <strong>entropia</strong> $-\sum_k\hat p_{mk}\log\hat p_{mk}$ — não a taxa de erro, que é pouco sensível (uma divisão pode deixar os nós bem mais puros sem mudar a classe majoritária de nenhum).</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>A alternativa óbvia seria parar cedo: “só divido se o RSS cair mais que um limiar”. O problema é que isso é <strong>míope</strong>, pelo mesmo motivo do item (b).</p>
+      <div class="key">Uma divisão que sozinha não melhora quase nada pode <strong>abrir caminho</strong> para uma divisão excelente logo abaixo. Parando cedo, você nunca descobre.</div>
+      <p><strong>Exemplo (XOR):</strong> $y=1$ se $x_1$ e $x_2$ têm o mesmo sinal, $y=0$ caso contrário. Dividir em $x_1=0$ deixa cada metade com $50\%$ de cada classe: ganho zero, e a regra de parada corta aqui. Mas depois dessa divisão, cortar em $x_2=0$ separa tudo perfeitamente.</p>
+      <p>Por isso: cresce uma árvore grande $T_0$ (até cada folha ter poucos pontos) e depois <strong>poda</strong>. A poda olha a árvore inteira, então avalia o valor conjunto das divisões, e escolhe o tamanho por validação cruzada usando o custo-complexidade (folha 4.2).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s42" data-kind="teoria">
+  <div><span class="tab">Folha 4.2</span><span class="kind">Teoria</span></div>
+  <h3>O custo-complexidade $C_\alpha(T)$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue interpretar o custo-complexidade $C_\alpha(T)$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Para cada subárvore $T\subseteq T_0$ (obtida podando $T_0$), com $|T|$ folhas:</p>
+      $$C_\alpha(T) = \underbrace{\sum_{m=1}^{|T|}\sum_{x_i\in R_m}(y_i-\bar y_{R_m})^2}_{\text{erro de treino (RSS)}} \;+\; \underbrace{\alpha\,|T|}_{\text{preço do tamanho}}.$$
+      <div class="key"><strong>$\alpha$ é o preço de uma folha.</strong> Uma divisão só vale a pena se reduzir o RSS em mais que $\alpha$. É a mesma estrutura “ajuste + penalidade” do lasso ou do AIC, com a complexidade medida em número de folhas.</div>
+      <ul>
+        <li>$\alpha=0$: não há custo; o ótimo é $T_0$, a árvore cheia (máxima variância).</li>
+        <li>$\alpha\to\infty$: qualquer folha extra é proibitiva; sobra só a raiz (prevê $\bar y$ — máximo viés).</li>
+        <li>$\alpha$ intermediário: troca viés por variância.</li>
+      </ul>
+      <p><strong>Por que é prático:</strong> para cada $\alpha$ existe uma menor subárvore $T_\alpha$ que minimiza $C_\alpha$, e as $T_\alpha$ são <strong>encaixadas</strong> — aumentar $\alpha$ só remove galhos. Então há só uma sequência finita de árvores candidatas, obtida pela <em>poda pelo elo mais fraco</em>: em cada nó interno $t$, calcule</p>
+      $$g(t) = \frac{\mathrm{RSS}(t) - \mathrm{RSS}(T_t)}{|T_t|-1},$$
+      <p>o quanto o erro sobe <em>por folha removida</em> se o galho $T_t$ for colapsado no nó $t$. Pode o galho com menor $g(t)$; repita. Os valores de $g$ são os $\alpha$ em que a árvore ótima muda.</p>
+      <p>Escolhe-se $\alpha$ por <strong>validação cruzada</strong> e usa-se a $T_\alpha$ correspondente, ajustada com todos os dados.</p>
+      <div class="warn">O RSS cai sempre que se divide mais, então ele sozinho escolheria sempre a árvore cheia. O termo $\alpha|T|$ é o que impede isso. Em classificação, troca-se o RSS pela taxa de erro (ou Gini) — na poda, usa-se em geral a taxa de erro, porque o objetivo final é classificar.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s43" data-kind="conceito">
+  <div><span class="tab">Folha 4.3</span><span class="kind">Conceitual</span></div>
+  <h3>Variância das árvores, bagging, random forests e OOB</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você entende de onde vem a variância alta das árvores?</li>
+      <li>Consegue explicar bagging, random forests e por que o erro out-of-bag dispensa a validação cruzada?</li>
+      <li>Sabe por que o bagging usa árvores profundas, sem poda, e por que aumentar $B$ não sobreajusta?</li>
+      <li>Você entende por que a correlação entre as árvores limita o ganho?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <ul>
+        <li><strong>Estrutura hierárquica:</strong> a primeira divisão decide tudo o que vem abaixo. Se duas divisões candidatas têm RSS quase iguais, uma mudança pequena nos dados troca a vencedora — e aí a árvore inteira é outra. O erro <em>propaga</em> para baixo.</li>
+        <li><strong>Escolhas discretas:</strong> “qual variável, qual corte” é uma decisão de tudo ou nada; não há um meio-termo suave.</li>
+        <li><strong>Folhas com poucos pontos:</strong> numa árvore profunda, cada folha é a média de poucos $y_i$ — variância alta, como um kNN com $k$ pequeno.</li>
+      </ul>
+      <p>Resultado: viés baixo (árvore profunda se adapta a quase tudo) e <mark>variância alta</mark>. É o candidato perfeito para um método que reduz variância por média.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Bagging</strong> (<em>bootstrap aggregating</em>):</p>
+      <ol>
+        <li>Sorteie $B$ amostras bootstrap (tamanho $N$, com reposição) do treino.</li>
+        <li>Ajuste uma árvore $\hat f^{*b}$ em cada.</li>
+        <li>Combine: $\hat f_{\text{bag}}(x)=\frac1B\sum_b\hat f^{*b}(x)$ na regressão; voto majoritário (ou média das probabilidades) na classificação.</li>
+      </ol>
+      <p>A ideia: tirar a média de $B$ variáveis com variância $\sigma^2$ reduz a variância (folha 4.4). Como não temos $B$ conjuntos de treino, o bootstrap os imita.</p>
+      <p><strong>Random forest</strong> = bagging + um sorteio a mais: <em>em cada divisão</em>, só se consideram $m$ das $p$ variáveis, sorteadas na hora (tipicamente $m\approx\sqrt p$ em classificação, $p/3$ em regressão). Com $m=p$ volta ao bagging.</p>
+      <p>Para que serve: se há um preditor muito forte, no bagging ele está no topo de quase todas as árvores, e as árvores ficam parecidas. Na RF, em boa parte das divisões ele nem é candidato, e outras variáveis aparecem. As árvores ficam <strong>descorrelacionadas</strong>.</p>
+      <p><strong>Erro out-of-bag (OOB).</strong> Cada amostra bootstrap deixa de fora cerca de $36{,}8\%$ dos pontos (folha 4.5). Então, para cada ponto $i$, cerca de $B/3$ árvores <em>nunca o viram</em>. Preveja $y_i$ usando só essas árvores e compare com $y_i$:</p>
+      $$\text{erro OOB} = \frac1N\sum_{i=1}^N \ell\Big(y_i,\;\text{média das } \hat f^{*b}(x_i) \text{ com } i\notin \text{amostra } b\Big).$$
+      <div class="key">Cada previsão OOB é feita por árvores que não usaram aquele ponto: é uma previsão <strong>honesta, fora da amostra</strong> — a mesma lógica da validação cruzada. E sai de graça: as árvores já foram ajustadas. A validação cruzada exigiria reajustar a floresta inteira $K$ vezes.</div>
+      <p>(Com $B$ grande, o erro OOB fica próximo do erro de validação cruzada leave-one-out. É levemente pessimista, porque cada previsão OOB usa só ~$B/3$ árvores.)</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><strong>Árvores profundas.</strong> A média reduz <em>variância</em>, mas não mexe no <em>viés</em>: $\mathbb E[\hat f_{\text{bag}}]\approx\mathbb E[\hat f^{*b}]$, o viés do conjunto é o viés de uma árvore. Então o certo é usar árvores de <mark>viés baixo e variância alta</mark> — profundas, sem poda — e deixar a média cuidar da variância. Podar trocaria variância (que a média ia remover de qualquer jeito) por viés (que a média não remove).</p>
+      <p><strong>$B$ não sobreajusta.</strong> Quando $B\to\infty$, $\hat f_{\text{bag}}(x)$ converge para $\mathbb E^*[\hat f^*(x)]$, a média sobre todas as amostras bootstrap possíveis — um modelo <em>fixo</em>. Aumentar $B$ só reduz o ruído de Monte Carlo em torno desse limite. Pela fórmula da folha 4.4,</p>
+      $$\mathrm{Var} = \rho\sigma^2 + \frac{1-\rho}{B}\sigma^2,$$
+      <p>que <strong>só diminui</strong> com $B$. $B$ não é um parâmetro de complexidade: ele não deixa o modelo mais flexível, só mais estável. O erro de teste cai e estabiliza; escolhe-se $B$ “grande o bastante para estabilizar”, não por validação cruzada.</p>
+      <div class="warn">Isso <strong>não</strong> vale para o boosting: lá cada árvore corrige os resíduos das anteriores, e $B$ grande sobreajusta. E “$B$ não sobreajusta” não quer dizer “a floresta não sobreajusta” — ela pode sobreajustar por outras razões (folhas muito pequenas com dados ruidosos), só não por causa de $B$.</div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>As $B$ árvores do bagging são ajustadas em amostras bootstrap <em>dos mesmos dados</em>: elas compartilham cerca de $63\%$ dos pontos e tendem a escolher as mesmas divisões no topo. São <strong>positivamente correlacionadas</strong>.</p>
+      <p>Tirar a média de variáveis correlacionadas não cancela a parte comum: a variância da média nunca fica abaixo de $\rho\sigma^2$ (folha 4.4), por maior que seja $B$. É um piso.</p>
+      <p>Para descer abaixo dele, é preciso <strong>diminuir $\rho$</strong> — e é exatamente o que a random forest faz com o sorteio de variáveis.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s44" data-kind="contas">
+  <div><span class="tab">Folha 4.4</span><span class="kind">Contas</span></div>
+  <h3>A variância da média de variáveis correlacionadas</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe mostrar a variância da média de variáveis correlacionadas: $\displaystyle\mathrm{Var}\Big(\frac1B\sum_{b=1}^BZ_b\Big)=\rho\sigma^2+\frac{1-\rho}{B}\sigma^2$?</li>
+      <li>Sabe como usar esse resultado para explicar o piso $\rho\sigma^2$ quando $B\to\infty$ e justificar a random forest?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Hipótese:</strong> $Z_1,\dots,Z_B$ com $\mathrm{Var}(Z_b)=\sigma^2$ para todo $b$ e $\mathrm{Corr}(Z_b,Z_{b'})=\rho$ para todo $b\neq b'$, ou seja, $\mathrm{Cov}(Z_b,Z_{b'})=\rho\sigma^2$. (No bagging: $Z_b=\hat f^{*b}(x)$ num $x$ fixo; as árvores são identicamente distribuídas.)</p>
+      <p><strong>Variância da soma</strong> = soma de todas as covariâncias:</p>
+      $$\mathrm{Var}\Big(\sum_{b=1}^BZ_b\Big) = \sum_{b=1}^B\sum_{b'=1}^B\mathrm{Cov}(Z_b,Z_{b'}) = \underbrace{\sum_{b}\mathrm{Var}(Z_b)}_{B \text{ termos diagonais}} + \underbrace{\sum_{b\neq b'}\mathrm{Cov}(Z_b,Z_{b'})}_{B(B-1)\text{ termos}}.$$
+      $$= B\sigma^2 + B(B-1)\rho\sigma^2.$$
+      <p><strong>Dividindo por $B^2$</strong> (porque $\mathrm{Var}(aX)=a^2\mathrm{Var}(X)$ com $a=1/B$):</p>
+      $$\mathrm{Var}\Big(\frac1B\sum_bZ_b\Big) = \frac{\sigma^2}{B} + \frac{B-1}{B}\rho\sigma^2 = \rho\sigma^2 + \frac{\sigma^2-\rho\sigma^2}{B} = \boxed{\;\rho\sigma^2+\frac{1-\rho}{B}\sigma^2\;}$$
+      <p><strong>Checagens:</strong> $\rho=0$ (independentes) dá $\sigma^2/B$ ✓. $\rho=1$ (todas iguais) dá $\sigma^2$ — tirar a média de cópias não ajuda ✓.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Quando $B\to\infty$, o segundo termo some:</p>
+      $$\lim_{B\to\infty}\mathrm{Var}\Big(\frac1B\sum_bZ_b\Big) = \rho\sigma^2.$$
+      <div class="key">Mais árvores só atacam o termo $\frac{1-\rho}{B}\sigma^2$. O termo $\rho\sigma^2$ — a parte da variação que <strong>todas as árvores compartilham</strong> — não sai com média nenhuma. Com $\rho$ alto, o bagging esbarra nesse piso rápido.</div>
+      <p><strong>Justificativa da random forest.</strong> O piso é $\rho\sigma^2$; para baixá-lo, há dois botões: $\rho$ e $\sigma^2$. A RF mexe em $\rho$: sorteando $m&lt;p$ variáveis por divisão, as árvores ficam menos parecidas.</p>
+      <p>O preço: cada árvore, sem acesso às melhores variáveis em algumas divisões, fica pior individualmente — $\sigma^2$ sobe um pouco (e o viés também). Há um trade-off:</p>
+      <ul>
+        <li>$m$ pequeno: $\rho$ baixo, $\sigma^2$ alto;</li>
+        <li>$m=p$ (bagging): $\rho$ alto, $\sigma^2$ baixo.</li>
+      </ul>
+      <p>Na prática, a queda de $\rho$ ganha da subida de $\sigma^2$, sobretudo quando há preditores fortes ou muito correlacionados. O $m$ se escolhe pelo erro OOB.</p>
+      <div class="warn">A conta é para regressão (média). Na classificação por voto o raciocínio é análogo, mas a fórmula exata não se aplica direto — a intuição “correlação limita o ganho da média” é a mesma (compare com a folha 4.6, que supõe independência).</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s45" data-kind="contas">
+  <div><span class="tab">Folha 4.5</span><span class="kind">Contas</span></div>
+  <h3>Bootstrap: $e^{-1}\approx0{,}368$ de fora, $1-e^{-1}\approx0{,}632$ distintos</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Mostrar que a fração fora de uma amostra bootstrap tende a $e^{-1}\approx0{,}368$, e que a fração esperada de pontos distintos tende a $1-e^{-1}\approx0{,}632$.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Uma amostra bootstrap: $N$ sorteios independentes, cada um escolhendo um dos $N$ pontos com probabilidade $1/N$.</p>
+      <p><strong>1. Um ponto fixo $i$ ficar de fora.</strong> Em um sorteio, $P(\text{não sai } i)=1-\frac1N$. Os $N$ sorteios são independentes:</p>
+      $$P(i\notin\text{amostra}) = \Big(1-\frac1N\Big)^N.$$
+      <p><strong>2. O limite.</strong> Tome log:</p>
+      $$\log\Big(1-\frac1N\Big)^N = N\log\Big(1-\frac1N\Big) = N\Big(-\frac1N-\frac1{2N^2}-\frac1{3N^3}-\dots\Big) = -1-\frac1{2N}-\dots\;\longrightarrow\;-1.$$
+      <p>(Usando $\log(1-t)=-t-t^2/2-\dots$ para $|t|&lt;1$.) Como $\exp$ é contínua:</p>
+      $$\Big(1-\frac1N\Big)^N\longrightarrow e^{-1}\approx 0{,}368.$$
+      <p>O limite chega rápido: $N=10$ dá $0{,}349$; $N=100$ dá $0{,}366$.</p>
+      <p><strong>3. Fração esperada fora da amostra.</strong> Seja $I_i=\mathbf 1\{i\notin\text{amostra}\}$. O número de pontos de fora é $\sum_iI_i$, e por linearidade da esperança (não precisa de independência entre os $I_i$!):</p>
+      $$\mathbb E\Big[\frac1N\sum_{i=1}^NI_i\Big] = \frac1N\sum_{i=1}^N P(i\notin\text{amostra}) = \Big(1-\frac1N\Big)^N\to e^{-1}.$$
+      <p><strong>4. Pontos distintos.</strong> Os pontos que aparecem pelo menos uma vez são o complemento:</p>
+      $$\mathbb E\Big[\frac{\#\text{distintos}}N\Big] = 1-\Big(1-\frac1N\Big)^N\longrightarrow 1-e^{-1}\approx0{,}632.$$
+      <div class="key">Uma amostra bootstrap tem $N$ elementos, mas só ~$63{,}2\%$ <strong>distintos</strong>: o resto são repetições. Os ~$36{,}8\%$ restantes ficam de fora — e são eles que formam o conjunto out-of-bag daquela árvore.</div>
+      <p>(Simulação no código C.4: com $N=1000$, $B=500$, sai $0{,}368$.)</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s46" data-kind="contas">
+  <div><span class="tab">Folha 4.6</span><span class="kind">Contas</span></div>
+  <h3>O voto majoritário de classificadores independentes</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Mostrar que o voto majoritário de classificadores independentes acerta com probabilidade tendendo a 1.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Hipótese:</strong> $L$ classificadores (binário, $L$ ímpar para não haver empate), <strong>independentes</strong>, cada um acertando um dado ponto com probabilidade $q&gt;1/2$.</p>
+      <p>Seja $A_l=\mathbf 1\{\text{classificador } l\text{ acerta}\}$. Os $A_l$ são Bernoulli($q$) independentes, e</p>
+      $$S_L=\sum_{l=1}^LA_l\sim\text{Binomial}(L,q).$$
+      <p>O voto majoritário acerta $\iff$ mais da metade acerta $\iff$ $S_L/L&gt;1/2$.</p>
+      <p><strong>Prova (Chebyshev).</strong> $\mathbb E[S_L/L]=q$ e $\mathrm{Var}(S_L/L)=q(1-q)/L$. Seja $\delta=q-\frac12&gt;0$. O voto erra só se $S_L/L\le\frac12$, o que exige $|S_L/L-q|\ge\delta$:</p>
+      $$P(\text{voto erra}) \le P\Big(\Big|\frac{S_L}L-q\Big|\ge\delta\Big) \le \frac{q(1-q)}{L\,\delta^2}\;\xrightarrow[L\to\infty]{}\;0.$$
+      <p>Logo $P(\text{voto acerta})\to1$. (É a lei dos grandes números: $S_L/L\to q&gt;1/2$.)</p>
+      <p><strong>Versão mais forte (Hoeffding):</strong> $P(\text{voto erra})\le e^{-2L\delta^2}$ — cai exponencialmente em $L$.</p>
+      <p><strong>Números</strong> (cálculo exato com a binomial, $q=0{,}6$):</p>
+      <div class="tbox"><table>
+        <tr><th>$L$</th><th>1</th><th>11</th><th>101</th></tr>
+        <tr><td>$P(\text{maioria acerta})$</td><td>$0{,}60$</td><td>$0{,}75$</td><td>$0{,}98$</td></tr>
+      </table></div>
+      <p>Classificadores fracos ($60\%$), combinados, viram um forte.</p>
+      <div class="warn">
+        <p>Duas condições fazem todo o trabalho:</p>
+        <ul>
+          <li><strong>$q&gt;1/2$.</strong> Se $q&lt;1/2$, a mesma conta mostra que a maioria <em>erra</em> com probabilidade $\to1$. Combinar classificadores piores que moeda piora.</li>
+          <li><strong>Independência.</strong> Árvores de bagging não são independentes — são correlacionadas (folha 4.4). Com correlação, o ganho satura: no extremo $\rho=1$ todos votam igual e o voto acerta com probabilidade $q$, não 1. Por isso a RF se esforça para descorrelacionar.</li>
+        </ul>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>5 · Redes neurais</span></div>
+
+<section class="sheet" id="s51" data-kind="conceito">
+  <div><span class="tab">Folha 5.1</span><span class="kind">Conceitual</span></div>
+  <h3>Parâmetros, hiperparâmetros e o que é aprender</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você sabe distinguir parâmetros de hiperparâmetros, e contar os parâmetros de uma rede?</li>
+      <li>Consegue dizer o que é aprender no contexto de redes neurais?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <div class="tbox"><table>
+        <tr><th></th><th>parâmetros $\theta$</th><th>hiperparâmetros</th></tr>
+        <tr><td>o que são</td><td>pesos $W^{(l)}$ e vieses $b^{(l)}$</td><td>número de camadas, largura, ativação, taxa $\eta$, tamanho do lote, número de épocas, regularização $\lambda$, inicialização…</td></tr>
+        <tr><td>quem escolhe</td><td>o treino, minimizando a perda nos dados de treino</td><td>você, antes do treino — por validação</td></tr>
+        <tr><td>se escolhidos no treino…</td><td>é o objetivo</td><td>sobreajuste: o erro de treino sempre prefere a rede maior e o $\lambda=0$</td></tr>
+      </table></div>
+      <p><strong>Contagem.</strong> Uma camada densa de $n_{\text{in}}$ para $n_{\text{out}}$ neurônios tem uma matriz $n_{\text{in}}\times n_{\text{out}}$ e um viés por neurônio de saída:</p>
+      $$n_{\text{in}}\cdot n_{\text{out}} + n_{\text{out}} = (n_{\text{in}}+1)\,n_{\text{out}}.$$
+      <p>Para a rede toda, com larguras $n_0=p,\,n_1,\dots,n_L$:</p>
+      $$\#\theta=\sum_{l=1}^L (n_{l-1}+1)\,n_l.$$
+      <p><strong>Exemplo:</strong> $p=4$ entradas, ocultas de 10 e 5, saída 1:</p>
+      $$(4+1)\cdot10 + (10+1)\cdot5 + (5+1)\cdot1 = 50+55+6 = 111.$$
+      <p>Com uma oculta de 10 e saída softmax de $K=3$ classes: $(4+1)\cdot10+(10+1)\cdot3=83$ (código C.7).</p>
+      <div class="warn">Não esqueça os vieses (o “+1”), e lembre que a <strong>ativação não tem parâmetro</strong> (ReLU, sigmoide). Também não conte a entrada como camada com pesos.</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <div class="key">
+        <p>A arquitetura define uma <strong>família paramétrica</strong> de funções $\{f_\theta\}$. <strong>Aprender</strong> é escolher $\theta$ minimizando o risco empírico:</p>
+        $$\hat\theta \in \arg\min_\theta\; L(\theta) = \frac1N\sum_{i=1}^N\ell\big(y_i,f_\theta(x_i)\big)\;(+\;\lambda\,\Omega(\theta)),$$
+        <p>feito numericamente, por descida do gradiente. O objetivo de verdade é o erro em dados <em>novos</em>; o risco empírico é o substituto que dá para calcular.</p>
+      </div>
+      <p>É o mesmo ERM de sempre (regressão linear, logística). A rede só muda a família: muito mais flexível, e $L(\theta)$ não convexa. A perda é MSE para regressão e entropia cruzada para classificação — que, com uma camada e saída softmax, é exatamente a logística multinomial.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s52" data-kind="teoria">
+  <div><span class="tab">Folha 5.2</span><span class="kind">Teoria</span></div>
+  <h3>Descida do gradiente e a taxa $\eta$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe por que não se resolve $\nabla L(\theta)=0$ diretamente?</li>
+      <li>Consegue explicar a descida do gradiente, o papel de $\eta$, e por que o $\eta$ bom depende da curvatura de $L$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <ul>
+        <li><strong>Não há fórmula fechada.</strong> $\nabla L(\theta)=0$ é um sistema de equações <em>não lineares</em> (os pesos estão dentro de composições de ativações), com milhares a bilhões de incógnitas. Nem na logística, que é uma rede de uma camada, existe solução fechada (folha 1.5).</li>
+        <li><strong>$L$ não é convexa.</strong> $\nabla L=0$ tem muitas soluções: mínimos locais, máximos, e principalmente <em>pontos de sela</em>. Achar uma solução da equação não diz que ela é boa.</li>
+        <li><strong>Simetrias:</strong> permutar os neurônios de uma camada oculta dá a mesma função. Os pontos críticos vêm em famílias, não são isolados.</li>
+        <li><strong>Custo:</strong> mesmo um sistema linear $p\times p$ custa $O(p^3)$; com $10^6$ parâmetros é inviável. Já o gradiente sai barato (retropropagação custa da ordem de uma passada da rede), e com mini-lotes nem precisa olhar todos os dados a cada passo.</li>
+        <li>E nem queremos o minimizador exato do risco empírico: ele sobreajusta. Parar antes (early stopping) é uma forma de regularização.</li>
+      </ul>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Descida do gradiente:</strong></p>
+      $$\theta_{t+1} = \theta_t - \eta\,\nabla L(\theta_t).$$
+      <p>$-\nabla L$ é a direção de maior descida local. Por Taylor, com $g=\nabla L(\theta)$:</p>
+      $$L(\theta-\eta g) = L(\theta) - \eta\|g\|^2 + O(\eta^2),$$
+      <p>então para $\eta$ pequeno o passo diminui $L$. O $\eta$ (taxa de aprendizado) é o tamanho do passo: pequeno demais ⇒ lento; grande demais ⇒ o termo $O(\eta^2)$ domina, o passo passa do mínimo, oscila e pode divergir.</p>
+      <p><strong>Por que depende da curvatura.</strong> Perto de um mínimo $\theta^*$, aproxime $L$ por uma quadrática com hessiana $H$ (autovalores $\lambda_1\ge\dots\ge\lambda_p&gt;0$):</p>
+      $$L(\theta)\approx L(\theta^*)+\tfrac12(\theta-\theta^*)^TH(\theta-\theta^*),\qquad \nabla L(\theta)\approx H(\theta-\theta^*).$$
+      <p>Então o erro $e_t=\theta_t-\theta^*$ evolui como</p>
+      $$e_{t+1} = (I-\eta H)\,e_t.$$
+      <p>Na direção do autovetor $i$, o erro é multiplicado por $(1-\eta\lambda_i)$ a cada passo. Converge sse $|1-\eta\lambda_i|&lt;1$ para todo $i$:</p>
+      $$\boxed{\;0&lt;\eta&lt;\frac{2}{\lambda_{\max}}\;}$$
+      <div class="key">
+        <p>O <strong>$\eta$ máximo é ditado pela direção mais curva</strong> ($\lambda_{\max}$). Mas com $\eta\approx1/\lambda_{\max}$, a direção mais plana encolhe só por $(1-\lambda_{\min}/\lambda_{\max})$ por passo. Se $\kappa=\lambda_{\max}/\lambda_{\min}$ (número de condição) é grande, a descida faz zigue-zague nas paredes do “vale” e anda devagar pelo fundo.</p>
+        <p>Como em uma rede a curvatura muda de região para região, um $\eta$ fixo bom num lugar é ruim em outro — daí agendas de $\eta$ e métodos adaptativos (momento, Adam).</p>
+      </div>
+      <p><strong>Caso 1D:</strong> $L(\theta)=\frac a2\theta^2$, $\theta_{t+1}=(1-\eta a)\theta_t$. Diverge se $\eta&gt;2/a$; com $\eta=1/a$ chega ao mínimo em um passo — é o passo de Newton, $\theta-L'/L''$. O método de Newton usa $H^{-1}$ justamente para ajustar o passo à curvatura em cada direção.</p>
+      <div class="warn">Note que $\eta$ é um <strong>hiperparâmetro</strong> (folha 5.1): não sai da minimização de $L$.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s53" data-kind="teoria">
+  <div><span class="tab">Folha 5.3</span><span class="kind">Teoria</span></div>
+  <h3>Ativações e o teorema de aproximação universal</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe por que a ativação não pode ser a identidade nem um polinômio?</li>
+      <li>Consegue dizer o que o teorema de aproximação universal garante?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Identidade.</strong> Composição de funções afins é afim:</p>
+      $$W_2(W_1x+b_1)+b_2 = \underbrace{(W_2W_1)}_{W}x+\underbrace{(W_2b_1+b_2)}_{b}.$$
+      <p>Por indução, uma rede de qualquer profundidade com ativação identidade é <mark>uma única camada linear</mark> — regressão linear (ou logística, com sigmoide na saída). As camadas ocultas não acrescentam nenhuma flexibilidade, só parâmetros redundantes.</p>
+      <p><strong>Polinômio.</strong> Se $\sigma$ é um polinômio de grau $d$, uma camada oculta dá</p>
+      $$f(x)=\sum_{j=1}^m a_j\,\sigma(w_j^Tx+b_j),$$
+      <p>que é um polinômio em $x$ de grau $\le d$ — <strong>qualquer que seja a largura $m$</strong>. Os polinômios de grau $\le d$ em $p$ variáveis formam um espaço de dimensão finita ($\binom{p+d}{d}$), fechado. Então a rede nunca aproxima bem algo fora dele, como $x^{d+1}$, $|x|$ ou $\sin x$ num intervalo, por mais neurônios que se ponham. (Com $L$ camadas, o grau sobe a no máximo $d^L$ — ainda finito para arquitetura fixa.)</p>
+      <div class="key">Uma rede de uma camada oculta aproxima qualquer função contínua <strong>se e somente se</strong> a ativação <strong>não é polinomial</strong> (Leshno et al., 1993). Ser não linear não basta: tem que ser não polinomial. ReLU, sigmoide e tanh servem.</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Enunciado.</strong> Seja $\sigma$ contínua e não polinomial. Para toda $f$ contínua num compacto $K\subset\mathbb R^p$ e todo $\varepsilon&gt;0$, existem $m$ e pesos tais que</p>
+      $$\sup_{x\in K}\Big|f(x) - \sum_{j=1}^m a_j\,\sigma(w_j^Tx+b_j)\Big| &lt; \varepsilon.$$
+      <p>Ou seja: redes com <strong>uma</strong> camada oculta, largas o bastante, são densas nas funções contínuas (como os polinômios, no teorema de Weierstrass).</p>
+      <p><strong>O que ele garante:</strong> <em>existência</em> — a família é rica o bastante; viés de aproximação pode ser tão pequeno quanto se queira.</p>
+      <p><strong>O que ele não garante:</strong></p>
+      <ul>
+        <li><strong>quantos neurônios</strong> — pode ser um número astronômico (exponencial em $p$, em geral);</li>
+        <li>que a <strong>descida do gradiente encontre</strong> esses pesos (o teorema não fala de otimização);</li>
+        <li>que dê para <strong>estimá-los com $N$ finito</strong> sem sobreajustar (não fala de variância nem generalização);</li>
+        <li>nada <strong>fora do compacto $K$</strong> (extrapolação).</li>
+      </ul>
+      <div class="warn">“Redes aproximam qualquer função, logo são o melhor modelo” é a leitura errada. O teorema diz que o <em>viés</em> pode ir a zero; não diz nada sobre <em>variância</em>. kNN, árvores e polinômios por partes também são aproximadores universais.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s54" data-kind="conceito">
+  <div><span class="tab">Folha 5.4</span><span class="kind">Conceitual</span></div>
+  <h3>Otimizar sem gradiente</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe quando faz sentido otimizar sem gradiente?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Quando o gradiente <strong>não existe, não é informativo, ou não dá para calcular</strong> — e o número de variáveis é pequeno:</p>
+      <ul>
+        <li><strong>Objetivo não diferenciável ou descontínuo:</strong> perda 0-1 (gradiente zero quase em todo lugar), parâmetros discretos (número de camadas, $k$ do kNN, profundidade da árvore, escolha de variáveis).</li>
+        <li><strong>Caixa preta:</strong> o objetivo é a saída de uma simulação, de um experimento real, ou de um código que você não pode derivar.</li>
+        <li><strong>Avaliações ruidosas</strong>, onde diferenças finitas seriam dominadas pelo ruído.</li>
+        <li><strong>Hiperparâmetros</strong> — o exemplo clássico: o “objetivo” é o erro de validação após treinar, caro e não diferenciável em $\eta$, largura, $\lambda$. Usa-se busca em grade, busca aleatória, otimização bayesiana.</li>
+      </ul>
+      <p>Outros métodos: Nelder–Mead, algoritmos genéticos/evolutivos, recozimento simulado.</p>
+      <div class="key">O limite é a <strong>dimensão</strong>: métodos de ordem zero precisam, grosso modo, de um número de avaliações que cresce com o número de variáveis só para “sentir” uma direção. Com milhões de pesos, o gradiente via retropropagação — que dá a direção inteira pelo custo de uma passada — é imbatível. Por isso: sem gradiente para dezenas de variáveis, gradiente para milhões.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>6 · Análise de componentes principais</span></div>
+
+<section class="sheet" id="s61" data-kind="conceito">
+  <div><span class="tab">Folha 6.1</span><span class="kind">Conceitual</span></div>
+  <h3>O que a PCA procura, e por que centralizar</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você sabe explicar o que a PCA procura, por que é preciso centralizar os dados?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">
+      <p>A PCA procura direções ortonormais $v_1,v_2,\dots$ tais que a projeção dos dados em $v_1$ tenha <strong>a maior variância possível</strong>; $v_2$ a maior variância entre as direções ortogonais a $v_1$; e assim por diante.</p>
+      <p>Equivalente (folha 6.3): o subespaço afim de dimensão $d$ que fica <strong>mais perto dos dados</strong> em mínimos quadrados. É não supervisionada: não usa $Y$.</p>
+    </div>
+    <div class="item"><span class="lab">a.</span>
+      <p>Em fórmulas: com $S=\frac1N\sum_i(x_i-\bar x)(x_i-\bar x)^T$,</p>
+      $$v_1=\arg\max_{\|u\|=1}u^TSu,$$
+      <p>e a solução são os autovetores de $S$ (folha 6.5). As novas coordenadas $z_{ij}=v_j^T(x_i-\bar x)$ são os <em>escores</em>, e as componentes são descorrelacionadas entre si.</p>
+      <p><strong>Por que centralizar.</strong> Variância é dispersão <em>em torno da média</em>. A fórmula $u^TSu$ só é a variância projetada se $S$ for montada com os dados centralizados.</p>
+      <p>Sem centralizar, a matriz vira $\frac1N\sum_ix_ix_i^T = S+\bar x\bar x^T$ — o segundo momento, não a covariância. Ela mede distância à <strong>origem</strong>, não à média. Consequências:</p>
+      <ul>
+        <li>Se a nuvem está longe da origem, o termo $\bar x\bar x^T$ domina, e a “primeira componente” aponta para a <strong>média</strong> — ela só descreve onde a nuvem está, não como ela se espalha.</li>
+        <li>O subespaço ajustado é obrigado a passar pela origem (linear), em vez de pela média (afim).</li>
+        <li>O resultado muda se você somar uma constante a uma variável (trocar Celsius por Kelvin, por exemplo) — o que não deveria mudar nada na estrutura de dispersão.</li>
+      </ul>
+      <div class="warn">Centralizar e padronizar são coisas diferentes. Centralizar (subtrair a média) é <strong>sempre</strong> necessário. Padronizar (dividir pelo desvio) é uma escolha — folha 6.2.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s62" data-kind="teoria">
+  <div><span class="tab">Folha 6.2</span><span class="kind">Teoria</span></div>
+  <h3>Unidades, escala e quando padronizar</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue mostrar que mudar a unidade de uma variável pode trocar a primeira componente?</li>
+      <li>Consegue dizer quando padronizar as variáveis, e quando não?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Exemplo mínimo.</strong> Duas variáveis descorrelacionadas: altura com desvio $s_1$ e peso com desvio $s_2$. Então</p>
+      $$S=\begin{pmatrix}s_1^2&amp;0\\0&amp;s_2^2\end{pmatrix},$$
+      <p>e os autovetores são os eixos: a PC1 é a variável de <strong>maior variância</strong>.</p>
+      <ul>
+        <li>Altura em metros ($s_1=0{,}1$ m), peso em kg ($s_2=10$ kg): $S=\mathrm{diag}(0{,}01;\,100)$ ⇒ <strong>PC1 = peso</strong>.</li>
+        <li>Mesmos dados, altura em milímetros ($s_1=100$ mm): $S=\mathrm{diag}(10\,000;\,100)$ ⇒ <strong>PC1 = altura</strong>.</li>
+      </ul>
+      <p>Nada mudou nas pessoas; só a unidade. Em geral: multiplicar a variável 1 por $c$ multiplica sua variância por $c^2$; basta $c&gt;s_2/s_1$ para ela passar a ser a PC1.</p>
+      <p><strong>No caso geral</strong>, mudar unidades é $x\mapsto Dx$ com $D$ diagonal, e $S\mapsto DSD$. Os autovetores de $DSD$ <strong>não</strong> são $D$ vezes os autovetores de $S$ (isso só valeria para $D$ ortogonal, e uma diagonal não identidade não é). A PCA não é invariante a mudança de escala.</p>
+      <div class="key">A PCA maximiza variância, e variância tem unidade (unidade²). Comparar variâncias de variáveis com unidades diferentes é comparar metros² com kg²: o resultado depende de uma escolha arbitrária.</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Padronizar</strong> ($x_j\mapsto(x_j-\bar x_j)/s_j$; equivale a fazer PCA na matriz de <em>correlação</em>):</p>
+      <ul>
+        <li>quando as variáveis estão em <strong>unidades diferentes</strong> (altura, renda, idade);</li>
+        <li>quando a escala é arbitrária e você não quer que uma variável domine só por causa dela.</li>
+      </ul>
+      <p><strong>Não padronizar:</strong></p>
+      <ul>
+        <li>quando todas estão na <strong>mesma unidade</strong> e a diferença de variância <strong>é informação</strong>: pixels de uma imagem, intensidades de um espectro, expressão gênica na mesma escala, coordenadas de pontos de um formato, voxels de fMRI.</li>
+        <li>Nesses casos, padronizar inflaria variáveis quase constantes (ruído puro, como pixels da borda que são sempre pretos) até o mesmo peso das que carregam sinal.</li>
+      </ul>
+      <div class="warn">Média e desvio usados para padronizar vêm do <strong>treino</strong>. Recalcular no teste (ou usar o conjunto todo) é vazamento.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s63" data-kind="contas">
+  <div><span class="tab">Folha 6.3</span><span class="kind">Contas</span></div>
+  <h3>Máxima variância = mínimo erro de reconstrução</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe por que máxima variância e mínimo erro de reconstrução são o mesmo problema?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">Pitágoras. Cada ponto (centralizado) se decompõe em “parte projetada” + “resíduo”, ortogonais. A soma dos quadrados dos dois é $\|x_i\|^2$, que <strong>não depende da direção escolhida</strong>. Aumentar uma é diminuir a outra.</div>
+    <div class="item"><span class="lab">a.</span>
+      <p><strong>Uma direção.</strong> Dados centralizados $x_i$, direção unitária $u$. A projeção é $(u^Tx_i)\,u$ e o resíduo é $r_i=x_i-(u^Tx_i)u$. Eles são ortogonais:</p>
+      $$u^Tr_i = u^Tx_i-(u^Tx_i)\underbrace{u^Tu}_{1}=0.$$
+      <p>Pitágoras:</p>
+      $$\|x_i\|^2 = (u^Tx_i)^2 + \|x_i-(u^Tx_i)u\|^2.$$
+      <p>Somando em $i$ e dividindo por $N$:</p>
+      $$\underbrace{\frac1N\sum_i\|x_i\|^2}_{\text{constante: } \mathrm{tr}(S)} = \underbrace{\frac1N\sum_i(u^Tx_i)^2}_{\text{variância projetada } u^TSu} + \underbrace{\frac1N\sum_i\|x_i-(u^Tx_i)u\|^2}_{\text{erro de reconstrução}}.$$
+      <p>O lado esquerdo é a variância total, que não depende de $u$. Logo</p>
+      $$\arg\max_{\|u\|=1}\;u^TSu \;=\; \arg\min_{\|u\|=1}\;\frac1N\sum_i\|x_i-(u^Tx_i)u\|^2.$$
+      <p><strong>$d$ direções.</strong> Com $V\in\mathbb R^{p\times d}$ de colunas ortonormais ($V^TV=I_d$), $P=VV^T$ é a projeção ortogonal no subespaço. Como $P^T=P$ e $P^2=P$, $x$ se decompõe em $Px+(I-P)x$ ortogonais, e</p>
+      $$\|x_i\|^2 = \|V^Tx_i\|^2 + \|x_i-VV^Tx_i\|^2.$$
+      <p>(Usei $\|Px\|^2=x^TVV^TVV^Tx=x^TVV^Tx=\|V^Tx\|^2$.) A mesma conta: maximizar $\frac1N\sum\|V^Tx_i\|^2=\mathrm{tr}(V^TSV)$ é minimizar o erro de reconstrução.</p>
+      <p><strong>Bônus:</strong> no ótimo ($V$ = primeiros $d$ autovetores), o erro de reconstrução vale exatamente $\sum_{j&gt;d}\lambda_j$, a soma dos autovalores descartados. (Conferido numericamente no código C.5.)</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s64" data-kind="conceito">
+  <div><span class="tab">Folha 6.4</span><span class="kind">Conceitual</span></div>
+  <h3>Escolher $d$, e criticar “direções mais informativas”</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Consegue dar três critérios para escolher $d$?</li>
+      <li>Sabe criticar a frase “a PCA encontra as direções mais informativas”?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <ol>
+        <li><strong>Proporção de variância explicada (PVE):</strong> o menor $d$ com $\dfrac{\sum_{j\le d}\lambda_j}{\sum_{j=1}^p\lambda_j}\ge$ um alvo (por exemplo $90\%$).</li>
+        <li><strong>Gráfico de cotovelo (scree plot):</strong> plote $\lambda_j$ (ou a PVE de cada componente) contra $j$ e corte onde a curva “achata” — a partir dali cada componente acrescenta pouco.</li>
+        <li><strong>Regra de Kaiser:</strong> manter as componentes com $\lambda_j$ acima da média dos autovalores (com dados padronizados, $\lambda_j&gt;1$: a componente explica mais que uma variável original).</li>
+        <li><strong>Validação cruzada</strong>, quando a PCA é pré-processamento de um problema supervisionado (regressão em componentes principais): escolha o $d$ que minimiza o erro de validação <em>da tarefa final</em>. É o único critério que olha para $Y$.</li>
+        <li><strong>Objetivo prático:</strong> $d=2$ ou $3$ para visualização.</li>
+      </ol>
+      <div class="warn">Os critérios 1–3 são heurísticos e não supervisionados. Não existe um “$d$ certo” universal sem dizer para que a redução vai servir.</div>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <div class="key">A PCA encontra as direções de <strong>maior variância</strong>. Variância não é informação.</div>
+      <ul>
+        <li><strong>Ignora $Y$.</strong> A direção que separa as classes pode ter variância pequena. Exemplo: duas classes em forma de charuto, paralelas, muito alongadas na horizontal e separadas por uma faixa estreita na vertical. A PC1 é a horizontal — inútil para classificar —, e a direção útil é a última. Se o objetivo é prever $Y$, métodos supervisionados (LDA, PLS) escolhem direções pensando em $Y$.</li>
+        <li><strong>Depende da unidade</strong> (folha 6.2). “Informação” não deveria mudar ao medir em mm em vez de m.</li>
+        <li><strong>Variância grande pode ser ruído.</strong> Um sensor defeituoso que oscila muito vira PC1.</li>
+        <li><strong>Só enxerga estrutura linear e de segunda ordem.</strong> Dados num círculo, numa espiral ou numa variedade curva têm estrutura de dimensão baixa que a PCA não pega; ela usa só a covariância.</li>
+      </ul>
+      <p>A frase só fica razoável sob hipóteses fortes: sinal com variância grande e ruído pequeno e isotrópico, e “informativo” entendido como “explica a dispersão de $X$”, não “ajuda a prever alguma coisa”.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s65" data-kind="contas">
+  <div><span class="tab">Folha 6.5</span><span class="kind">Contas</span></div>
+  <h3>Variância projetada e autovalores</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe mostrar que a variância projetada na direção unitária $u$ é $\sigma^2(u)=u^TSu$, onde $S$ é a matriz de covariância?</li>
+      <li>Consegue mostrar que $\max_{\|u\|=1}u^TSu=\lambda_1$, atingido no primeiro autovetor?</li>
+      <li>Mostrar que, entre os $u$ unitários ortogonais a $v_1,\dots,v_{k-1}$, o máximo é $\lambda_k$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <p>Os valores projetados são $z_i=u^Tx_i$. A média deles é $\bar z=\frac1N\sum_iu^Tx_i=u^T\bar x$. A variância:</p>
+      $$\sigma^2(u)=\frac1N\sum_{i=1}^N(z_i-\bar z)^2 = \frac1N\sum_i\big(u^T(x_i-\bar x)\big)^2.$$
+      <p>Como $a^Tb$ é escalar, $(u^Ta)^2=(u^Ta)(a^Tu)=u^Taa^Tu$:</p>
+      $$\sigma^2(u) = \frac1N\sum_iu^T(x_i-\bar x)(x_i-\bar x)^Tu = u^T\Big[\frac1N\sum_i(x_i-\bar x)(x_i-\bar x)^T\Big]u = u^TSu.\;\;\blacksquare$$
+      <p>(Com $\frac1{N-1}$ no lugar de $\frac1N$ a conta é a mesma; basta usar a mesma convenção nos dois lados.)</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>$S$ é simétrica e semidefinida positiva ($u^TSu=\sigma^2(u)\ge0$). Pelo teorema espectral, $S=V\Lambda V^T$, com $V$ ortogonal (colunas $v_1,\dots,v_p$ ortonormais) e $\lambda_1\ge\lambda_2\ge\dots\ge\lambda_p\ge0$.</p>
+      <p><strong>Mudança de coordenadas.</strong> Escreva $u$ na base dos autovetores: $c=V^Tu$, isto é, $u=\sum_jc_jv_j$. Como $V$ é ortogonal, $\|c\|=\|u\|=1$, ou seja, $\sum_jc_j^2=1$. Então</p>
+      $$u^TSu = c^T\Lambda c = \sum_{j=1}^p\lambda_jc_j^2 \;\le\; \lambda_1\sum_{j=1}^pc_j^2 = \lambda_1.$$
+      <p>A cota é atingida em $c=e_1$, isto é, $u=v_1$: $v_1^TSv_1=\lambda_1v_1^Tv_1=\lambda_1$. Logo</p>
+      $$\max_{\|u\|=1}u^TSu=\lambda_1,\quad\text{atingido em } u=v_1.\;\;\blacksquare$$
+      <p>(Se $\lambda_1&gt;\lambda_2$, o maximizador é único a menos de sinal; $-v_1$ é a mesma direção.)</p>
+      <p><strong>Caminho alternativo (Lagrange):</strong> $\nabla_u\big[u^TSu-\lambda(u^Tu-1)\big]=2Su-2\lambda u=0$ ⇒ $Su=\lambda u$: os pontos críticos são os autovetores, e o valor do objetivo em cada um é $u^TSu=\lambda$. O maior é $\lambda_1$.</p>
+      <div class="warn">Lagrange sozinho dá os <em>candidatos</em> (pontos críticos); para concluir que o máximo é $\lambda_1$ é preciso notar que a esfera é compacta (o máximo existe e é um dos candidatos) ou usar a desigualdade acima, que já prova direto.</div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Se $u\perp v_1,\dots,v_{k-1}$, então $c_j=v_j^Tu=0$ para $j&lt;k$. A mesma conta, só com os termos que sobram:</p>
+      $$u^TSu = \sum_{j=k}^p\lambda_jc_j^2 \;\le\; \lambda_k\sum_{j=k}^pc_j^2 = \lambda_k,$$
+      <p>com igualdade em $u=v_k$ (que é unitário e ortogonal aos anteriores). $\blacksquare$</p>
+      <p><strong>Consequências:</strong></p>
+      <ul>
+        <li>a $k$-ésima componente principal é $v_k$, e a variância dos escores $z_{\cdot k}$ é $\lambda_k$;</li>
+        <li>componentes diferentes são <strong>descorrelacionadas</strong>: $\mathrm{Cov}(v_j^Tx,v_k^Tx)=v_j^TSv_k=\lambda_kv_j^Tv_k=0$ para $j\ne k$;</li>
+        <li>a variância total se conserva: $\sum_j\lambda_j=\mathrm{tr}(S)=\sum_j\mathrm{Var}(x_j)$ — daí a PVE da folha 6.4.</li>
+      </ul>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>7 · Lema de Johnson–Lindenstrauss</span></div>
+
+<section class="sheet" id="s71" data-kind="teoria">
+  <div><span class="tab">Folha 7.1</span><span class="kind">Teoria</span></div>
+  <h3>O enunciado, e por que $d\sim\ln N$ e não depende de $D$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você sabe enunciar o lema?</li>
+      <li>Consegue explicar por que $d$ não depende de $D$ e cresce como $\ln N$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <div class="key">
+        <p><strong>Lema de Johnson–Lindenstrauss.</strong> Seja $0&lt;\varepsilon&lt;1$ e $x_1,\dots,x_N\in\mathbb R^D$. Se</p>
+        $$d \;\ge\; \frac{C\,\ln N}{\varepsilon^2}$$
+        <p>(com $C$ uma constante absoluta; uma escolha que funciona é $d\ge\frac{8\ln N}{\varepsilon^2-\varepsilon^3}$), então existe uma aplicação linear $f:\mathbb R^D\to\mathbb R^d$ tal que, para todos os pares $i,j$,</p>
+        $$(1-\varepsilon)\,\|x_i-x_j\|^2 \;\le\; \|f(x_i)-f(x_j)\|^2 \;\le\; (1+\varepsilon)\,\|x_i-x_j\|^2.$$
+        <p>Além disso, o mapa aleatório $f(x)=Rx/\sqrt d$ (folha 7.2) satisfaz isso com probabilidade alta.</p>
+      </div>
+      <p>Em palavras: <mark>qualquer</mark> conjunto de $N$ pontos, em qualquer dimensão, pode ser levado para dimensão $O(\ln N/\varepsilon^2)$ distorcendo todas as distâncias por no máximo um fator $1\pm\varepsilon$.</p>
+      <p>(Algumas versões enunciam com $\|\cdot\|$ em vez de $\|\cdot\|^2$; muda só a constante.)</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>A prova tem dois passos, e cada um explica uma das duas coisas.</p>
+      <p><strong>Passo 1 — um vetor fixo; aqui some o $D$.</strong> Fixe $v\in\mathbb R^D$ e seja $R$ uma matriz $d\times D$ de entradas iid $N(0,1)$. Cada coordenada $(Rv)_k=r_k^Tv$ é uma soma de gaussianas independentes, logo $(Rv)_k\sim N(0,\|v\|^2)$, independentes em $k$. Então</p>
+      $$\frac{\|f(v)\|^2}{\|v\|^2} = \frac{\|Rv\|^2}{d\,\|v\|^2} = \frac1d\sum_{k=1}^d g_k^2,\qquad g_k\overset{\text{iid}}{\sim}N(0,1).$$
+      <div class="key">Essa distribuição ($\chi^2_d/d$) <strong>não envolve $D$</strong>. Por invariância da gaussiana a rotações, o que importa é só o comprimento de $v$, não em quantas coordenadas ele vive. Por isso $D$ não aparece no resultado.</div>
+      <p>E uma média de $d$ variáveis $g_k^2$ (média 1) se concentra em 1 com caudas <strong>exponenciais</strong> em $d$ (cota de Chernoff, abaixo):</p>
+      $$P\Big(\Big|\tfrac{\|f(v)\|^2}{\|v\|^2}-1\Big|&gt;\varepsilon\Big) \;\le\; 2\,e^{-d(\varepsilon^2-\varepsilon^3)/4}.$$
+      <p><strong>Passo 2 — todos os pares; aqui aparece o $\ln N$.</strong> Como $f$ é linear, $f(x_i)-f(x_j)=f(x_i-x_j)$: preservar distâncias é preservar a norma dos $\binom N2$ vetores diferença. Pela cota da união:</p>
+      $$P(\text{algum par falha}) \;\le\; \binom N2\cdot 2e^{-d(\varepsilon^2-\varepsilon^3)/4} \;&lt;\; N^2e^{-d(\varepsilon^2-\varepsilon^3)/4}.$$
+      <p>Isso é $\le1$ (logo existe uma escolha de $R$ que funciona) quando</p>
+      $$d \;\ge\; \frac{8\ln N}{\varepsilon^2-\varepsilon^3}.$$
+      <div class="key">O $\ln N$ vem da conta “probabilidade de falha exponencialmente pequena em $d$” contra “número de pares polinomial em $N$”: para vencer $N^2$ pares basta $d\propto\ln(N^2)=2\ln N$. Dobrar o número de pontos só soma uma constante a $d$.</div>
+      <p><strong>Exemplo:</strong> $N=10^6$ pontos, $\varepsilon=0{,}1$: $d\ge 8\cdot13{,}8/0{,}009\approx12\,300$ — seja $D=10^5$ ou $D=10^9$. (As constantes são pessimistas; no código C.6, com $N=200$, $\varepsilon=0{,}3$, $d=673$, a distorção observada ficou em $\pm21\%$.)</p>
+      <p><em>Para quem quer a cota de Chernoff:</em> com $Q=\sum_{k=1}^dg_k^2$ e $0&lt;s&lt;1/2$, $\mathbb E\,e^{sg^2}=(1-2s)^{-1/2}$, então pela desigualdade de Markov</p>
+      $$P\big(Q\ge(1+\varepsilon)d\big)\le e^{-s(1+\varepsilon)d}(1-2s)^{-d/2}.$$
+      <p>Escolhendo $s=\frac{\varepsilon}{2(1+\varepsilon)}$ isso vale $\big((1+\varepsilon)e^{-\varepsilon}\big)^{d/2}$, e com $\ln(1+\varepsilon)\le\varepsilon-\frac{\varepsilon^2}2+\frac{\varepsilon^3}3$ fica $\le e^{-d(\varepsilon^2/4-\varepsilon^3/6)}\le e^{-d(\varepsilon^2-\varepsilon^3)/4}$. A cauda de baixo é análoga.</p>
+      <div class="warn">Intuição extra para “$D$ não importa”: $N$ pontos sempre cabem num subespaço afim de dimensão $N-1$. Então a dimensão “efetiva” nunca passa de $N$, por maior que seja $D$. O JL vai além e diz que $\ln N$ basta — se você aceitar distorção $\varepsilon$.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s72" data-kind="teoria">
+  <div><span class="tab">Folha 7.2</span><span class="kind">Teoria</span></div>
+  <h3>O mapa aleatório $f(x)=Rx/\sqrt d$</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe descrever o mapa aleatório $f(x)=Rx/\sqrt d$?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <ul>
+        <li><strong>$R$</strong> é uma matriz $d\times D$ com entradas <strong>iid $N(0,1)$</strong>, sorteada <em>sem olhar os dados</em>. (Também funcionam entradas $\pm1$ equiprováveis, ou matrizes esparsas — mais baratas.)</li>
+        <li><strong>$f(x)=Rx/\sqrt d$</strong>: cada nova coordenada é $r_k^Tx/\sqrt d$, a projeção de $x$ numa direção aleatória, reescalada.</li>
+        <li><strong>É linear:</strong> $f(x_i)-f(x_j)=f(x_i-x_j)$. Por isso basta controlar normas de vetores (folha 7.1).</li>
+      </ul>
+      <p><strong>Por que o $\sqrt d$.</strong> Para $x$ fixo,</p>
+      $$\mathbb E\|Rx\|^2 = \sum_{k=1}^d\mathbb E\big[(r_k^Tx)^2\big] = \sum_{k=1}^d x^T\,\mathbb E[r_kr_k^T]\,x = \sum_{k=1}^d x^TIx = d\,\|x\|^2.$$
+      <p>Dividindo por $\sqrt d$ (o quadrado por $d$): $\mathbb E\|f(x)\|^2=\|x\|^2$. O mapa preserva normas ao quadrado <strong>em média</strong>; o JL diz que, com $d$ grande o bastante, preserva <strong>para todos os pares ao mesmo tempo</strong>, com alta probabilidade.</p>
+      <ul>
+        <li><strong>Não é uma projeção ortogonal:</strong> as linhas de $R$ não são exatamente ortonormais (quase, em dimensão alta). Por isso pode <em>aumentar</em> distâncias (folha 7.3).</li>
+        <li><strong>Custo:</strong> $O(dD)$ por ponto, $O(NdD)$ no total; não precisa de SVD nem de ver todos os pontos antes (serve para dados que chegam em fluxo).</li>
+        <li><strong>Na prática:</strong> sorteie $R$, verifique a distorção num subconjunto; se falhar (raro), sorteie de novo.</li>
+      </ul>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="s73" data-kind="conceito">
+  <div><span class="tab">Folha 7.3</span><span class="kind">Conceitual</span></div>
+  <h3>PCA × JL</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Sabe comparar PCA e JL: origem do mapa, garantia, se as distâncias podem aumentar, de que depende $d$, e quando usar cada uma?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="item"><span class="lab">a.</span>
+      <div class="tbox"><table>
+        <tr><th></th><th>PCA</th><th>JL</th></tr>
+        <tr><td><strong>origem do mapa</strong></td><td>dos <strong>dados</strong>: autovetores de $S$. Determinística.</td><td><strong>aleatória</strong>, independente dos dados (“oblívia”).</td></tr>
+        <tr><td><strong>garantia</strong></td><td>ótima <strong>em média</strong>: entre as projeções lineares em dimensão $d$, maximiza a variância retida / minimiza o erro quadrático <em>total</em> de reconstrução. Nenhuma garantia par a par.</td><td><strong>pior caso, par a par</strong>: toda distância distorcida no máximo por $1\pm\varepsilon$, com alta probabilidade.</td></tr>
+        <tr><td><strong>distâncias podem aumentar?</strong></td><td><strong>Não.</strong> Projeção ortogonal é contração: $\|V^T(x_i-x_j)\|\le\|x_i-x_j\|$. Só diminuem — e dois pontos que diferem só nas direções descartadas colapsam no mesmo lugar.</td><td><strong>Sim</strong>, até um fator $\sqrt{1+\varepsilon}$. Não é projeção; é um mapa aleatório reescalado.</td></tr>
+        <tr><td><strong>de que depende $d$</strong></td><td>do <strong>espectro dos dados</strong>: quão rápido os $\lambda_j$ decaem e quanto de variância se quer reter.</td><td>só de <strong>$N$ e $\varepsilon$</strong>: $d\sim\ln N/\varepsilon^2$. Não depende de $D$ nem da estrutura dos dados.</td></tr>
+        <tr><td><strong>custo</strong></td><td>SVD/autovetores: $O(\min(ND^2,N^2D))$; precisa de todos os dados.</td><td>$O(NDd)$, sem decomposição; funciona em fluxo.</td></tr>
+        <tr><td><strong>quando usar</strong></td><td>dados perto de um <strong>subespaço de dimensão baixa</strong>; visualização; remoção de ruído; interpretação das direções; pré-processamento com $d$ pequeno.</td><td>$D$ <strong>enorme</strong> sem estrutura de posto baixo; quando é preciso <strong>preservar todas as distâncias</strong> (vizinhos mais próximos, agrupamento, kernels) com garantia; quando SVD é caro demais.</td></tr>
+      </table></div>
+      <div class="key">PCA <strong>se adapta</strong> aos dados e pode chegar a $d$ muito pequeno se eles tiverem estrutura — mas não promete nada para um par específico. JL <strong>não olha</strong> os dados e precisa de $d$ maior — mas promete para todos os pares, em qualquer conjunto.</div>
+      <div class="warn">Se os dados de fato vivem num subespaço de dimensão 5, a PCA com $d=5$ preserva tudo exatamente, e o JL ainda pediria $d$ na casa das centenas. Se os dados não têm estrutura nenhuma (pontos aleatórios em $\mathbb R^{10\,000}$), os autovalores da PCA são todos parecidos e ela não comprime sem perder muito; o JL comprime sem problema.</div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>8 · Lendo código numpy</span></div>
+
+<div class="howto" style="margin:0 0 34px">
+  <p><strong>Fluxo de trabalho para ler um código</strong> (do PDF):</p>
+  <ol>
+    <li>Identificar o que entra e o que sai de cada função.</li>
+    <li>Anotar o formato de cada matriz, linha a linha.</li>
+    <li>Associar cada linha a uma fórmula do método.</li>
+  </ol>
+  <p>Cada folha abaixo mostra um código curto <em>sem</em> os comentários de formato. Faça os três passos no papel antes de abrir. A resposta traz o mesmo código anotado. Todos os trechos foram rodados e conferidos (LDA e QDA batem 100% com o sklearn; a logística bate até a 3ª casa decimal).</p>
+  <p>Convenção: $X$ tem formato <code>(N, p)</code> — <strong>uma linha por observação</strong>. Por isso as fórmulas que, no papel, são escritas com $x$ coluna aparecem “transpostas” no código: $\beta^Tx_i$ para todo $i$ vira <code>X @ beta</code>.</p>
+</div>
+
+<section class="sheet" id="c1" data-kind="codigo">
+  <div><span class="tab">Código C.1</span><span class="kind">Código</span></div>
+  <h3>Regressão logística por descida do gradiente</h3>
+  <div class="enun">
+    <pre class="code">def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+def fit_logistic(X, y, eta=0.1, n_iter=2000):
+    N, p = X.shape
+    Xt = np.hstack([np.ones((N, 1)), X])
+    beta = np.zeros(p + 1)
+    for _ in range(n_iter):
+        prob = sigmoid(Xt @ beta)
+        grad = Xt.T @ (prob - y) / N
+        beta = beta - eta * grad
+    return beta
+
+def predict_proba(X, beta):
+    Xt = np.hstack([np.ones((len(X), 1)), X])
+    return sigmoid(Xt @ beta)</pre>
+    <ol type="a">
+      <li>Qual é o formato de <code>Xt</code>, <code>beta</code>, <code>prob</code> e <code>grad</code>?</li>
+      <li>A que fórmula corresponde <code>grad</code>? Por que <code>prob - y</code> e não <code>y - prob</code>?</li>
+      <li>Modifique para minimizar $-\ell(\beta)/N+\lambda\|\beta_{1:p}\|^2$ (ridge sem penalizar o intercepto).</li>
+      <li>O que acontece com <code>beta</code> se as classes forem separáveis?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <pre class="code">def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+def fit_logistic(X, y, eta=0.1, n_iter=2000):
+    N, p = X.shape                              <span class="cm"># X: (N, p), y: (N,) com 0/1</span>
+    Xt = np.hstack([np.ones((N, 1)), X])        <span class="cm"># (N, p+1)  coluna de 1s = intercepto</span>
+    beta = np.zeros(p + 1)                      <span class="cm"># (p+1,)</span>
+    for _ in range(n_iter):
+        prob = sigmoid(Xt @ beta)               <span class="cm"># (N,)      p(x_i)</span>
+        grad = Xt.T @ (prob - y) / N            <span class="cm"># (p+1,)    gradiente de -l(beta)/N</span>
+        beta = beta - eta * grad                <span class="cm"># (p+1,)</span>
+    return beta
+
+def predict_proba(X, beta):
+    Xt = np.hstack([np.ones((len(X), 1)), X])   <span class="cm"># (M, p+1)</span>
+    return sigmoid(Xt @ beta)                   <span class="cm"># (M,)</span></pre>
+    <div class="item"><span class="lab">a.</span>
+      <p><code>Xt</code>: <code>(N, p+1)</code> — $\tilde X$, com a coluna de uns. <code>beta</code>: <code>(p+1,)</code>. <code>Xt @ beta</code>: <code>(N,)</code>, o vetor dos $z_i=\tilde x_i^T\beta$; <code>prob</code> também <code>(N,)</code>. <code>Xt.T @ (prob - y)</code>: <code>(p+1, N) @ (N,)</code> = <code>(p+1,)</code>, o formato de <code>beta</code>, como todo gradiente tem que ter.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p>Da folha 1.5, $\nabla\ell=\tilde X^T(y-p)$. Queremos <strong>minimizar</strong> $-\ell/N$, cujo gradiente é $\tilde X^T(p-y)/N$ — daí <code>prob - y</code>, e o passo é <code>beta - eta * grad</code>. (Com <code>y - prob</code> o certo seria somar: subida do gradiente em $\ell$. Mesma coisa.) O <code>/ N</code> só deixa o $\eta$ independente do tamanho da amostra.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>O gradiente de $\lambda\|\beta_{1:p}\|^2$ é $2\lambda\beta$ com a primeira entrada zerada. Uma linha:</p>
+      <pre class="code">grad = Xt.T @ (prob - y) / N + 2 * lam * np.r_[0, beta[1:]]</pre>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Cresce sem parar: a cada passo $\|\beta\|$ aumenta (devagar), porque a perda continua caindo rumo a zero sem atingir. Com <code>n_iter</code> maior, <code>beta</code> sai maior — sinal de que não há MLE (folha 1.5). A regularização do item (c) resolve.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="c2" data-kind="codigo">
+  <div><span class="tab">Código C.2</span><span class="kind">Código</span></div>
+  <h3>LDA (e a modificação para QDA)</h3>
+  <div class="enun">
+    <pre class="code">def fit_lda(X, y):
+    N, p = X.shape
+    K = y.max() + 1
+    pi = np.bincount(y) / N
+    mu = np.array([X[y == k].mean(axis=0) for k in range(K)])
+    R = X - mu[y]
+    Sigma = R.T @ R / (N - K)
+    return pi, mu, Sigma
+
+def predict_lda(X, pi, mu, Sigma):
+    A = np.linalg.solve(Sigma, mu.T)
+    delta = X @ A - 0.5 * np.sum(mu.T * A, axis=0) + np.log(pi)
+    return np.argmax(delta, axis=1)</pre>
+    <ol type="a">
+      <li>Qual é o formato de <code>mu</code>, <code>mu[y]</code>, <code>R</code>, <code>Sigma</code>, <code>A</code> e <code>delta</code>?</li>
+      <li>Associe cada termo de <code>delta</code> à fórmula $\delta_k(x)=x^T\Sigma^{-1}\mu_k-\frac12\mu_k^T\Sigma^{-1}\mu_k+\log\pi_k$. Como <code>np.sum(mu.T * A, axis=0)</code> calcula $\mu_k^T\Sigma^{-1}\mu_k$ para todo $k$?</li>
+      <li>Por que <code>N - K</code>? Por que <code>np.linalg.solve</code> em vez de <code>np.linalg.inv</code>?</li>
+      <li>Modifique para QDA.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <pre class="code">def fit_lda(X, y):
+    N, p = X.shape                              <span class="cm"># X: (N, p), y: (N,) com rótulos 0..K-1</span>
+    K = y.max() + 1
+    pi = np.bincount(y) / N                     <span class="cm"># (K,)      pi_k = n_k / N</span>
+    mu = np.array([X[y == k].mean(axis=0) for k in range(K)])   <span class="cm"># (K, p)  linha k = mu_k</span>
+    R = X - mu[y]                               <span class="cm"># (N, p)    x_i - mu_{y_i}</span>
+    Sigma = R.T @ R / (N - K)                   <span class="cm"># (p, p)    covariância combinada</span>
+    return pi, mu, Sigma
+
+def predict_lda(X, pi, mu, Sigma):
+    A = np.linalg.solve(Sigma, mu.T)            <span class="cm"># (p, K)    coluna k = Sigma^{-1} mu_k</span>
+    delta = X @ A - 0.5 * np.sum(mu.T * A, axis=0) + np.log(pi)   <span class="cm"># (N, K)</span>
+    return np.argmax(delta, axis=1)             <span class="cm"># (N,)</span></pre>
+    <div class="item"><span class="lab">a.</span>
+      <p><code>mu</code>: <code>(K, p)</code>, linha $k$ é $\hat\mu_k^T$. <code>mu[y]</code>: indexação por vetor de inteiros — <code>(N, p)</code>, linha $i$ é $\hat\mu_{y_i}$. <code>R</code>: <code>(N, p)</code>. <code>Sigma = R.T @ R</code>: <code>(p, N) @ (N, p)</code> = <code>(p, p)</code>, que é $\sum_i r_ir_i^T$. <code>A</code>: <code>(p, K)</code>. <code>delta</code>: <code>(N, K)</code> — linha $i$, coluna $k$ é $\hat\delta_k(x_i)$.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <ul>
+        <li><code>X @ A</code>: <code>(N, p) @ (p, K)</code> = <code>(N, K)</code>; entrada $(i,k)$ é $x_i^T\Sigma^{-1}\mu_k$.</li>
+        <li><code>mu.T * A</code>: produto <em>elemento a elemento</em> de duas <code>(p, K)</code>; somar no <code>axis=0</code> (nas linhas) dá, para cada coluna $k$, $\sum_j\mu_{kj}(\Sigma^{-1}\mu_k)_j=\mu_k^T\Sigma^{-1}\mu_k$. Formato <code>(K,)</code>. É um jeito de pegar só a diagonal de $\mu\Sigma^{-1}\mu^T$ sem calcular a matriz $K\times K$ inteira.</li>
+        <li><code>np.log(pi)</code>: <code>(K,)</code>.</li>
+        <li>Somar <code>(N, K)</code> com <code>(K,)</code>: <strong>broadcasting</strong> repete o vetor em todas as $N$ linhas.</li>
+        <li><code>argmax(axis=1)</code>: maior $\delta_k$ em cada linha → <code>(N,)</code>.</li>
+      </ul>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p><code>N - K</code>: estimaram-se $K$ médias, que “gastam” $K$ graus de liberdade (folha 2.1); dividir por $N$ subestimaria $\Sigma$. Para classificação a escala de $\Sigma$ quase não importa (só muda o peso relativo do $\log\pi_k$), mas é o estimador certo.</p>
+      <p><code>solve(Sigma, mu.T)</code> resolve $\Sigma A=\mu^T$ direto. É mais rápido e numericamente mais estável que formar $\Sigma^{-1}$ e multiplicar. Regra: quase nunca se precisa da inversa explícita, só do produto.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Três mudanças, e cada uma vem da fórmula da folha 2.6: (1) uma covariância por classe; (2) o termo quadrático não cancela mais; (3) entra $-\frac12\log|\Sigma_k|$.</p>
+      <pre class="code">def fit_qda(X, y):
+    N, p = X.shape
+    K = y.max() + 1
+    pi = np.bincount(y) / N                                     <span class="cm"># (K,)</span>
+    mu = np.array([X[y == k].mean(axis=0) for k in range(K)])   <span class="cm"># (K, p)</span>
+    Sig = np.array([np.cov(X[y == k].T) for k in range(K)])     <span class="cm"># (K, p, p)  um Sigma_k por classe</span>
+    return pi, mu, Sig
+
+def predict_qda(X, pi, mu, Sig):
+    N, K = len(X), len(pi)
+    delta = np.empty((N, K))
+    for k in range(K):                          <span class="cm"># laço em K (pequeno), nunca em N</span>
+        D = X - mu[k]                           <span class="cm"># (N, p)</span>
+        Q = np.sum(D * np.linalg.solve(Sig[k], D.T).T, axis=1)  <span class="cm"># (N,)  (x-mu_k)^T Sigma_k^{-1} (x-mu_k)</span>
+        _, logdet = np.linalg.slogdet(Sig[k])
+        delta[:, k] = -0.5 * Q - 0.5 * logdet + np.log(pi[k])
+    return np.argmax(delta, axis=1)</pre>
+      <p><code>np.cov(X[y == k].T)</code> espera variáveis nas linhas, por isso o <code>.T</code>; usa $n_k-1$. <code>slogdet</code> devolve o log do determinante sem calcular o determinante (que pode dar <em>underflow</em> em $p$ grande). A linha do <code>Q</code> calcula a forma quadrática para todos os $N$ pontos de uma vez: <code>solve(Sig[k], D.T).T</code> é <code>(N, p)</code> com linha $i$ igual a $(\Sigma_k^{-1}d_i)^T$; multiplicar elemento a elemento por <code>D</code> e somar no <code>axis=1</code> dá $d_i^T\Sigma_k^{-1}d_i$.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="c3" data-kind="codigo">
+  <div><span class="tab">Código C.3</span><span class="kind">Código</span></div>
+  <h3>SVM linear por subgradiente da hinge</h3>
+  <div class="enun">
+    <pre class="code">def fit_svm(X, y, lam=0.01, eta=0.1, n_iter=5000):
+    N, p = X.shape
+    w, b = np.zeros(p), 0.0
+    for _ in range(n_iter):
+        m = y * (X @ w + b)
+        v = m &lt; 1
+        grad_w = 2 * lam * w - (y[v, None] * X[v]).sum(axis=0) / N
+        grad_b = -y[v].sum() / N
+        w, b = w - eta * grad_w, b - eta * grad_b
+    return w, b</pre>
+    <ol type="a">
+      <li>Que função objetivo este código minimiza? Qual é a relação entre <code>lam</code> e o $C$ da folha 3.3?</li>
+      <li>Qual é o formato de <code>m</code>, <code>v</code>, <code>y[v, None]</code>, <code>X[v]</code> e <code>grad_w</code>?</li>
+      <li>Quais pontos entram no gradiente? Relacione com os vetores suporte.</li>
+      <li>Escreva uma linha que calcule a distância (com sinal) de cada ponto ao hiperplano.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <pre class="code">def fit_svm(X, y, lam=0.01, eta=0.1, n_iter=5000):
+    N, p = X.shape                              <span class="cm"># y: (N,) com -1/+1</span>
+    w, b = np.zeros(p), 0.0                     <span class="cm"># w: (p,)</span>
+    for _ in range(n_iter):
+        m = y * (X @ w + b)                     <span class="cm"># (N,)      y_i (w^T x_i + b)</span>
+        v = m &lt; 1                               <span class="cm"># (N,) bool: na faixa ou do lado errado</span>
+        grad_w = 2 * lam * w - (y[v, None] * X[v]).sum(axis=0) / N   <span class="cm"># (p,)</span>
+        grad_b = -y[v].sum() / N                <span class="cm"># escalar</span>
+        w, b = w - eta * grad_w, b - eta * grad_b
+    return w, b</pre>
+    <div class="item"><span class="lab">a.</span>
+      $$J(w,b) = \frac1N\sum_{i=1}^N\max\big(0,\,1-y_i(w^Tx_i+b)\big) + \lambda\|w\|^2.$$
+      <p>A hinge vale $1-m_i$ quando $m_i&lt;1$ e $0$ caso contrário; seu (sub)gradiente em $w$ é $-y_ix_i$ se $m_i&lt;1$ e $0$ se não. Somando os $N$ termos, dividindo por $N$, e somando $2\lambda w$ da penalidade, sai <code>grad_w</code>.</p>
+      <p>Multiplicando a forma $\frac12\|w\|^2+C\sum\xi_i$ por $\frac1{CN}$: $\lambda=\dfrac{1}{2CN}$. <code>lam</code> pequeno = $C$ grande = poucas violações, faixa estreita.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><code>m</code>: <code>(N,)</code>. <code>v</code>: <code>(N,)</code> booleano. <code>X[v]</code>: <code>(n_v, p)</code> — só as linhas onde <code>v</code> é verdadeiro. <code>y[v]</code>: <code>(n_v,)</code>; <code>y[v, None]</code>: <code>(n_v, 1)</code>, para o broadcasting com <code>(n_v, p)</code> multiplicar cada linha pelo seu $y_i$. A soma no <code>axis=0</code> dá <code>(p,)</code>, igual a <code>w</code>.</p>
+      <div class="warn">Sem o <code>None</code>, <code>(n_v,) * (n_v, p)</code> tenta alinhar o último eixo — <code>n_v</code> com <code>p</code> — e dá erro (ou, pior, se $n_v=p$ por coincidência, calcula a coisa errada sem avisar).</div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>Só os pontos com $m_i&lt;1$: dentro da faixa ou do lado errado. Os outros têm hinge zero e gradiente zero — não influenciam nada, exatamente como os pontos com $\alpha_i=0$ do dual (folha 3.1). Esses pontos com $m_i\le1$ são (aproximadamente, por ser um método iterativo) os vetores suporte.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <pre class="code">dist = (X @ w + b) / np.linalg.norm(w)        <span class="cm"># (N,)   folha 3.5</span></pre>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="c4" data-kind="codigo">
+  <div><span class="tab">Código C.4</span><span class="kind">Código</span></div>
+  <h3>Bootstrap, OOB e voto majoritário</h3>
+  <div class="enun">
+    <pre class="code">import numpy as np
+rng = np.random.default_rng(0)
+
+N, B = 1000, 500
+idx = rng.integers(0, N, size=(B, N))
+inbag = np.zeros((B, N), dtype=bool)
+inbag[np.arange(B)[:, None], idx] = True
+print(1 - inbag.mean())
+
+<span class="cm"># OOB: P[b, i] = previsão da árvore b para o ponto i</span>
+def oob_predict(P, inbag):
+    out = ~inbag
+    return (P * out).sum(axis=0) / out.sum(axis=0)
+
+<span class="cm"># voto majoritário de L classificadores independentes com acerto p</span>
+L, p, n_rep = 101, 0.6, 20000
+acertos = rng.random((n_rep, L)) &lt; p
+print((acertos.sum(axis=1) &gt; L / 2).mean())</pre>
+    <ol type="a">
+      <li>Qual é o formato de <code>idx</code>, <code>inbag</code> e <code>np.arange(B)[:, None]</code>? O que a linha <code>inbag[...] = True</code> faz?</li>
+      <li>O que o primeiro <code>print</code> estima, e que valor deve dar?</li>
+      <li>Explique <code>oob_predict</code> linha a linha. Como calcular o erro OOB (MSE) a partir dela?</li>
+      <li>O que o último <code>print</code> estima? Compare com a folha 4.6.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <pre class="code">import numpy as np
+rng = np.random.default_rng(0)
+
+N, B = 1000, 500
+idx = rng.integers(0, N, size=(B, N))           <span class="cm"># (B, N)  linha b = índices da amostra bootstrap b</span>
+inbag = np.zeros((B, N), dtype=bool)            <span class="cm"># (B, N)</span>
+inbag[np.arange(B)[:, None], idx] = True        <span class="cm"># inbag[b, i]: o ponto i caiu na amostra b?</span>
+print(1 - inbag.mean())                         <span class="cm"># fração fora da amostra, ~0.368</span>
+
+<span class="cm"># OOB: P[b, i] = previsão da árvore b para o ponto i</span>
+def oob_predict(P, inbag):
+    out = ~inbag                                <span class="cm"># (B, N)  árvores que NÃO viram i</span>
+    return (P * out).sum(axis=0) / out.sum(axis=0)   <span class="cm"># (N,)  média só dessas árvores</span>
+
+<span class="cm"># voto majoritário de L classificadores independentes com acerto p</span>
+L, p, n_rep = 101, 0.6, 20000
+acertos = rng.random((n_rep, L)) &lt; p            <span class="cm"># (n_rep, L) bool</span>
+print((acertos.sum(axis=1) &gt; L / 2).mean())     <span class="cm"># P(maioria acerta), ~0.98</span></pre>
+    <div class="item"><span class="lab">a.</span>
+      <p><code>idx</code>: <code>(B, N)</code>, inteiros em $\{0,\dots,N-1\}$. <code>inbag</code>: <code>(B, N)</code> booleano. <code>np.arange(B)[:, None]</code>: <code>(B, 1)</code>.</p>
+      <p>Na indexação <code>inbag[linhas, colunas]</code>, os dois índices são combinados por broadcasting: <code>(B, 1)</code> com <code>(B, N)</code> → <code>(B, N)</code>. A posição $(b,j)$ escreve em <code>inbag[b, idx[b, j]]</code>. Ou seja: para cada amostra $b$, marca como presentes todos os pontos sorteados nela. Repetições só escrevem <code>True</code> de novo.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><code>inbag.mean()</code> é a fração média de pontos presentes; <code>1 - ...</code> a fração fora da amostra. Pela folha 4.5, tende a $e^{-1}\approx0{,}368$. Rodando: <code>0.3678</code>.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <ul>
+        <li><code>out = ~inbag</code>: <code>(B, N)</code>, verdadeiro onde a árvore $b$ <strong>não</strong> viu o ponto $i$.</li>
+        <li><code>P * out</code>: zera as previsões das árvores que viram o ponto (<code>True</code> vira 1, <code>False</code> vira 0).</li>
+        <li><code>.sum(axis=0)</code>: soma sobre as árvores → <code>(N,)</code>. Dividir por <code>out.sum(axis=0)</code> (quantas árvores não viram cada ponto, ~$B/3$) dá a média.</li>
+      </ul>
+      <pre class="code">oob_mse = np.mean((y - oob_predict(P, inbag))**2)</pre>
+      <p>(Com $B$ pequeno, algum ponto pode ter sido visto por todas as árvores e a divisão dá $0/0$; com $B=500$ a chance é desprezível.)</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p><code>acertos</code>: <code>(n_rep, L)</code>, cada linha é uma repetição com $L$ classificadores independentes que acertam com probabilidade $0{,}6$. <code>sum(axis=1) &gt; L/2</code>: a maioria acertou? A média estima $P(\text{maioria acerta})$. Rodando: <code>0.978</code>; o valor exato pela binomial é $0{,}979$ (tabela da folha 4.6).</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="c5" data-kind="codigo">
+  <div><span class="tab">Código C.5</span><span class="kind">Código</span></div>
+  <h3>PCA por autovetores</h3>
+  <div class="enun">
+    <pre class="code">def pca(X, d):
+    N, p = X.shape
+    mean = X.mean(axis=0)
+    Xc = X - mean
+    S = Xc.T @ Xc / N
+    lam, V = np.linalg.eigh(S)
+    order = np.argsort(lam)[::-1]
+    lam, V = lam[order], V[:, order]
+    Vd = V[:, :d]
+    Z = Xc @ Vd
+    X_rec = Z @ Vd.T + mean
+    return Z, X_rec, lam</pre>
+    <ol type="a">
+      <li>Qual é o formato de <code>mean</code>, <code>Xc</code>, <code>S</code>, <code>V</code>, <code>Vd</code>, <code>Z</code> e <code>X_rec</code>?</li>
+      <li>Por que as linhas <code>order = ...</code> existem? Os autovetores estão nas linhas ou nas colunas de <code>V</code>?</li>
+      <li>Escreva duas checagens numéricas que confirmem as folhas 6.3 e 6.5.</li>
+      <li>Modifique para (i) padronizar as variáveis e (ii) devolver a proporção de variância explicada.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <pre class="code">def pca(X, d):
+    N, p = X.shape
+    mean = X.mean(axis=0)                       <span class="cm"># (p,)</span>
+    Xc = X - mean                               <span class="cm"># (N, p)   broadcasting: (N,p) - (p,)</span>
+    S = Xc.T @ Xc / N                           <span class="cm"># (p, p)   matriz de covariância</span>
+    lam, V = np.linalg.eigh(S)                  <span class="cm"># (p,), (p, p)   ordem CRESCENTE</span>
+    order = np.argsort(lam)[::-1]
+    lam, V = lam[order], V[:, order]            <span class="cm"># colunas de V = autovetores v_j</span>
+    Vd = V[:, :d]                               <span class="cm"># (p, d)</span>
+    Z = Xc @ Vd                                 <span class="cm"># (N, d)   escores z_ij = v_j^T (x_i - xbar)</span>
+    X_rec = Z @ Vd.T + mean                     <span class="cm"># (N, p)   reconstrução</span>
+    return Z, X_rec, lam</pre>
+    <div class="item"><span class="lab">a.</span>
+      <p><code>mean</code> <code>(p,)</code>; <code>Xc</code> <code>(N, p)</code> por broadcasting; <code>S</code> <code>(p, p)</code>; <code>lam</code> <code>(p,)</code>; <code>V</code> <code>(p, p)</code>; <code>Vd</code> <code>(p, d)</code>; <code>Z = Xc @ Vd</code> <code>(N, d)</code> — linha $i$ é $(v_1^T\tilde x_i,\dots,v_d^T\tilde x_i)$; <code>Z @ Vd.T</code> <code>(N, p)</code> — linha $i$ é $\sum_jz_{ij}v_j=VV^T\tilde x_i$, a projeção; somar <code>mean</code> volta ao lugar original.</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><code>np.linalg.eigh</code> (para matrizes simétricas) devolve os autovalores em ordem <strong>crescente</strong>. Sem reordenar, <code>V[:, :d]</code> pegaria as $d$ direções de <em>menor</em> variância. Os autovetores estão nas <strong>colunas</strong>: <code>V[:, j]</code> é $v_j$. Por isso a reordenação é <code>V[:, order]</code>.</p>
+      <div class="warn">Dois erros clássicos: esquecer que <code>eigh</code> é crescente, e pegar <code>V[j]</code> (linha) achando que é o autovetor.</div>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <pre class="code">np.allclose(Z[:, 0].var(), lam[0])                          <span class="cm"># folha 6.5: variância da PC1 = lambda_1</span>
+np.allclose(np.sum((X - X_rec)**2) / len(X), lam[d:].sum())  <span class="cm"># folha 6.3: erro de reconstrução = soma dos descartados</span></pre>
+      <p>Ambas dão <code>True</code> (testado; <code>.var()</code> do numpy divide por $N$, como <code>S</code>).</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <pre class="code">Xc = (X - mean) / X.std(axis=0)          <span class="cm"># (i) padronizar: (N,p) / (p,)</span>
+pve = lam[:d].sum() / lam.sum()          <span class="cm"># (ii) proporção de variância explicada</span></pre>
+      <p>Com (i), a reconstrução precisa desfazer a escala: <code>X_rec = Z @ Vd.T * X.std(axis=0) + mean</code>.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="c6" data-kind="codigo">
+  <div><span class="tab">Código C.6</span><span class="kind">Código</span></div>
+  <h3>Projeção aleatória de Johnson–Lindenstrauss</h3>
+  <div class="enun">
+    <pre class="code">def jl(X, d, rng):
+    N, D = X.shape
+    R = rng.standard_normal((d, D))
+    return X @ R.T / np.sqrt(d)
+
+def dist2(X):
+    sq = np.sum(X**2, axis=1)
+    return sq[:, None] + sq[None, :] - 2 * X @ X.T</pre>
+    <ol type="a">
+      <li>A fórmula é $f(x)=Rx/\sqrt d$. Por que o código faz <code>X @ R.T</code> e não <code>R @ X</code>?</li>
+      <li>Qual é o formato de <code>sq[:, None]</code>, <code>sq[None, :]</code> e do resultado de <code>dist2</code>? Que identidade ele usa?</li>
+      <li>Escreva o teste da distorção: dados <code>X</code> e <code>Y = jl(X, d, rng)</code>, verifique se todas as razões de distância ficam em $[1-\varepsilon,1+\varepsilon]$.</li>
+      <li>Se você trocar <code>Y</code> pelos escores da PCA com o mesmo $d$, o que muda nessas razões?</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <pre class="code">def jl(X, d, rng):
+    N, D = X.shape
+    R = rng.standard_normal((d, D))             <span class="cm"># (d, D)   entradas iid N(0,1)</span>
+    return X @ R.T / np.sqrt(d)                 <span class="cm"># (N, d)   linha i = f(x_i) = R x_i / sqrt(d)</span>
+
+def dist2(X):
+    sq = np.sum(X**2, axis=1)                   <span class="cm"># (N,)     ||x_i||^2</span>
+    return sq[:, None] + sq[None, :] - 2 * X @ X.T   <span class="cm"># (N, N)   ||x_i - x_j||^2</span></pre>
+    <div class="item"><span class="lab">a.</span>
+      <p>Porque <code>X</code> tem os pontos nas <strong>linhas</strong>. $Rx_i$ para cada $i$, empilhado em linhas, é $(Rx_i)^T=x_i^TR^T$: a matriz toda é $XR^T$, <code>(N, D) @ (D, d)</code> = <code>(N, d)</code>. <code>R @ X</code> nem tem formato compatível (<code>(d, D) @ (N, D)</code>).</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><code>sq[:, None]</code> <code>(N, 1)</code>, <code>sq[None, :]</code> <code>(1, N)</code>; somados por broadcasting dão <code>(N, N)</code> com entrada $(i,j)=\|x_i\|^2+\|x_j\|^2$. <code>X @ X.T</code> é <code>(N, N)</code> com $x_i^Tx_j$. A identidade:</p>
+      $$\|x_i-x_j\|^2 = \|x_i\|^2+\|x_j\|^2-2x_i^Tx_j.$$
+      <p>Calcula todas as $N^2$ distâncias sem nenhum laço (e sem criar um tensor <code>(N, N, D)</code>).</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <pre class="code">iu = np.triu_indices(len(X), k=1)          <span class="cm"># pares i &lt; j (fora da diagonal, que é 0/0)</span>
+r = dist2(Y)[iu] / dist2(X)[iu]
+print(r.min(), r.max(), np.all(np.abs(r - 1) &lt;= eps))</pre>
+      <p>Com $N=200$, $D=5000$, $\varepsilon=0{,}3$ e $d=\lceil 8\ln N/(\varepsilon^2-\varepsilon^3)\rceil=673$: razões entre $0{,}78$ e $1{,}21$ — dentro do intervalo, com folga.</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>Com a PCA todas as razões ficam <strong>$\le1$</strong>: projeção ortogonal só encolhe distâncias (folha 7.3). No JL há razões acima de 1. (No teste, a máxima razão da PCA foi $1{,}000$.)</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="c7" data-kind="codigo">
+  <div><span class="tab">Código C.7</span><span class="kind">Código</span></div>
+  <h3>Passagem direta de uma rede com uma camada oculta</h3>
+  <div class="enun">
+    <pre class="code">def mlp_forward(X, W1, b1, W2, b2):
+    H = np.maximum(0, X @ W1 + b1)
+    S = H @ W2 + b2
+    S = S - S.max(axis=1, keepdims=True)
+    E = np.exp(S)
+    return E / E.sum(axis=1, keepdims=True)
+
+def n_params(p, h, K):
+    return (p + 1) * h + (h + 1) * K</pre>
+    <ol type="a">
+      <li>Dê o formato de <code>W1</code>, <code>b1</code>, <code>W2</code>, <code>b2</code>, <code>H</code>, <code>S</code> e da saída. Confira <code>n_params</code> com $p=4$, $h=10$, $K=3$.</li>
+      <li>Para que serve <code>keepdims=True</code>?</li>
+      <li>Por que subtrair o máximo de cada linha não muda o resultado? Que folha da logística isso lembra?</li>
+      <li>O que acontece se trocar <code>np.maximum(0, ·)</code> pela identidade?</li>
+      <li>Acrescente uma segunda camada oculta de largura <code>h2</code>.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <pre class="code">def mlp_forward(X, W1, b1, W2, b2):
+    H = np.maximum(0, X @ W1 + b1)              <span class="cm"># (N, h)   W1: (p, h), b1: (h,)   ReLU</span>
+    S = H @ W2 + b2                             <span class="cm"># (N, K)   W2: (h, K), b2: (K,)</span>
+    S = S - S.max(axis=1, keepdims=True)        <span class="cm"># (N, K)   estabilidade numérica</span>
+    E = np.exp(S)                               <span class="cm"># (N, K)</span>
+    return E / E.sum(axis=1, keepdims=True)     <span class="cm"># (N, K)   softmax: cada linha soma 1</span>
+
+def n_params(p, h, K):
+    return (p + 1) * h + (h + 1) * K</pre>
+    <div class="item"><span class="lab">a.</span>
+      <p><code>W1</code> <code>(p, h)</code>, <code>b1</code> <code>(h,)</code>, <code>W2</code> <code>(h, K)</code>, <code>b2</code> <code>(K,)</code>; <code>H</code> <code>(N, h)</code>; <code>S</code> <code>(N, K)</code>; saída <code>(N, K)</code> com linhas somando 1. Parâmetros: $(4+1)\cdot10+(10+1)\cdot3=50+33=83$ ✓ (folha 5.1).</p>
+    </div>
+    <div class="item"><span class="lab">b.</span>
+      <p><code>S.max(axis=1)</code> daria <code>(N,)</code>, e <code>(N, K) - (N,)</code> alinharia o último eixo (<code>K</code> com <code>N</code>) — erro, ou resultado errado se $K=N$. Com <code>keepdims=True</code> sai <code>(N, 1)</code>, que faz broadcasting certo: subtrai de cada linha o seu máximo. Mesma coisa no denominador da softmax.</p>
+    </div>
+    <div class="item"><span class="lab">c.</span>
+      <p>A softmax é invariante a somar uma constante na linha:</p>
+      $$\frac{e^{s_k-c}}{\sum_le^{s_l-c}}=\frac{e^{-c}e^{s_k}}{e^{-c}\sum_le^{s_l}}=\frac{e^{s_k}}{\sum_le^{s_l}}.$$
+      <p>Subtrair o máximo evita <code>exp</code> de números grandes (overflow → <code>inf/inf = nan</code>). É a mesma invariância que obriga a fixar uma classe de referência na logística multinomial (folha 1.4b).</p>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p>$H=XW_1+b_1$ e $S=XW_1W_2+(b_1W_2+b_2)$: afim em $X$. A rede vira uma <strong>logística multinomial</strong> com $W=W_1W_2$ — com $83$ parâmetros onde $(p+1)K=15$ bastariam (folha 5.3).</p>
+    </div>
+    <div class="item"><span class="lab">e.</span>
+      <pre class="code">H1 = np.maximum(0, X @ W1 + b1)       <span class="cm"># (N, h)    W1: (p, h)</span>
+H2 = np.maximum(0, H1 @ W2 + b2)      <span class="cm"># (N, h2)   W2: (h, h2)</span>
+S  = H2 @ W3 + b3                     <span class="cm"># (N, K)    W3: (h2, K)</span></pre>
+      <p>Parâmetros: $(p+1)h+(h+1)h_2+(h_2+1)K$.</p>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<div class="part"><span>9 · Autoavaliação final</span></div>
+
+<section class="sheet" id="f1" data-kind="teoria">
+  <div><span class="tab">Folha F.1</span><span class="kind">Teoria</span></div>
+  <h3>As hipóteses por trás de cada modelo, numa tabela</h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você conseguiria explicar cada conceito em voz alta para um colega?</li>
+      <li>Você sente segurança em comparar modelos diferentes e justificar suas escolhas?</li>
+      <li>Entendo as hipóteses matemáticas por trás de cada modelo.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">Teste rápido para os itens (a) e (b): para cada linha da tabela abaixo, cubra as colunas da direita e diga em voz alta o que está escrito nelas. Se você consegue, consegue justificar qualquer comparação que a prova pedir.</div>
+    <div class="item"><span class="lab">c.</span>
+      <div class="tbox"><table>
+        <tr><th>modelo</th><th>hipótese / modelo</th><th>o que se otimiza</th><th>fronteira</th><th>botão de complexidade</th></tr>
+        <tr><td>logística</td><td>$\text{logit}\,P(Y=1\mid x)=\beta_0+\beta^Tx$; $Y_i$ independentes</td><td>log-verossimilhança Bernoulli (côncava)</td><td>hiperplano</td><td>termos em $\phi(x)$; $\lambda$</td></tr>
+        <tr><td>LDA</td><td>$X\mid Y=k\sim N(\mu_k,\Sigma)$</td><td>nada iterativo: médias e covariância combinada</td><td>hiperplano</td><td>— (ou encolher $\hat\Sigma$)</td></tr>
+        <tr><td>QDA</td><td>$X\mid Y=k\sim N(\mu_k,\Sigma_k)$</td><td>médias e uma covariância por classe</td><td>quádrica</td><td>$\alpha$ da regularizada</td></tr>
+        <tr><td>SVM</td><td>nenhuma distribuição; busca a maior margem</td><td>$\frac12\|w\|^2+C\sum\xi_i$ (QP convexo)</td><td>hiperplano em $\phi(x)$</td><td>$C$; kernel e seus parâmetros</td></tr>
+        <tr><td>árvore</td><td>$f$ constante por caixas</td><td>RSS / Gini, guloso; depois $C_\alpha(T)$</td><td>em degraus, paralela aos eixos</td><td>$\alpha$ (tamanho)</td></tr>
+        <tr><td>bagging / RF</td><td>idem, média de árvores</td><td>uma árvore profunda por amostra bootstrap</td><td>em degraus, mais suave</td><td>$m$ (RF); $B$ <em>não</em> é complexidade</td></tr>
+        <tr><td>rede neural</td><td>$f_\theta$ = composição de camadas afins e ativações não polinomiais</td><td>risco empírico, não convexo, por gradiente</td><td>qualquer</td><td>largura, profundidade, $\lambda$, épocas</td></tr>
+        <tr><td>PCA</td><td>estrutura linear; variância = o que interessa</td><td>$\max u^TSu$ / $\min$ erro de reconstrução</td><td>—</td><td>$d$</td></tr>
+        <tr><td>JL</td><td>nenhuma: vale para qualquer conjunto de $N$ pontos</td><td>nada; o mapa é sorteado</td><td>—</td><td>$d\sim\ln N/\varepsilon^2$</td></tr>
+      </table></div>
+      <p><strong>Os três eixos que organizam quase todas as comparações da AV2:</strong></p>
+      <ul>
+        <li><strong>Generativo × discriminativo × geométrico:</strong> LDA/QDA modelam $X\mid Y$; logística modela $Y\mid X$; SVM nem modela probabilidade.</li>
+        <li><strong>De quais pontos depende:</strong> LDA (todos) → logística (pesos) → SVM (vetores suporte) — folha 3.1.</li>
+        <li><strong>Viés × variância:</strong> LDA × QDA, árvore podada × profunda, $C$ da SVM, $m$ da RF, $d$ da PCA. Sempre há um botão, e ele se ajusta por validação (ou OOB).</li>
+      </ul>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<section class="sheet" id="f2" data-kind="codigo">
+  <div><span class="tab">Folha F.2</span><span class="kind">Código</span></div>
+  <h3>Formatos, broadcasting e <code>axis</code></h3>
+  <div class="enun">
+    <ol type="a">
+      <li>Você conseguiria ler um código curto em numpy que implementa os métodos?</li>
+      <li>Sei dizer o formato de cada matriz em um código numpy.</li>
+      <li>Sei explicar a relação entre o código e a fórmula do método.</li>
+      <li>Sei usar broadcasting e axis sem laços explícitos.</li>
+      <li>Sei fazer modificações simples em um método existente.</li>
+    </ol>
+  </div>
+  <div class="toggle"><button type="button" aria-expanded="false">ver resposta</button></div>
+  <div class="ans">
+    <div class="key">Os itens (a), (c) e (e) são exatamente as folhas C.1–C.7 (cada uma termina com uma modificação). Abaixo, as regras que resolvem (b) e (d).</div>
+    <div class="item"><span class="lab">b.</span>
+      <p><strong>Produto de matrizes</strong> <code>A @ B</code>: <code>(n, k) @ (k, m)</code> → <code>(n, m)</code>. A dimensão do meio tem que bater e some. Com vetor: <code>(n, k) @ (k,)</code> → <code>(n,)</code>.</p>
+      <div class="tbox"><table>
+        <tr><th>fórmula</th><th>numpy (X com linhas = pontos)</th><th>formato</th></tr>
+        <tr><td>$\beta^Tx_i$ para todo $i$</td><td><code>X @ beta</code></td><td><code>(N,)</code></td></tr>
+        <tr><td>$\sum_i r_i\,x_i$ (gradiente)</td><td><code>X.T @ r</code></td><td><code>(p,)</code></td></tr>
+        <tr><td>$\sum_i x_ix_i^T$</td><td><code>X.T @ X</code></td><td><code>(p, p)</code></td></tr>
+        <tr><td>$x_i^Tx_j$ para todos os pares</td><td><code>X @ X.T</code></td><td><code>(N, N)</code></td></tr>
+        <tr><td>$Ax_i$ para todo $i$</td><td><code>X @ A.T</code></td><td><code>(N, d)</code></td></tr>
+        <tr><td>$x_i^TAx_i$ para todo $i$</td><td><code>np.sum((X @ A) * X, axis=1)</code></td><td><code>(N,)</code></td></tr>
+        <tr><td>$\Sigma^{-1}b$</td><td><code>np.linalg.solve(Sigma, b)</code></td><td>formato de <code>b</code></td></tr>
+      </table></div>
+    </div>
+    <div class="item"><span class="lab">d.</span>
+      <p><strong><code>axis</code> é o eixo que some.</strong> Em <code>X</code> <code>(N, p)</code>: <code>X.mean(axis=0)</code> faz a média <em>sobre as linhas</em> (sobre os pontos) e dá <code>(p,)</code> — uma média por variável. <code>X.sum(axis=1)</code> soma sobre as colunas e dá <code>(N,)</code> — um número por ponto.</p>
+      <p><strong>Broadcasting:</strong> compare os formatos <em>da direita para a esquerda</em>; cada par de dimensões tem que ser igual ou um deles ser 1 (ou faltar). A dimensão 1 é “esticada”.</p>
+      <div class="tbox"><table>
+        <tr><th>operação</th><th>formatos</th><th>resultado</th><th>uso</th></tr>
+        <tr><td><code>X - mean</code></td><td><code>(N, p)</code> e <code>(p,)</code></td><td><code>(N, p)</code></td><td>centralizar (PCA, LDA)</td></tr>
+        <tr><td><code>delta + np.log(pi)</code></td><td><code>(N, K)</code> e <code>(K,)</code></td><td><code>(N, K)</code></td><td>somar o prior de cada classe</td></tr>
+        <tr><td><code>S - S.max(axis=1, keepdims=True)</code></td><td><code>(N, K)</code> e <code>(N, 1)</code></td><td><code>(N, K)</code></td><td>softmax estável</td></tr>
+        <tr><td><code>y[:, None] * X</code></td><td><code>(N, 1)</code> e <code>(N, p)</code></td><td><code>(N, p)</code></td><td>multiplicar cada linha por $y_i$ (SVM)</td></tr>
+        <tr><td><code>sq[:, None] + sq[None, :]</code></td><td><code>(N, 1)</code> e <code>(1, N)</code></td><td><code>(N, N)</code></td><td>tabela de todos os pares (distâncias)</td></tr>
+      </table></div>
+      <div class="warn">
+        <p>A armadilha mais comum: <code>(N,)</code> com <code>(N, p)</code>. O numpy alinha pela direita, então tenta casar <code>N</code> com <code>p</code>. Se forem diferentes, dá erro; se forem iguais por coincidência, <strong>calcula a coisa errada em silêncio</strong>. Sempre que quiser “um número por linha”, use <code>v[:, None]</code> ou <code>keepdims=True</code>.</p>
+        <p>Outra: <code>*</code> é elemento a elemento, <code>@</code> é produto de matrizes.</p>
+      </div>
+    </div>
+    <a class="up" href="#">↑ voltar ao índice</a>
+  </div>
+</section>
+
+<p class="foot">fim · boa AV2 🖊️</p>
+
+</div>
+
+<script>
+(function(){
+  var KEY = 'md22av2-abertos', CKEY = 'md22av2-checks', FKEY = 'md22av2-filtro';
+  function all(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+  function sheets(){ return all('.sheet'); }
+  function store(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  function load(k, d){ try{ var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; }catch(e){ return d; } }
+
+  /* --- respostas abre/fecha --- */
+  function save(){
+    store(KEY, sheets().filter(function(s){ return s.querySelector('.ans').classList.contains('open'); })
+                       .map(function(s){ return s.id; }));
+  }
+  function setOpen(sheet, open){
+    var ans = sheet.querySelector('.ans'), btn = sheet.querySelector('.toggle button');
+    if(!ans || !btn) return;
+    ans.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? 'esconder resposta' : 'ver resposta';
+  }
+  sheets().forEach(function(sheet){
+    var btn = sheet.querySelector('.toggle button');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      setOpen(sheet, !sheet.querySelector('.ans').classList.contains('open')); save();
+    });
+  });
+  document.getElementById('showAll').addEventListener('click', function(){
+    sheets().forEach(function(s){ if(s.style.display !== 'none') setOpen(s, true); }); save();
+  });
+  document.getElementById('hideAll').addEventListener('click', function(){
+    sheets().forEach(function(s){ setOpen(s, false); }); save();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  load(KEY, []).forEach(function(id){ var s = document.getElementById(id); if(s) setOpen(s, true); });
+
+  /* --- checklist (os quadradinhos do PDF) --- */
+  var checks = load(CKEY, {});
+  var prog = document.getElementById('prog');
+  function refresh(){
+    var boxes = all('.enun ol li input.chk'), n = 0;
+    boxes.forEach(function(b){ if(b.checked) n++; });
+    prog.textContent = '✓ ' + n + ' / ' + boxes.length;
+    sheets().forEach(function(s){
+      var bs = s.querySelectorAll('.enun ol li input.chk'), ok = bs.length > 0;
+      for(var i = 0; i < bs.length; i++) if(!bs[i].checked) ok = false;
+      var chip = document.querySelector('.chips a[href="#' + s.id + '"]');
+      if(chip) chip.classList.toggle('done', ok);
+    });
+  }
+  sheets().forEach(function(s){
+    all('#' + s.id + ' .enun > ol > li').forEach(function(li, i){
+      var id = s.id + ':' + i;
+      var lt = document.createElement('span'); lt.className = 'ltr'; lt.textContent = String.fromCharCode(97 + i) + '.';
+      var cb = document.createElement('input'); cb.type = 'checkbox'; cb.className = 'chk';
+      cb.setAttribute('aria-label', 'marcar item ' + lt.textContent);
+      cb.checked = !!checks[id]; li.classList.toggle('done', cb.checked);
+      cb.addEventListener('change', function(){
+        if(cb.checked) checks[id] = 1; else delete checks[id];
+        li.classList.toggle('done', cb.checked); store(CKEY, checks); refresh();
+      });
+      li.insertBefore(lt, li.firstChild); li.insertBefore(cb, li.firstChild);
+    });
+  });
+  refresh();
+
+  /* --- filtro por guia (conceitos / teoria / contas / código) --- */
+  function setFilter(f){
+    all('.flt').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-f') === f ? 'true' : 'false'); });
+    sheets().forEach(function(s){ s.style.display = (f === 'all' || s.getAttribute('data-kind') === f) ? '' : 'none'; });
+    all('.chips a').forEach(function(a){ a.style.display = (f === 'all' || a.getAttribute('data-kind') === f) ? '' : 'none'; });
+    all('.part').forEach(function(p){
+      var el = p.nextElementSibling, vis = false, extras = [];
+      while(el && !el.classList.contains('part') && !el.classList.contains('foot')){
+        if(el.classList.contains('sheet')){ if(el.style.display !== 'none') vis = true; }
+        else extras.push(el);
+        el = el.nextElementSibling;
+      }
+      p.style.display = vis ? '' : 'none';
+      extras.forEach(function(x){ x.style.display = vis ? '' : 'none'; });
+    });
+    store(FKEY, f);
+  }
+  all('.flt').forEach(function(b){ b.addEventListener('click', function(){ setFilter(b.getAttribute('data-f')); }); });
+  setFilter(load(FKEY, 'all'));
+})();
+</script>
+</body>
+</html>
